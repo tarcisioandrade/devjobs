@@ -1,0 +1,69 @@
+{
+  "users": [
+    {
+      "id_user": 1,
+      "status_user": "active",
+      "email": "email@example.com",
+      "name": "Tarcisio",
+      "surname": "Andrade",
+      "description": "",
+      "region": "",
+      "avatar": "/sample/login-avatar.png",
+      "stacks": ["React", "JavaScript"],
+      "employee": false,
+      "jobs_list": ["1"],
+      "affiliate_company": "",
+      "github_url": "https://github.com/tarcisioandrade",
+      "linkedin_url": "https://www.linkedin.com/in/tarcisioandrade/",
+      "website_url": "https://tfandrade.netlify.app",
+      "createAt": "2022-10-10T02:03:58.590Z"
+    }
+  ],
+  "companies": [
+    {
+      "id_company": 1,
+      "company_title": "Molestie Dapibus Consulting",
+      "jobs_list": ["1"],
+      "email": "email@example.com",
+      "avatar": "/perfil.png",
+      "id_user": "1",
+      "website": "youtube.com",
+      "status": "active",
+      "website_url": "",
+      "linkedin_url": "",
+      "createAt": "2022-10-10T02:03:58.590Z"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 1,
+      "id_company": 1,
+      "title": "Programador FullStack",
+      "location": "Remoto",
+      "description": "Estamos em busca de um Dev top",
+      "level": "Junior",
+      "type": "CLT",
+      "status": "active",
+      "stacks": ["JavaScript", "React", "Jest", "Node"],
+      "blob": "",
+      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "createAt": "2022-10-10T02:03:58.590Z",
+      "modifiedAt": "2022-10-10T02:03:58.590Z"
+    },
+    {
+      "id": 2,
+      "id_company": 1,
+      "title": "Programador Front-end",
+      "location": "Remoto",
+      "description": "vaguinha mil graaaau",
+      "level": "Pleno",
+      "type": "PJ",
+      "status": "active",
+      "stacks": ["JavaScript", "React", "Jest"],
+      "blob": "",
+      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "createAt": "2022-10-10T02:03:58.590Z",
+      "modifiedAt": "2022-10-10T02:03:58.590Z"
+    }
+  ]
+}
