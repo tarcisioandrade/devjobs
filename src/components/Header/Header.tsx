@@ -1,18 +1,17 @@
 import { Navbar } from "flowbite-react";
 import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
-import { useUserContext } from "@contexts/userContext";
+import { useUserContext } from "@contexts/UserContext";
 
 const Header = () => {
   const { login, user, logout } = useUserContext();
 
-  console.log(user)
   return (
     <header>
       <Navbar fluid>
         <Navbar.Brand href="www.google.com">
           <span className="self-center whitespace-nowrap dark:text-white text-xl font-semibold">
-            HaveJobs
+            DevJobs
           </span>
         </Navbar.Brand>
 
@@ -47,7 +46,7 @@ const Header = () => {
               <Dropdown.Item onClick={() => login()}>Login</Dropdown.Item>
             )}
           </Dropdown>
-          </div>
+        </div>
       </Navbar>
     </header>
   );

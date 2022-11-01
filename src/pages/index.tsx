@@ -1,7 +1,7 @@
 import { FormEvent, useState, useEffect } from "react";
 import Header from "@components/Header";
 import Jobs from "@components/JobCard";
-import UserProvider from "@contexts/userContext";
+import UserProvider from "@contexts/UserContext";
 import fetchJob from "@services/fetchJob";
 import { Job } from "../types/Job";
 
