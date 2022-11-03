@@ -44,7 +44,7 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
   return (
     <div className="flex gap-6 items-center mt-5 justify-center">
       <div id="select" className="w-[200px]">
-        <Label htmlFor="tipo" value="Tipo de Vaga" className="sr-only" />
+        <Label htmlFor="tipo" value="Tipo da Vaga" className="sr-only" />
         <Select id="tipo" {...register("type")}>
           <option value="">Tipo da Vaga</option>
           <option value="estagio">Estágio</option>
@@ -55,7 +55,7 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
       </div>
 
       <div id="select" className="w-[200px]">
-        <Label htmlFor="model" value="Local" className="sr-only" />
+        <Label htmlFor="model" value="Modelo de Trabalho" className="sr-only" />
         <Select id="model" {...register("model")}>
           <option value="">Modelo de Trabalho</option>
           <option value="remoto">Remoto</option>

@@ -8,7 +8,7 @@ type Props = {
 const Jobs = ({ jobs }: Props) => {
   const allJobs = jobs.map(
     ({ title, id, level, description, location, type, stacks }) => (
-      <div key={id} className="border bg-slate-50 p-4 rounded">
+      <div key={id} className="border bg-slate-50 p-4 rounded" data-testid="job-card">
         <h2 className="text-2xl">{title}</h2>
         <div className="space-x-2">
           <span>{level}</span>
