@@ -8,6 +8,7 @@ export type Job = {
   id_company: number;
   title: string;
   location: string;
+  model: string;
   description: string;
   level: string;
   type: string;

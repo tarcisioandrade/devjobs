@@ -1,5 +1,5 @@
 import { FilterValues } from "@components/JobsContainer/JobsContainer";
-import { Label, Select } from "flowbite-react";
+import { Button, Label, Select } from "flowbite-react";
 import React, { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
-  const { register, watch } = useForm<Inputs>();
+  const { register, watch, reset } = useForm<Inputs>();
 
   useEffect(() => {
     const { unsubscribe } = watch((data) => {
@@ -30,6 +30,16 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
 
     return () => unsubscribe();
   }, [watch, filterValues, setFiltersValues]);
+
+  const resetFilters = () => {
+    reset({ model: "", local: "", type: "" });
+    setFiltersValues({
+      ...filterValues,
+      type: "",
+      model: "",
+      local: "",
+    });
+  };
 
   return (
     <div className="flex gap-6 items-center mt-5 justify-center">
@@ -62,6 +72,12 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
           <option value="sp">SP</option>
           <option value="rj">RJ</option>
         </Select>
+      </div>
+
+      <div>
+        <Button color="success" size="sm" onClick={resetFilters}>
+          Limpar Filtros
+        </Button>
       </div>
     </div>
   );
