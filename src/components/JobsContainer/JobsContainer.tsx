@@ -55,7 +55,6 @@ const JobsContainer = () => {
     }));
   };
 
-  console.log(filterValues);
   return (
     <div className="container mx-auto mt-24">
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -27,7 +27,7 @@ const Jobs = ({ jobs }: Props) => {
     )
   );
 
-  return <div className="flex mt-4 gap-4">{allJobs}</div>;
+  return <div className="flex mt-10 gap-4">{allJobs}</div>;
 };
 
 export default Jobs;
