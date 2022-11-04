@@ -1,6 +1,8 @@
 import { screen, render, logRoles, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import JobsContainer from "./JobsContainer";
+import { server } from "../../mocks/server";
+import { rest } from "msw";
 
 export const setup = (tsx: JSX.Element) => ({
   user: userEvent.setup(),
@@ -61,5 +63,19 @@ describe("JobsContainer Search and Filters Test", () => {
     expect(
       await screen.findByText(/nenhum resultado encontrado/i)
     ).toBeInTheDocument();
+  });
+
+  it("check message error server response", async () => {
+    server.resetHandlers(
+      rest.get("/jobs", (_req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
+
+    setup(<JobsContainer />);
+    const messageError = await screen.findByText(
+      "Algum erro aconteceu, por favor, tente novamente!"
+    );
+    expect(messageError).toBeInTheDocument();
   });
 });
