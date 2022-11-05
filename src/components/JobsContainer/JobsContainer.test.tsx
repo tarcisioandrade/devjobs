@@ -1,3 +1,4 @@
+/* eslint-disable jest-dom/prefer-in-document */
 import { screen, render, logRoles, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import JobsContainer from "./JobsContainer";
@@ -19,7 +20,9 @@ describe("JobsContainer Search and Filters Test", () => {
     await user.clear(searchInput);
     await user.type(searchInput, "node");
     await user.click(buttonSearch);
-    expect(await screen.findByText(/node/i));
+    await waitFor(async () =>
+      expect(await screen.findAllByTestId("job-card")).toHaveLength(1)
+    );
 
     // check when no have result
     await user.clear(searchInput);
@@ -32,34 +35,30 @@ describe("JobsContainer Search and Filters Test", () => {
     // check all result when no have search value
     await user.clear(searchInput);
     await user.click(buttonSearch);
-    await waitFor(async () =>
-      expect(await screen.findAllByTestId("job-card")).toHaveLength(4)
-    );
+    expect(await screen.findAllByTestId("job-card")).toHaveLength(4);
   });
 
   it("Filters Selects", async () => {
     const { user } = setup(<JobsContainer />);
 
     // check filter model for display 2 result only
-    user.selectOptions(
+    await user.selectOptions(
       screen.getByRole("combobox", { name: "Modelo de Trabalho" }),
       ["remoto"]
     );
-    await waitFor(async () =>
-      expect(await screen.findAllByTestId("job-card")).toHaveLength(2)
-    );
+    expect(await screen.findAllByTestId("job-card")).toHaveLength(2);
 
     // check filter type for display 1 result only
-    user.selectOptions(screen.getByRole("combobox", { name: "Tipo da Vaga" }), [
-      "junior",
-    ]);
-    await waitFor(async () =>
-      // eslint-disable-next-line jest-dom/prefer-in-document
-      expect(await screen.findAllByTestId("job-card")).toHaveLength(1)
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Tipo da Vaga" }),
+      ["junior"]
     );
+    expect(await screen.findAllByTestId("job-card")).toHaveLength(1);
 
     // check filter location for display no results
-    user.selectOptions(screen.getByRole("combobox", { name: "Local" }), ["sp"]);
+    await user.selectOptions(screen.getByRole("combobox", { name: "Local" }), [
+      "sp",
+    ]);
     expect(
       await screen.findByText(/nenhum resultado encontrado/i)
     ).toBeInTheDocument();
