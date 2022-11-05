@@ -6,6 +6,7 @@ import { useUserContext } from "@contexts/UserContext";
 const Header = () => {
   const { login, user, logout } = useUserContext();
 
+  console.log(user)
   return (
     <header>
       <Navbar fluid>
@@ -22,7 +23,7 @@ const Header = () => {
             label={
               <Avatar
                 alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                img={user?.avatar}
                 rounded={true}
               />
             }

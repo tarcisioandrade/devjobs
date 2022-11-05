@@ -8,6 +8,7 @@ export const handlers = [
     const type = searchParams.get("tipo");
     const model = searchParams.get("model");
     const location = searchParams.get("local");
+
     let copyArray = [...data.jobs];
 
     if (search) {
@@ -51,7 +52,18 @@ export const handlers = [
       copyArray = filterLocation;
     }
 
-    return res(ctx.json(copyArray));
+    const infoCompany = copyArray.map((job) => {
+      const companyInfo = data.companies.find(
+        (company) => company.id_company == job.id_company
+      );
+      return {
+        ...job,
+        company_avatar: companyInfo?.avatar,
+        company_name: companyInfo?.company_title
+      };
+    });
+
+    return res(ctx.json(infoCompany));
   }),
 
   rest.get("/login", (_req, res, ctx) => {
