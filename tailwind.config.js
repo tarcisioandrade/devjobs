@@ -8,7 +8,14 @@ module.exports = {
     "./public/**/*.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        blueLock: "#97BEFE",
+      },
+      fontFamily: {
+        sans: ["Outfit", "sans-serif"],
+      },
+    },
   },
   plugins: [require("flowbite/plugin")],
 };
