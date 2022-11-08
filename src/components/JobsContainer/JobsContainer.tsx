@@ -1,11 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Jobs from "@components/JobCard";
+import JobsCard from "@components/JobCard";
 import { Job } from "../../types/Job";
-import React, { FormEvent, useEffect, useState } from "react";
-import fetchJob from "@services/fetchJob";
-import { Button, TextInput, Label } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { fetchJob } from "@services/fetchJob";
 import FiltersContainer from "@components/FiltersContainer";
 import { useForm, SubmitHandler } from "react-hook-form";
+import SearchLabel from "@components/UI/SearchLabel";
+import Skeleton from "@components/Skeleton/Skeleton";
 
 type Input = {
   search: string;
@@ -56,27 +56,15 @@ const JobsContainer = () => {
   };
 
   return (
-    <div className="container mx-auto mt-24">
+    <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex justify-center">
-          <Label htmlFor="search" className="sr-only" value="Pesquisar" />
-          <TextInput
-            type="text"
-            id="search"
-            placeholder="O que proucura?"
-            sizing="lg"
-            className="lg:min-w-[400px]"
-            style={{ borderTopRightRadius: "0", borderBottomRightRadius: "0" }}
-            {...register("search")}
-          />
-          <Button size="xl" type="submit" positionInGroup="end">
-            Buscar
-          </Button>
-        </div>
+        <SearchLabel register={register} />
       </form>
-      <FiltersContainer filterValues={filterValues} setFiltersValues={setFilterValues}/>
-
-      {loading ? <p>Loading</p> : <Jobs jobs={jobs} />}
+      <FiltersContainer
+        filterValues={filterValues}
+        setFiltersValues={setFilterValues}
+      />
+      {loading ? <Skeleton /> : <JobsCard jobs={jobs} />}
 
       {jobs.length === 0 && !error && (
         <p className="text-white">Nenhum resultado encontrado!</p>
