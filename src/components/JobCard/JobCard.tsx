@@ -10,7 +10,7 @@ type Props = {
   jobs: Job[];
 };
 
-const Jobs = ({ jobs }: Props) => {
+const JobsCard = ({ jobs }: Props) => {
   const formatter = (date: Date) =>
     formatDistanceStrict(new Date(date), new Date(), {
       locale: ptBR,
@@ -19,7 +19,7 @@ const Jobs = ({ jobs }: Props) => {
   const allJobs = jobs.map((job) => (
     <Link
       key={job.id}
-      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl"
+      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity"
       data-testid="job-card"
       href={`job/${job.blob}`}
     >
@@ -32,7 +32,6 @@ const Jobs = ({ jobs }: Props) => {
         />
         <div className="w-[228px]">
           <h2 className="text-slate-200 font-semibold">{job.title}</h2>
-          {/* h3 = company name */}
           <h3 className="text-slate-400 my-2">{job.company_name}</h3>
           <div className="flex items-center gap-2">
             <Badge color="gray" icon={HouseIcon}>
@@ -69,4 +68,4 @@ const Jobs = ({ jobs }: Props) => {
   return <div className="flex flex-col mt-10 gap-4">{allJobs}</div>;
 };
 
-export default Jobs;
+export default JobsCard;

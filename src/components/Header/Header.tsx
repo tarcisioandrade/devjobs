@@ -6,11 +6,10 @@ import { useUserContext } from "@contexts/UserContext";
 const Header = () => {
   const { login, user, logout } = useUserContext();
 
-  console.log(user)
   return (
     <header>
       <Navbar fluid>
-        <Navbar.Brand href="www.google.com">
+        <Navbar.Brand href="/">
           <span className="self-center whitespace-nowrap dark:text-white text-xl font-semibold">
             DevJobs
           </span>
@@ -21,11 +20,7 @@ const Header = () => {
             arrowIcon={false}
             inline={true}
             label={
-              <Avatar
-                alt="User settings"
-                img={user?.avatar}
-                rounded={true}
-              />
+              <Avatar alt="User settings" img={user?.avatar} rounded={true} />
             }
           >
             {user && (

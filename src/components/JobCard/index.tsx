@@ -1,3 +1,3 @@
-import Jobs from "./Jobs"
+import JobsCard from "./JobCard";
 
-export default Jobs
+export default JobsCard;
