@@ -11,3 +11,15 @@ body {
     @apply lg:max-w-[960px] px-4;
   }
 }
+
+.JobContainer h1 {
+  @apply font-semibold text-2xl dark:text-gray-300 mt-8 mb-4;
+}
+
+.JobContainer p {
+  @apply dark:text-gray-300 mt-4;
+}
+
+.JobContainer ul {
+  @apply list-disc list-outside dark:text-gray-300 ml-8
+}

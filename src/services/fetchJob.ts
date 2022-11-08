@@ -1,7 +1,12 @@
 import { FilterValues } from "@components/JobsContainer/JobsContainer";
 import axios from "axios";
 
-const fetchJob = async ({ searchValue, local, model, type }: FilterValues) => {
+export const fetchJob = async ({
+  searchValue,
+  local,
+  model,
+  type,
+}: FilterValues) => {
   const { data } = await axios.get(
     `/jobs?search=${searchValue}&tipo=${type}&model=${model}&local=${local}`
   );
@@ -9,4 +14,8 @@ const fetchJob = async ({ searchValue, local, model, type }: FilterValues) => {
   return data;
 };
 
-export default fetchJob;
+export const fetchJobWithBlob = async (blob: string) => {
+  const { data } = await axios.get(`http://localhost:3000/api/job?blob=${blob}`);
+
+  return data;
+};
