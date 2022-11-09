@@ -5,9 +5,10 @@ import { Job } from "../../types/Job";
 import { formatDistanceStrict } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import Link from "next/link";
+import DevBadge from "@components/UI/Badge";
 
 type Props = {
-  jobs: Job[];
+  jobs: Job[] | null;
 };
 
 const JobsCard = ({ jobs }: Props) => {
@@ -16,7 +17,7 @@ const JobsCard = ({ jobs }: Props) => {
       locale: ptBR,
     });
 
-  const allJobs = jobs.map((job) => (
+  const allJobs = jobs?.map((job) => (
     <Link
       key={job.id}
       className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity"
@@ -48,16 +49,11 @@ const JobsCard = ({ jobs }: Props) => {
 
         <div className="flex gap-3 items-center grow ml-28">
           {job.stacks.slice(0, 3).map((stack) => (
-            <span
-              key={stack}
-              className="text-blueLock text-xs font-medium p-2 border rounded border-current"
-            >
-              {stack}
-            </span>
+            <DevBadge key={stack}>{stack}</DevBadge>
           ))}
         </div>
 
-        <div className="text-slate-400 flex items-center">
+        <div className="text-slate-400 flex items-center gap-1">
           <LinkIcon />
           {formatter(job.createAt)}
         </div>
@@ -65,6 +61,7 @@ const JobsCard = ({ jobs }: Props) => {
     </Link>
   ));
 
+  if (jobs?.length === 0 || jobs === null) return null;
   return <div className="flex flex-col mt-10 gap-4">{allJobs}</div>;
 };
 
