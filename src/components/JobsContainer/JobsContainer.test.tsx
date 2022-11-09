@@ -13,7 +13,7 @@ export const setup = (tsx: JSX.Element) => ({
 describe("JobsContainer Search and Filters Test", () => {
   it("Search Form", async () => {
     const { user } = setup(<JobsContainer />);
-    const searchInput = screen.getByRole("textbox", { name: "Pesquisar" });
+    const searchInput = screen.getByRole("searchbox", { name: "Pesquisar" });
     const buttonSearch = screen.getByRole("button", { name: "Buscar" });
 
     // check when have one result
@@ -21,7 +21,7 @@ describe("JobsContainer Search and Filters Test", () => {
     await user.type(searchInput, "node");
     await user.click(buttonSearch);
     await waitFor(async () =>
-      expect(await screen.findAllByTestId("job-card")).toHaveLength(1)
+      expect(await screen.findAllByTestId("job-card")).toHaveLength(2)
     );
 
     // check when no have result
@@ -59,6 +59,11 @@ describe("JobsContainer Search and Filters Test", () => {
     await user.selectOptions(screen.getByRole("combobox", { name: "Local" }), [
       "sp",
     ]);
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Modelo de Trabalho" }),
+      ["hibrido"]
+    );
+
     expect(
       await screen.findByText(/nenhum resultado encontrado/i)
     ).toBeInTheDocument();

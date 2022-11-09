@@ -71,7 +71,7 @@ const JobsContainer = () => {
       {jobs?.length === 0 ? (
         <div className="flex items-center justify-center h-[calc(100%-80px)]">
           <div className="text-gray-600 text-3xl">
-            Nenhum resultado encotrado.
+            Nenhum resultado encontrado.
             <div className="flex items-center justify-center mt-2">
               <EggBreak />
             </div>
