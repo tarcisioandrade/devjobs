@@ -5,7 +5,8 @@ import { fetchJob } from "@services/fetchJob";
 import FiltersContainer from "@components/FiltersContainer";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SearchLabel from "@components/UI/SearchLabel";
-import Skeleton from "@components/Skeleton/Skeleton";
+import Spinner from "@components/UI/Spinner";
+import { EggBreak, SadEmoji } from "@components/svg";
 
 type Input = {
   search: string;
@@ -19,7 +20,7 @@ export type FilterValues = {
 };
 
 const JobsContainer = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobs, setJobs] = useState<Job[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [filterValues, setFilterValues] = useState<FilterValues>({
@@ -56,7 +57,7 @@ const JobsContainer = () => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <SearchLabel register={register} />
       </form>
@@ -64,12 +65,30 @@ const JobsContainer = () => {
         filterValues={filterValues}
         setFiltersValues={setFilterValues}
       />
-      {loading ? <Skeleton /> : <JobsCard jobs={jobs} />}
 
-      {jobs.length === 0 && !error && (
-        <p className="text-white">Nenhum resultado encontrado!</p>
-      )}
-      {error && <span>Algum erro aconteceu, por favor, tente novamente!</span>}
+      {loading ? <Spinner /> : <JobsCard jobs={jobs} />}
+
+      {jobs?.length === 0 ? (
+        <div className="flex items-center justify-center h-[calc(100%-80px)]">
+          <div className="text-gray-600 text-3xl">
+            Nenhum resultado encotrado.
+            <div className="flex items-center justify-center mt-2">
+              <EggBreak />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="flex items-center justify-center h-[calc(100%-80px)]">
+          <div className="text-gray-600 text-3xl">
+            Algum erro aconteceu, por favor, tente novamente!
+            <div className="flex items-center justify-center mt-2">
+              <SadEmoji />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
