@@ -41,6 +41,11 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
     });
   };
 
+  const filterButtonHasDisabled =
+    filterValues.local == "" &&
+    filterValues.model == "" &&
+    filterValues.type == "";
+
   return (
     <div className="flex gap-6 items-center mt-5 justify-center">
       <div id="select" className="w-[200px]">
@@ -75,7 +80,12 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
       </div>
 
       <div>
-        <Button color="success" size="sm" onClick={resetFilters}>
+        <Button
+          color="success"
+          size="sm"
+          onClick={resetFilters}
+          disabled={filterButtonHasDisabled}
+        >
           Limpar Filtros
         </Button>
       </div>
