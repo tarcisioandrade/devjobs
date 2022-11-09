@@ -14,10 +14,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <UserProvider>
         <Header />
       </UserProvider>
-      <main className="container mx-auto my-10">
+      <main className="max-w-screen-lg mx-auto my-10 w-full h-full">
         <Component {...pageProps} />
       </main>
-      <DevFooter />
+      {/* <DevFooter /> */}
     </div>
   );
 }

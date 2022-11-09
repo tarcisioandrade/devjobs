@@ -1,10 +1,11 @@
 import { ArrowLeft } from "@components/svg";
 import { fetchJobWithBlob } from "@services/fetchJob";
-import { Avatar, Button } from "flowbite-react";
+import { Avatar, Badge, Button } from "flowbite-react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { Job } from "src/types/Job";
 import { useRef, useEffect } from "react";
+import DevBadge from "@components/UI/Badge";
 
 type Props = {
   job: Job;
@@ -30,7 +31,7 @@ const JobPage = ({ job }: Props) => {
 
       <div className="flex gap-4">
         <div className="rounded border border-gray-800 mt-4 p-6 leading-relaxed flex-1">
-          <h1 className="text-3xl dark:text-gray-200 font-semibold">
+          <h1 className="text-4xl dark:text-gray-200 font-semibold">
             {job.title}
           </h1>
           <div ref={contentJob} className="JobContainer"></div>
@@ -38,7 +39,7 @@ const JobPage = ({ job }: Props) => {
             <div className="font-semibold text-2xl dark:text-gray-300 mt-8 mb-4">
               Benefícios
             </div>
-            <ul className="dark:text-gray-300 ">
+            <ul className="dark:text-gray-300">
               {job.benefits.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -58,10 +59,22 @@ const JobPage = ({ job }: Props) => {
         </div>
         <div className="flex flex-col items-center border rounded border-gray-800 self-start p-4 lg:w-[500px] mt-4 flex-[.4]">
           <Avatar img={job.company_avatar} size="xl" />
-          <div className="dark:text-gray-300 font-medium mt-2">{job.company_name}</div>
+          <div className="dark:text-gray-300 font-medium mt-2">
+            {job.company_name}
+          </div>
           <div className="dark:text-gray-400">{job.company_email}</div>
           <div className="bg-slate-800 h-0.5 w-full mt-2"></div>
-          <Button size="lg"  className="mt-4">Candidatar-se a Vaga</Button>
+          <Button size="lg" className="mt-4">
+            Candidatar-se a Vaga
+          </Button>
+
+          <div className="dark:text-gray-300 mt-4">✅50 Candidatos</div>
+
+          <div className="flex items-center justify-center flex-wrap gap-2 mt-4">
+            {job.stacks.map((stack) => (
+              <DevBadge key={stack}>{stack}</DevBadge>
+            ))}
+          </div>
         </div>
       </div>
     </div>
