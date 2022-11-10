@@ -1,11 +1,12 @@
 import { ArrowLeft } from "@components/svg";
 import { fetchJobWithBlob } from "@services/fetchJob";
-import { Avatar, Badge, Button } from "flowbite-react";
+import { Avatar, Button } from "flowbite-react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { Job } from "src/types/Job";
 import { useRef, useEffect } from "react";
 import DevBadge from "@components/UI/Badge";
+import Head from "next/head";
 
 type Props = {
   job: Job;
@@ -20,9 +21,13 @@ const JobPage = ({ job }: Props) => {
     }
   }, [job.description]);
 
-  console.log(job);
   return (
     <div>
+      <Head>
+        <title>
+          {job.model} {job.title}
+        </title>
+      </Head>
       <Link href="/">
         <Button outline>
           <ArrowLeft />
