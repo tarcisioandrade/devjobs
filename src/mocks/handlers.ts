@@ -1,6 +1,11 @@
 import { rest } from "msw";
 import data from "../../data.json";
 
+type PostBodyProps = {
+  id_job: number;
+  id_user: number;
+};
+
 export const handlers = [
   rest.get("/jobs", (req, res, ctx) => {
     const { searchParams } = req.url;
@@ -59,7 +64,7 @@ export const handlers = [
       return {
         ...job,
         company_avatar: companyInfo?.avatar,
-        company_name: companyInfo?.company_title
+        company_name: companyInfo?.company_title,
       };
     });
 
@@ -68,5 +73,31 @@ export const handlers = [
 
   rest.get("/login", (_req, res, ctx) => {
     return res(ctx.json(data.users[0]));
+  }),
+
+  rest.post("/jobapply", async (req, res, ctx) => {
+    const body: PostBodyProps = await req.json();
+
+    const job = data.jobs.find((job) => job.id === body.id_job);
+
+    job?.candidates_status.push({ id_user: body.id_user, status: "applied" });
+
+    return res(ctx.json(job));
+  }),
+
+  rest.delete("/jobdisapply", async (req, res, ctx) => {
+    const { searchParams } = req.url;
+    const id_job = searchParams.get("job");
+    const id_user = searchParams.get("user");
+
+    const job = data.jobs.find((job) => job.id === Number(id_job));
+
+    const target = job?.candidates_status.findIndex(
+      (candidates) => candidates.id_user === Number(id_user)
+    );
+
+    job?.candidates_status.splice(target as number, 1);
+
+    return res(ctx.status(204));
   }),
 ];
