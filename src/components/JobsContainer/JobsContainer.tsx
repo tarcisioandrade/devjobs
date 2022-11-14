@@ -57,7 +57,7 @@ const JobsContainer = () => {
   };
 
   return (
-    <div className="h-full">
+    <main className="mainContainer">
       <form onSubmit={handleSubmit(onSubmit)}>
         <SearchLabel register={register} />
       </form>
@@ -89,7 +89,7 @@ const JobsContainer = () => {
           </div>
         </div>
       ) : null}
-    </div>
+    </main>
   );
 };
 

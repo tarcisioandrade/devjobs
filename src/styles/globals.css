@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body.dark {
+html.dark {
   @apply bg-gray-900;
+}
+
+.mainContainer {
+  @apply max-w-screen-lg mx-auto my-10 w-full h-full;
 }
 
 .JobContainer h1 {

@@ -12,11 +12,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="flex flex-col h-screen">
       <UserProvider>
-        <Header />
-      </UserProvider>
-      <main className="max-w-screen-lg mx-auto my-10 w-full h-full">
         <Component {...pageProps} />
-      </main>
+      </UserProvider>
       {/* <DevFooter /> */}
     </div>
   );
