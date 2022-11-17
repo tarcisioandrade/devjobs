@@ -71,7 +71,6 @@ const JobPage = ({ job }: Props) => {
 
   const titleHead = `${job.model} ${job.title}`;
 
-  console.log(user);
   return (
     <Layout>
       <main className="mainContainer">

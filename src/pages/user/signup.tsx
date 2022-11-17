@@ -4,6 +4,7 @@ import { patternEmail, patternOnlyLetters } from "@utils/REGEX";
 import { Checkbox, Label } from "flowbite-react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -24,13 +25,15 @@ const Signup = () => {
     watch,
   } = useForm<FormValues>();
 
+  const router = useRouter();
+
   const passwordMatchValue = useRef({});
   passwordMatchValue.current = watch("password", "");
 
   const termsAccepted = watch("terms");
 
   const onSubmitLogin: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    router.push("/user/profile")
   };
 
   const {
@@ -179,6 +182,7 @@ const Signup = () => {
             name={nameConfirmPassword}
             ref={refConfirmPassword}
             errors={errors}
+            required
           />
         </div>
         <div className="flex items-center gap-2">
