@@ -1,4 +1,5 @@
 import React, { forwardRef, InputHTMLAttributes, ForwardedRef } from "react";
+import ErrorMessage from "../ErrorMessage";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errors: {};
@@ -38,12 +39,7 @@ const DevInput = forwardRef(
         >
           {label}
         </label>
-        <p
-          id="filled_error_help"
-          className="mt-2 text-xs text-red-600 dark:text-red-400"
-        >
-          {errors[name]?.message}
-        </p>
+        {hasError ? <ErrorMessage message={errors[name]?.message} /> : null}
       </div>
     );
   }
