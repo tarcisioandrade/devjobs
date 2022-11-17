@@ -8,7 +8,7 @@ type ContextProps = {
   logout: () => void;
 };
 
-const Context = createContext<ContextProps | null>(null);
+const Context = createContext({} as ContextProps);
 
 type ProviderProps = {
   children: ReactNode;
