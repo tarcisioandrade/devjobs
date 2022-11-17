@@ -3,13 +3,13 @@ import Layout from "@components/Layout";
 import {
   Button,
   FileInput,
-  Label,
+  Modal,
   Select,
   Textarea,
   TextInput,
 } from "flowbite-react";
 import estadosBR from "@utils/estadosBR.json";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   matchCommaAndSpaces,
@@ -50,6 +50,7 @@ type Props = {
 const Profile = ({ user }: Props) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const {
     register,
@@ -182,6 +183,10 @@ const Profile = ({ user }: Props) => {
   const defaultStacksValue = user.stacks.join(", ");
 
   const textTitle = `DevJobs | ${user.name}`;
+
+  const handleOpenModal = () => setModalOpen(!modalOpen);
+
+  const deleteAccount = () => {};
 
   return (
     <Layout>
@@ -444,6 +449,16 @@ const Profile = ({ user }: Props) => {
                     />
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <div
+                      className="text-sm text-red-500 hover:underline cursor-pointer -mb-4"
+                      onClick={handleOpenModal}
+                    >
+                      Deletar Conta
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -454,6 +469,31 @@ const Profile = ({ user }: Props) => {
           </div>
         </form>
       </main>
+
+      <Modal
+        show={modalOpen}
+        size="md"
+        popup={true}
+        onClose={handleOpenModal}
+        className="h-screen"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Tem certeza que deseja deletar esta conta?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={deleteAccount}>
+                Sim, eu tenho
+              </Button>
+              <Button color="gray" onClick={handleOpenModal}>
+                Não, cancela
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Layout>
   );
 };

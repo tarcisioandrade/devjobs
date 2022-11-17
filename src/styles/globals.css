@@ -29,3 +29,7 @@ html.dark {
 .devTable tr td:first-child {
   @apply lg:max-w-[250px] pr-4 font-semibold;
 }
+
+.devTable tr:last-child td {
+  @apply border-none pr-0;
+}
