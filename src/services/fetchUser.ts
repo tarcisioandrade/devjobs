@@ -7,3 +7,4 @@ const fetchUser = async () => {
 };
 
 export default fetchUser;
+

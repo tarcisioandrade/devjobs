@@ -1,11 +1,13 @@
 export interface User {
   id_user: number;
+  account_type: string;
   status_user: string;
   email: string;
   name: string;
   surname: string;
-  description: string;
-  region: string;
+  biography: string;
+  localization: string;
+  gender:string;
   avatar: string;
   stacks: string[];
   employee: boolean;

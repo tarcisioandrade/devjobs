@@ -1,21 +1,24 @@
 {
   "users": [
     {
-      "id_user": 1,
+      "id_user": 59,
       "status_user": "active",
+      "account_type": "worker",
       "email": "email@example.com",
       "name": "Tarcisio",
       "surname": "Andrade",
-      "description": "",
-      "region": "",
       "avatar": "/assets/user/profile.jpg",
+      "localization": "BA",
+      "biography": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat eum necessitatibus facilis aut fuga, labore modi fugit dolore itaque? Ea ut vel similique esse velit repellendus fuga omnis dignissimos, quidem deserunt, quis placeat a, iusto unde quos rerum voluptatum veniam. Similique corporis voluptatem cupiditate itaque voluptatibus officiis magni minus adipisci aliquid, soluta cum! Labore vel vero quo rem consectetur consequuntur consequatur officiis cum voluptates fuga debitis ratione, mollitia unde nihil! Necessitatibus harum earum id architecto magni nostrum, culpa itaque, provident, sed fuga voluptatum voluptate nulla. Accusantium sequi corrupti, consequuntur neque soluta asperiores! Quis fugit ducimus tenetur dolore, maxime ad eaque voluptatum labore, quam, pariatur accusantium. Necessitatibus, explicabo? Deleniti repellendus est sequi temporibus amet, voluptas fugit dolor hic sint quidem dolores?",
+      "gender": "man",
+      "website_url": "tfandrade.netlify.app",
+      "github_url": "github.com/tarcisioandrade",
+      "linkedin_url": "linkedin.com/in/tarcisioandrade/",
       "stacks": ["React", "JavaScript"],
       "employee": false,
       "jobs_list": ["1"],
       "affiliate_company": "",
-      "github_url": "https://github.com/tarcisioandrade",
-      "linkedin_url": "https://www.linkedin.com/in/tarcisioandrade/",
-      "website_url": "https://tfandrade.netlify.app",
+      "modifiedAt": "2022-10-10T02:03:58.590Z",
       "createAt": "2022-10-10T02:03:58.590Z"
     }
   ],
@@ -23,7 +26,7 @@
     {
       "id_company": 1,
       "company_title": "Nubank Inc",
-      "jobs_list": ["1", "3", "4"],
+      "jobs_list": [1, 3, 4],
       "email": "email@example.com",
       "avatar": "/assets/company/nubank.png",
       "website": "youtube.com",
@@ -35,7 +38,7 @@
     {
       "id_company": 2,
       "company_title": "Ifood Inc",
-      "jobs_list": ["2"],
+      "jobs_list": [2],
       "email": "email@ifood.com",
       "avatar": "/assets/company/ifood.png",
       "website": "ifood.com",
@@ -57,9 +60,9 @@
       "contract": "CLT",
       "status": "active",
       "benefits": ["Convênio Médico", "Convênio Dentário", "Vale Alimentação"],
-      "stacks": ["JavaScript", "React", "Jest", "Node"],
+      "stacks": ["React", "Jest", "Node", "JavaScript"],
       "blob": "programador-fullstack-remoto-ba-1",
-      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "candidates_status": [{ "id_user": 1, "status": "applied" }],
       "createAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
@@ -76,7 +79,7 @@
       "status": "active",
       "stacks": ["JavaScript", "React", "Jest"],
       "blob": "programador-frontend-remoto-pleno-1",
-      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "candidates_status": [{ "id_user": 1, "status": "applied" }],
       "createAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
@@ -91,9 +94,17 @@
       "type": "Estagio",
       "contract": "PJ",
       "status": "active",
-      "stacks": ["JavaScript", "React", "Jest"],
+      "stacks": [
+        "Clean Code",
+        "Jest",
+        "JavaScript",
+        "Taillwind",
+        "React",
+        "Prisma",
+        "Node"
+      ],
       "blob": "analista-de-sistemas-estagio-rj-1",
-      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "candidates_status": [{ "id_user": 59, "status": "applied" }],
       "createAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
@@ -110,7 +121,7 @@
       "status": "active",
       "stacks": ["JavaScript", "Next", "Jest", "Prisma"],
       "blob": "devops-presencial-senior-ba-1",
-      "candidates_status": [{ "id_user": "1", "status": "applied" }],
+      "candidates_status": [{ "id_user": 1, "status": "applied" }],
       "createAt": "2022-11-05T11:10:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     }
