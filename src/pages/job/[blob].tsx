@@ -155,7 +155,7 @@ const JobPage = ({ job }: Props) => {
               </DevButton>
             )}
 
-            <div className="dark:text-gray-300 mt-4">✅50 Candidatos</div>
+            <div className="dark:text-gray-300 mt-4">✅{job.candidates_status.length} Candidatos</div>
 
             <div className="flex items-center justify-center flex-wrap gap-2 mt-4">
               {job.stacks.map((stack) => (
