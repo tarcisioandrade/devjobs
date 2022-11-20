@@ -2,6 +2,7 @@ import { Navbar } from "flowbite-react";
 import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { useUserContext } from "@contexts/UserContext";
+import Link from "next/link";
 
 const Header = () => {
   const { login, user, logout } = useUserContext();
@@ -32,9 +33,15 @@ const Header = () => {
               </Dropdown.Header>
             )}
 
-            <Dropdown.Item>Vagas Aplicadas</Dropdown.Item>
-            <Dropdown.Item>Meu Perfil</Dropdown.Item>
-            <Dropdown.Item>Postar Vaga</Dropdown.Item>
+            <Dropdown.Item>
+              <Link href="/user/jobsapplied">Vagas Aplicadas</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link href="/user/profile">Meu Perfil</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link href="/user/jobpost">Postar Vaga</Link>
+            </Dropdown.Item>
             <Dropdown.Divider />
             {user ? (
               <Dropdown.Item onClick={() => logout()}>Sair</Dropdown.Item>
