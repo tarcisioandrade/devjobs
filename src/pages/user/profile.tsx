@@ -16,11 +16,12 @@ import {
   patternOnlyLetters,
   patternURL,
 } from "@utils/REGEX";
-import ErrorMessage from "@components/UI/ErrorMessage";
+import ErrorMessage from "@components/ErrorMessage";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
 import fetchServerUser from "@services/fetchServerUser";
 import Head from "next/head";
+import useImgPreview from "src/hooks/useImgPreview";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -48,9 +49,9 @@ type Props = {
 };
 
 const Profile = ({ user }: Props) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>("");
   const [modalOpen, setModalOpen] = useState(false);
+
+  const { getPreviewImage, preview } = useImgPreview();
 
   const {
     register,
@@ -156,29 +157,6 @@ const Profile = ({ user }: Props) => {
   const onSubmitProfile: SubmitHandler<FormValues> = (data) => {
     console.log(data.stacks.split(matchCommaAndSpaces));
   };
-
-  const getPreviewImage = (event: ChangeEvent<HTMLInputElement>) => {
-    if (
-      event.target.files?.length != undefined &&
-      event.target.files?.length > 0
-    ) {
-      setSelectedFile(event.target.files[0]);
-    } else {
-      setSelectedFile(null);
-    }
-  };
-
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview("");
-      return;
-    }
-
-    const IMAGE = URL.createObjectURL(selectedFile);
-    setPreview(IMAGE);
-
-    return () => URL.revokeObjectURL(IMAGE);
-  }, [selectedFile]);
 
   const defaultStacksValue = user.stacks.join(", ");
 
