@@ -5,22 +5,22 @@ export type CandidatesStatus = {
 
 export type Job = {
   id: number;
-  id_company: number;
-  company_avatar: string;
+  id_user: number;
+  title_job: string;
   company_name: string;
   company_email: string;
-  title: string;
-  location: string;
   model: string;
-  contract: string;
-  benefits: string[];
+  location: string;
   description: string;
-  level: string;
   type: string;
+  contract: string;
   status: string;
-  blob: string;
+  benefits: string[];
   stacks: string[];
+  blob: string;
   candidates_status: CandidatesStatus[];
   createAt: Date;
   modifiedAt: Date;
 };
+
+

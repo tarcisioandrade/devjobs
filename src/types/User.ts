@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   id_user: number;
   account_type: string;
   status_user: string;

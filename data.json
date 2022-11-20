@@ -53,6 +53,8 @@
       "id": 1,
       "id_company": 1,
       "title": "Programador FullStack",
+      "company_name": "",
+      "company_email": "",
       "model": "Remoto",
       "location": "ba",
       "description": "Estamos em busca de um Dev top",

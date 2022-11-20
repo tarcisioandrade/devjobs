@@ -1,5 +1,5 @@
 import React, { forwardRef, InputHTMLAttributes, ForwardedRef } from "react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../../ErrorMessage";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errors: {};

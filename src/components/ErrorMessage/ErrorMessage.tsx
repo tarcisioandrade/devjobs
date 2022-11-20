@@ -1,6 +1,8 @@
 import React from "react";
 
-const ErrorMessage = ({ message }: { message: string }) => {
+const ErrorMessage = ({ message }: { message: string | undefined }) => {
+  
+  if (!message) return null;
   return (
     <p
       id="filled_error_help"
