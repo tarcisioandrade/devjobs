@@ -258,7 +258,7 @@ const Profile = ({ user }: Props) => {
                     <div className="w-fit">
                       <div className="mb-4">
                         <img
-                          className="mx-auto lg:mx-0 object-cover max-w-[200px] max-h-[300px]"
+                          className="mx-auto lg:mx-0 object-cover max-w-[200px] max-h-[300px] rounded"
                           src={
                             preview
                               ? preview

@@ -16,7 +16,7 @@ const JobsCard = ({ jobs }: Props) => {
     formatDistanceStrict(new Date(date), new Date(), {
       locale: ptBR,
     });
-
+console.log(jobs)
   const allJobs = jobs?.map((job) => (
     <Link
       key={job.id}
@@ -32,7 +32,7 @@ const JobsCard = ({ jobs }: Props) => {
           alt={job.company_name}
         />
         <div className="w-[228px]">
-          <h2 className="text-slate-200 font-semibold">{job.title}</h2>
+          <h2 className="text-slate-200 font-semibold">{job.title_job}</h2>
           <h3 className="text-slate-400 my-2">{job.company_name}</h3>
           <div className="flex items-center gap-2">
             <Badge color="gray" icon={HouseIcon}>

@@ -1,4 +1,5 @@
 import { rest } from "msw";
+import { Job, JobPost } from "src/types/Job";
 import data from "../../data.json";
 
 type PostBodyProps = {
@@ -19,7 +20,7 @@ export const handlers = [
     if (search) {
       const valueSearched = search.toLowerCase();
       const filterTitle = data.jobs.filter((job) => {
-        const validation1 = job.title.toLowerCase().includes(valueSearched);
+        const validation1 = job.title_job.toLowerCase().includes(valueSearched);
         const validation2 = job.stacks.some((stack) =>
           stack.toLowerCase().includes(valueSearched)
         );
@@ -57,18 +58,7 @@ export const handlers = [
       copyArray = filterLocation;
     }
 
-    const infoCompany = copyArray.map((job) => {
-      const companyInfo = data.companies.find(
-        (company) => company.id_company == job.id_company
-      );
-      return {
-        ...job,
-        company_avatar: companyInfo?.avatar,
-        company_name: companyInfo?.company_title,
-      };
-    });
-
-    return res(ctx.json(infoCompany));
+    return res(ctx.json(copyArray));
   }),
 
   rest.get("/login", (_req, res, ctx) => {
@@ -99,5 +89,22 @@ export const handlers = [
     job?.candidates_status.splice(target as number, 1);
 
     return res(ctx.status(204));
+  }),
+
+  rest.post("/jobpost", async (req, res, ctx) => {
+    const body = await req.json();
+    if (!body) return res(ctx.status(500));
+
+    const job = {
+      ...body,
+      id: Math.random() * 10,
+      createAt: "2022-11-05T11:10:58.590Z",
+      modifiedAt: "2022-10-10T02:03:58.590Z",
+      candidates_status: [],
+    };
+
+    data.jobs.push(job);
+
+    return res(ctx.json(job));
   }),
 ];

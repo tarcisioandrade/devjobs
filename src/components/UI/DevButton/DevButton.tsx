@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 
 interface Props extends ButtonProps {
   children: ReactNode;
-  loading?: boolean;
+  loading?: boolean | number;
 }
 
 const DevButton = (props: Props) => {

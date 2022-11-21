@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { patternEmail } from "@utils/REGEX";
 import Head from "next/head";
+import { useState } from "react";
 
 type FormValues = {
   email: string;
@@ -11,6 +12,8 @@ type FormValues = {
 };
 
 const Login = () => {
+  const [loading, setLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -82,7 +85,7 @@ const Login = () => {
             errors={errors}
           />
         </div>
-        <DevButton type="submit" className="w-full">
+        <DevButton type="submit" className="w-full" loading={+loading}>
           Entrar
         </DevButton>
         <p className="dark:text-gray-200 mt-4">

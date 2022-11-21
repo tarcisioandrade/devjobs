@@ -69,7 +69,7 @@ const JobPage = ({ job }: Props) => {
       (candidates) => candidates.id_user === user?.id_user
     ) != -1;
 
-  const titleHead = `${job.model} ${job.title}`;
+  const titleHead = `${job.model} ${job.title_job}`;
 
   return (
     <Layout>
@@ -85,7 +85,7 @@ const JobPage = ({ job }: Props) => {
         <div className="flex gap-4">
           <div className="rounded border border-gray-800 mt-4 p-6 leading-relaxed flex-1">
             <h1 className="text-4xl dark:text-gray-200 font-semibold">
-              {job.title}
+              {job.title_job}
             </h1>
             <div ref={contentJob} className="JobContainer"></div>
             <div>
@@ -97,6 +97,13 @@ const JobPage = ({ job }: Props) => {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+            </div>
+
+            <div>
+              <div className="font-semibold text-2xl dark:text-gray-300 mt-8 mb-4">
+                Faixa Salarial
+              </div>
+              <p className="dark:text-gray-300">{job.salary_range}</p>
             </div>
             <div className="border rounded border-gray-800 flex flex-col items-center gap-4 p-4 mt-12">
               <div className="text-5xl dark:text-gray-200 font-bold">
@@ -111,7 +118,7 @@ const JobPage = ({ job }: Props) => {
                   className="w-full"
                   color="failure"
                   onClick={handleDisapplyJob}
-                  loading={loading}
+                  loading={+loading}
                 >
                   Cancelar Candidatura
                 </DevButton>
@@ -120,7 +127,7 @@ const JobPage = ({ job }: Props) => {
                   size="lg"
                   className="w-full"
                   onClick={handleApllyJob}
-                  loading={loading}
+                  loading={+loading}
                 >
                   Candidatar-se a vaga
                 </DevButton>
@@ -139,7 +146,7 @@ const JobPage = ({ job }: Props) => {
                 size="lg"
                 className="mt-4 w-full"
                 color="failure"
-                loading={loading}
+                loading={+loading}
                 onClick={handleDisapplyJob}
               >
                 Cancelar Candidatura
@@ -149,13 +156,15 @@ const JobPage = ({ job }: Props) => {
                 size="lg"
                 className="mt-4 w-full"
                 onClick={handleApllyJob}
-                loading={loading}
+                loading={+loading}
               >
                 Candidatar-se a Vaga
               </DevButton>
             )}
 
-            <div className="dark:text-gray-300 mt-4">✅{job.candidates_status.length} Candidatos</div>
+            <div className="dark:text-gray-300 mt-4">
+              ✅{job.candidates_status.length} Candidatos
+            </div>
 
             <div className="flex items-center justify-center flex-wrap gap-2 mt-4">
               {job.stacks.map((stack) => (

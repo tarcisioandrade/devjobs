@@ -42,6 +42,9 @@ const Header = () => {
             <Dropdown.Item>
               <Link href="/user/jobpost">Postar Vaga</Link>
             </Dropdown.Item>
+            <Dropdown.Item>
+              <Link href="/user/jobsposted">Vagas Postadas</Link>
+            </Dropdown.Item>
             <Dropdown.Divider />
             {user ? (
               <Dropdown.Item onClick={() => logout()}>Sair</Dropdown.Item>

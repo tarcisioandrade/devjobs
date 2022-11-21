@@ -4,6 +4,7 @@ import { Avatar, FileInput, Select, TextInput } from "flowbite-react";
 import React, { useEffect, useRef } from "react";
 import estadosBR from "@utils/estadosBR.json";
 import beneficios from "@utils/benefits.json";
+import salarysRanges from "@utils/salaryRange.json";
 import { useState } from "react";
 import MultipleSelect from "@components/MultipleSelect";
 import stacks from "@utils/stacks.json";
@@ -15,6 +16,10 @@ import DevBadge from "@components/UI/Badge";
 import DevButton from "@components/UI/DevButton";
 import { patternEmail } from "@utils/REGEX";
 import ErrorMessage from "@components/ErrorMessage";
+import kebabCase from "just-kebab-case";
+import fetchJobPost from "@services/fetchJobPost";
+import { JobPost } from "src/types/Job";
+import Router from "next/router";
 
 type FormValues = {
   company_name: string;
@@ -24,6 +29,7 @@ type FormValues = {
   contract: string;
   type: string;
   company_email: string;
+  salary_range: string;
 };
 
 const JobPost = () => {
@@ -37,9 +43,9 @@ const JobPost = () => {
   const [selectedBenefits, setSelectedBenefits] = useState<string[]>([]);
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [text, setText] = useState("");
-  const [value, setValue] = useState(
-    `<h1>Descrição da Vaga</h1><p>...</p><h1>Responsabilidades</h1><p>...</p><h1>Requisitos</h1><p>...</p>`
-  );
+  const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const { getPreviewImage, preview } = useImgPreview();
 
@@ -65,6 +71,7 @@ const JobPost = () => {
   const jobTitle = watch("title_job") || "Titulo da Vaga";
   const company = watch("company_name") || "Empresa";
   const email = watch("company_email") || "example@email.com";
+  const salaryRange = watch("salary_range") || null;
 
   const previewJob = useRef<HTMLDivElement>(null);
 
@@ -72,8 +79,8 @@ const JobPost = () => {
     if (previewJob.current != null)
       previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitle}</div>${text}<h1>Benefícios</h1><ul style="list-style: none; margin-left: 0">${selectedBenefits
         .map((benefict) => `<li>${benefict}</li>`)
-        .join(" ")}</ul>`;
-  }, [text, jobTitle, selectedBenefits]);
+        .join(" ")}</ul><h1>Faixa Sálarial</h1><p>${salaryRange}</p>`;
+  }, [text, jobTitle, selectedBenefits, salaryRange]);
 
   const {
     onChange: onChangeCompanyName,
@@ -127,14 +134,55 @@ const JobPost = () => {
     ref: refType,
   } = register("type");
 
-  const onSubmitJob: SubmitHandler<FormValues> = (data) => {
-    console.log({
-      ...data,
+  const {
+    onChange: onChangeSalaryRange,
+    onBlur: onBlurSalaryRange,
+    name: nameSalaryRange,
+    ref: refSalaryRange,
+  } = register("salary_range");
+
+  const onSubmitJob: SubmitHandler<FormValues> = async (data) => {
+    const {
+      localization,
+      title_job,
+      company_email,
+      company_name,
+      contract,
+      model,
+      type,
+      salary_range,
+    } = data;
+
+    const job: JobPost = {
+      id_user: 59,
+      location: localization,
+      title_job,
+      company_email,
+      company_name,
+      contract,
+      model,
+      type,
       description: text,
-      avatar_company: preview,
+      company_avatar: preview,
       benefits: selectedBenefits,
       stacks: selectedStacks,
-    });
+      salary_range,
+      blob: kebabCase(
+        `${data.title_job}${data.model}${data.localization} ${1}`
+      ),
+    };
+
+    try {
+      setLoading(true);
+      setError(false);
+      const res = await fetchJobPost(job);
+      if (res.status !== 200) throw new Error("Failed to fetch");
+      Router.push("/");
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -156,11 +204,11 @@ const JobPost = () => {
               </div>
               <TextInput
                 id="company_name"
+                autoComplete="no"
                 onChange={onChangeCompanyName}
                 onBlur={onBlurCompanyName}
                 ref={refCompanyName}
                 name={nameCompany}
-                autoComplete="off"
                 helperText="Digite o nome de sua empresa sem Inc., Ltd., etc."
               />
               <ErrorMessage message={errors.company_name?.message} />
@@ -174,9 +222,9 @@ const JobPost = () => {
               </div>
               <TextInput
                 id="title_job"
+                autoComplete="no"
                 onChange={onChangeTitleJob}
                 onBlur={onBlurTitleJob}
-                autoComplete="off"
                 ref={refTitleJob}
                 name={nameTitleJob}
               />
@@ -186,20 +234,21 @@ const JobPost = () => {
             <div>
               <div className="mb-2">
                 <label
-                  htmlFor="email_company"
+                  htmlFor="company_email"
                   className="text-lg text-gray-200"
                 >
                   E-mail
                 </label>
               </div>
               <TextInput
-                id="email_company"
+                id="company_email"
+                autoComplete="no"
                 type="email"
-                autoComplete="off"
                 onChange={onChangeCompanyEmail}
                 onBlur={onBlurCompanyEmail}
                 ref={refCompanyEmail}
                 name={nameCompanyEmail}
+                helperText="Este e-mail é publico e será mostrado na página da vaga."
               />
               <ErrorMessage message={errors.company_email?.message} />
             </div>
@@ -298,14 +347,19 @@ const JobPost = () => {
             </div>
             <div className="w-fit">
               <div className="mb-2">
-                <label className="text-lg text-gray-200" htmlFor="company_logo">
+                <label
+                  className="text-lg dark:text-gray-200"
+                  htmlFor="company_logo"
+                >
                   Foto da Empresa
                 </label>
               </div>
               <div className="mb-4">
                 <img
-                  className="mx-auto lg:mx-0 object-cover max-w-[200px] max-h-[300px]"
-                  src={preview ? preview : "/assets/user/no-profile.jpg"}
+                  className="mx-auto lg:mx-0 object-cover max-w-[200px] max-h-[300px] rounded"
+                  src={
+                    preview ? preview : "/assets/user/no-company-profile.jpg"
+                  }
                   alt="Foto do Perfil"
                 />
               </div>
@@ -316,6 +370,32 @@ const JobPost = () => {
                 onChange={getPreviewImage}
                 helperText=".PNG, .JPG, Quadrado ou Redondo"
               />
+            </div>
+
+            <div>
+              <div className="mb-2">
+                <label
+                  className="text-lg dark:text-gray-200"
+                  htmlFor="salary_range"
+                >
+                  Faixa Sálarial
+                </label>
+              </div>
+              <div>
+                <Select
+                  id="salary_range"
+                  onChange={onChangeSalaryRange}
+                  onBlur={onBlurSalaryRange}
+                  ref={refSalaryRange}
+                  name={nameSalaryRange}
+                >
+                  {salarysRanges.salarys.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </div>
 
             <div>
@@ -367,7 +447,12 @@ const JobPost = () => {
             </div>
 
             <div className="my-2">
-              <DevButton className="w-full" size="xl" type="submit">
+              <DevButton
+                className="w-full"
+                size="xl"
+                type="submit"
+                loading={+loading}
+              >
                 Postar Vaga
               </DevButton>
             </div>
@@ -375,15 +460,15 @@ const JobPost = () => {
         </div>
 
         <section className="mt-12 pb-4">
-          <div className="text-3xl dark:text-gray-200 mb-4">
+          <div className="text-3xl dark:text-gray-200 mb-4 pl-4 lg:pl-0">
             Pré-visualização
           </div>
-          <div className="flex gap-4">
+          <div className="lg:flex gap-4">
             <div
               ref={previewJob}
               className="JobContainer border-blue-500 rounded border p-4 flex-1"
             ></div>
-            <div className="flex flex-col items-center border rounded border-blue-500 self-start p-4 lg:w-[500px] flex-[.4]">
+            <div className="flex flex-col items-center border rounded border-blue-500 self-start p-4 lg:w-[500px] flex-[.4] mt-4 lg:mt-0">
               <Avatar img={preview} size="xl" />
               <div className="dark:text-gray-300 font-medium mt-2">
                 {company}
