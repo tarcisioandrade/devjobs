@@ -7,7 +7,6 @@ const Tiny = () => {
     "<h1>Descrição da Vaga</h1><p>...</p><h1>Responsabilidades</h1><p>...</p><h1>Requisitos</h1><p>...</p><h1>Sobre o Time</h1><p>...</p>"
   );
   const test = useRef<HTMLDivElement>(null);
-  console.log(JSON.stringify(text));
 
   useEffect(() => {
     if (test.current != null) test.current.innerHTML = text;

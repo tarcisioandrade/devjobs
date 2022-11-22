@@ -5,7 +5,7 @@ type Props = {
   selected: string[];
   setSelected: (newValue: React.SetStateAction<string[]>) => void;
   allOptionsList: string[];
-  helperText: string;
+  helperText?: string;
 };
 
 const MultipleSelect = ({
@@ -40,7 +40,7 @@ const MultipleSelect = ({
   const addSelect = (option: string) => {
     setSelected((prev) => [...prev, option]);
     setOpenSelect(!openSelect);
-    setValueForFilter("")
+    setValueForFilter("");
   };
 
   const handleOpenSelect: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -91,12 +91,13 @@ const MultipleSelect = ({
               className="border border-blueLock  p-1 rounded bg-gray-900  dark:text-blueLock inline-block"
             >
               {item}{" "}
-              <div
+              <button
                 className="inline-block mx-1 cursor-pointer"
                 onClick={() => removeSelect(item)}
+                data-testid={`close-item-${item}`}
               >
                 X
-              </div>
+              </button>
             </div>
           ))}
           <label htmlFor="inputSearchFilter" className="sr-only">
@@ -121,8 +122,9 @@ const MultipleSelect = ({
 
       <div
         className={`bg-gray-700 rounded mt-1 py-2 text-gray-200 text-sm max-h-60 overflow-y-auto absolute right-0 left-0 ${
-          !openSelect && "hidden"
+          !openSelect ? "hidden" : ""
         }`}
+        data-testid="filtersBox"
       >
         {optionsFiltered.map((option) => (
           <div

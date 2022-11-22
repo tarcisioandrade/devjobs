@@ -16,7 +16,7 @@ const JobsCard = ({ jobs }: Props) => {
     formatDistanceStrict(new Date(date), new Date(), {
       locale: ptBR,
     });
-console.log(jobs)
+    
   const allJobs = jobs?.map((job) => (
     <Link
       key={job.id}
