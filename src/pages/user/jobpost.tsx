@@ -71,75 +71,20 @@ const JobPost = () => {
   const jobTitle = watch("title_job") || "Titulo da Vaga";
   const company = watch("company_name") || "Empresa";
   const email = watch("company_email") || "example@email.com";
-  const salaryRange = watch("salary_range") || null;
+  const salaryRange = watch("salary_range") || "";
 
   const previewJob = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (previewJob.current != null)
-      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitle}</div>${text}<h1>Benefícios</h1><ul style="list-style: none; margin-left: 0">${selectedBenefits
-        .map((benefict) => `<li>${benefict}</li>`)
-        .join(" ")}</ul><h1>Faixa Sálarial</h1><p>${salaryRange}</p>`;
+      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitle}</div>${text}${
+        selectedBenefits.length > 0
+          ? `<h1>Benefícios</h1><ul style="list-style: none; margin-left: 0">${selectedBenefits
+              .map((benefict) => `<li>${benefict}</li>`)
+              .join(" ")}`
+          : ""
+      }</ul><h1>Faixa Sálarial</h1><p>${salaryRange}</p>`;
   }, [text, jobTitle, selectedBenefits, salaryRange]);
-
-  const {
-    onChange: onChangeCompanyName,
-    onBlur: onBlurCompanyName,
-    name: nameCompany,
-    ref: refCompanyName,
-  } = register("company_name", { required: "Este campo é obrigatório." });
-
-  const {
-    onChange: onChangeTitleJob,
-    onBlur: onBlurTitleJob,
-    name: nameTitleJob,
-    ref: refTitleJob,
-  } = register("title_job", { required: "Este campo é obrigatório." });
-
-  const {
-    onChange: onChangeCompanyEmail,
-    onBlur: onBlurCompanyEmail,
-    name: nameCompanyEmail,
-    ref: refCompanyEmail,
-  } = register("company_email", {
-    pattern: { value: patternEmail, message: "Digite um e-mail válido." },
-    required: "Este campo é obrigatório.",
-  });
-
-  const {
-    onChange: onChangeContract,
-    onBlur: onBlurContract,
-    name: nameContract,
-    ref: refContract,
-  } = register("contract");
-
-  const {
-    onChange: onChangeLocalization,
-    onBlur: onBlurLocalization,
-    name: nameLocalization,
-    ref: refLocalization,
-  } = register("localization");
-
-  const {
-    onChange: onChangeModel,
-    onBlur: onBlurModel,
-    name: nameModel,
-    ref: refModel,
-  } = register("model");
-
-  const {
-    onChange: onChangeType,
-    onBlur: onBlurType,
-    name: nameType,
-    ref: refType,
-  } = register("type");
-
-  const {
-    onChange: onChangeSalaryRange,
-    onBlur: onBlurSalaryRange,
-    name: nameSalaryRange,
-    ref: refSalaryRange,
-  } = register("salary_range");
 
   const onSubmitJob: SubmitHandler<FormValues> = async (data) => {
     const {
@@ -205,10 +150,9 @@ const JobPost = () => {
               <TextInput
                 id="company_name"
                 autoComplete="no"
-                onChange={onChangeCompanyName}
-                onBlur={onBlurCompanyName}
-                ref={refCompanyName}
-                name={nameCompany}
+                {...register("company_name", {
+                  required: "Este campo é obrigatório.",
+                })}
                 helperText="Digite o nome de sua empresa sem Inc., Ltd., etc."
               />
               <ErrorMessage message={errors.company_name?.message} />
@@ -223,10 +167,9 @@ const JobPost = () => {
               <TextInput
                 id="title_job"
                 autoComplete="no"
-                onChange={onChangeTitleJob}
-                onBlur={onBlurTitleJob}
-                ref={refTitleJob}
-                name={nameTitleJob}
+                {...register("title_job", {
+                  required: "Este campo é obrigatório.",
+                })}
               />
               <ErrorMessage message={errors.title_job?.message} />
             </div>
@@ -244,10 +187,13 @@ const JobPost = () => {
                 id="company_email"
                 autoComplete="no"
                 type="email"
-                onChange={onChangeCompanyEmail}
-                onBlur={onBlurCompanyEmail}
-                ref={refCompanyEmail}
-                name={nameCompanyEmail}
+                {...register("company_email", {
+                  required: "Este campo é obrigatório.",
+                  pattern: {
+                    value: patternEmail,
+                    message: "Digite um e-mail válido.",
+                  },
+                })}
                 helperText="Este e-mail é publico e será mostrado na página da vaga."
               />
               <ErrorMessage message={errors.company_email?.message} />
@@ -258,13 +204,7 @@ const JobPost = () => {
                   Modelo de Trabalho
                 </label>
               </div>
-              <Select
-                onChange={onChangeModel}
-                onBlur={onBlurModel}
-                ref={refModel}
-                name={nameModel}
-                id="model"
-              >
+              <Select {...register("model")} id="model">
                 <option>Presencial</option>
                 <option>Remoto</option>
                 <option>Híbrido</option>
@@ -277,13 +217,7 @@ const JobPost = () => {
                   Localização
                 </label>
               </div>
-              <Select
-                onChange={onChangeLocalization}
-                onBlur={onBlurLocalization}
-                ref={refLocalization}
-                name={nameLocalization}
-                id="localization"
-              >
+              <Select {...register("localization")} id="localization">
                 {estadosBR.UF.map((item, index) => (
                   <option key={index}>{item.sigla}</option>
                 ))}
@@ -296,13 +230,7 @@ const JobPost = () => {
                   Contrato
                 </label>
               </div>
-              <Select
-                onChange={onChangeContract}
-                onBlur={onBlurContract}
-                ref={refContract}
-                name={nameContract}
-                id="contract"
-              >
+              <Select {...register("contract")} id="contract">
                 <option>PJ</option>
                 <option>CLT</option>
                 <option>Temporário</option>
@@ -315,14 +243,8 @@ const JobPost = () => {
                   Nivel da Vaga
                 </label>
               </div>
-              <Select
-                onChange={onChangeType}
-                onBlur={onBlurType}
-                ref={refType}
-                name={nameType}
-                id="type"
-              >
-                <option>Estágiario</option>
+              <Select {...register("type")} id="type">
+                <option>Estágio</option>
                 <option>Junior</option>
                 <option>Pleno</option>
                 <option>Sênior</option>
@@ -369,6 +291,7 @@ const JobPost = () => {
                 name="company_img"
                 onChange={getPreviewImage}
                 helperText=".PNG, .JPG, Quadrado ou Redondo"
+                required
               />
             </div>
 
@@ -382,13 +305,7 @@ const JobPost = () => {
                 </label>
               </div>
               <div>
-                <Select
-                  id="salary_range"
-                  onChange={onChangeSalaryRange}
-                  onBlur={onBlurSalaryRange}
-                  ref={refSalaryRange}
-                  name={nameSalaryRange}
-                >
+                <Select id="salary_range" {...register("salary_range")}>
                   {salarysRanges.salarys.map((item) => (
                     <option value={item} key={item}>
                       {item}
@@ -425,7 +342,7 @@ const JobPost = () => {
               </div>
 
               <Editor
-                apiKey={process.env.NEXT_PUBLIC_API_KEY}
+                apiKey={process.env.NEXT_PUBLIC_API_TINY_KEY}
                 value={value}
                 init={{
                   menubar: false,

@@ -1,7 +1,7 @@
 import { FilterValues } from "@components/JobsContainer/JobsContainer";
 import { Button, Label, Select } from "flowbite-react";
 import React, { useEffect } from "react";
-
+import estadosBR from "@utils/estadosBR.json";
 import { useForm } from "react-hook-form";
 
 type Inputs = {
@@ -73,9 +73,11 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
         <Label htmlFor="local" value="Local" className="sr-only" />
         <Select id="local" {...register("local")}>
           <option value="">Local</option>
-          <option value="ba">BA</option>
-          <option value="sp">SP</option>
-          <option value="rj">RJ</option>
+          {estadosBR.UF.map(({ sigla }) => (
+            <option key={sigla} value={sigla}>
+              {sigla}
+            </option>
+          ))}
         </Select>
       </div>
 

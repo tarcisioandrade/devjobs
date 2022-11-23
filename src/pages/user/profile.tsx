@@ -10,7 +10,7 @@ import {
 } from "flowbite-react";
 import estadosBR from "@utils/estadosBR.json";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   matchCommaAndSpaces,
   patternOnlyLetters,
@@ -59,101 +59,6 @@ const Profile = ({ user }: Props) => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const {
-    onChange: onChangeAccountType,
-    onBlur: onBlurAccountType,
-    ref: refAccountType,
-    name: nameAccountType,
-  } = register("account_type");
-
-  const {
-    onChange: onChangeName,
-    onBlur: onBlurName,
-    ref: refName,
-    name: nameName,
-  } = register("name", {
-    pattern: {
-      value: patternOnlyLetters,
-      message: "Por favor, insira apenas letras.",
-    },
-  });
-
-  const {
-    onChange: onChangeSurname,
-    onBlur: onBlurSurname,
-    ref: refSurname,
-    name: nameSurname,
-  } = register("surname", {
-    pattern: {
-      value: patternOnlyLetters,
-      message: "Por favor, insira apenas letras.",
-    },
-  });
-
-  const {
-    onChange: onChangeLocalization,
-    onBlur: onBlurLocalization,
-    ref: refLocalization,
-    name: nameLocalization,
-  } = register("localization");
-
-  const {
-    onChange: onChangeBiography,
-    onBlur: onBlurBiography,
-    ref: refBiography,
-    name: nameBiography,
-  } = register("biography");
-
-  const {
-    onChange: onChangeGender,
-    onBlur: onBlurGender,
-    ref: refGender,
-    name: nameGender,
-  } = register("gender");
-
-  const {
-    onChange: onChangeWebsite,
-    onBlur: onBlurWebsite,
-    ref: refWebsite,
-    name: nameWebsite,
-  } = register("website", {
-    pattern: {
-      value: patternURL,
-      message: "Por favor, insira um URL Válido.",
-    },
-  });
-
-  const {
-    onChange: onChangeGithub,
-    onBlur: onBlurGithub,
-    ref: refGithub,
-    name: nameGithub,
-  } = register("github", {
-    pattern: {
-      value: patternURL,
-      message: "Por favor, insira um URL Válido.",
-    },
-  });
-
-  const {
-    onChange: onChangeLinkedin,
-    onBlur: onBlurLinkedin,
-    ref: refLinkedin,
-    name: nameLinkedin,
-  } = register("linkedin", {
-    pattern: {
-      value: patternURL,
-      message: "Por favor, insira um URL Válido.",
-    },
-  });
-
-  const {
-    onChange: onChangeStacks,
-    onBlur: onBlurStacks,
-    ref: refStacks,
-    name: nameStacks,
-  } = register("stacks");
-
   const onSubmitProfile: SubmitHandler<FormValues> = (data) => {
     console.log(data.stacks.split(matchCommaAndSpaces));
   };
@@ -178,7 +83,7 @@ const Profile = ({ user }: Props) => {
               Salvar Mudanças
             </Button>
           </div>
-          <div className="border border-blue-500 rounded p-4 bg-gray-800">
+          <div className="border border-blue-500 rounded p-4 ">
             <table className="devTable w-full">
               <tbody>
                 <tr>
@@ -189,10 +94,7 @@ const Profile = ({ user }: Props) => {
                     <Select
                       id="account_type"
                       defaultValue={user.account_type}
-                      onChange={onChangeAccountType}
-                      onBlur={onBlurAccountType}
-                      name={nameAccountType}
-                      ref={refAccountType}
+                      {...register("account_type")}
                     >
                       <option value="worker">
                         Estou a Proucura de Trabalho
@@ -205,17 +107,19 @@ const Profile = ({ user }: Props) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="name">Nome*</label>
+                    <label htmlFor="name">Nome</label>
                   </td>
                   <td>
                     <TextInput
                       id="name"
                       defaultValue={user.name}
-                      onChange={onChangeName}
-                      onBlur={onBlurName}
-                      name={nameName}
-                      ref={refName}
-                      required
+                      {...register("name", {
+                        pattern: {
+                          value: patternOnlyLetters,
+                          message: "Por favor, insira apenas letras.",
+                        },
+                        required: "Este campo é obrigatório.",
+                      })}
                     />
                     {errors.name?.message ? (
                       <ErrorMessage message={errors.name.message} />
@@ -224,17 +128,19 @@ const Profile = ({ user }: Props) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="surname">Sobrenome</label>*
+                    <label htmlFor="surname">Sobrenome</label>
                   </td>
                   <td>
                     <TextInput
                       id="surname"
                       defaultValue={user.surname}
-                      onChange={onChangeSurname}
-                      onBlur={onBlurSurname}
-                      name={nameSurname}
-                      ref={refSurname}
-                      required
+                      {...register("surname", {
+                        pattern: {
+                          value: patternOnlyLetters,
+                          message: "Por favor, insira apenas letras.",
+                        },
+                        required: "Este campo é obrigatório.",
+                      })}
                     />
                     {errors.surname?.message ? (
                       <ErrorMessage message={errors.surname.message} />
@@ -287,10 +193,7 @@ const Profile = ({ user }: Props) => {
                     <Select
                       id="localization"
                       defaultValue={user.localization}
-                      onChange={onChangeLocalization}
-                      onBlur={onBlurLocalization}
-                      name={nameLocalization}
-                      ref={refLocalization}
+                      {...register("localization")}
                       required
                     >
                       {estadosBR.UF.map((item, index) => (
@@ -311,10 +214,7 @@ const Profile = ({ user }: Props) => {
                     <Textarea
                       id="biography"
                       defaultValue={user.biography}
-                      onChange={onChangeBiography}
-                      onBlur={onBlurBiography}
-                      name={nameBiography}
-                      ref={refBiography}
+                      {...register("biography")}
                       rows={4}
                     />
                   </td>
@@ -327,10 +227,7 @@ const Profile = ({ user }: Props) => {
                     <Select
                       id="gender"
                       defaultValue={user.gender}
-                      onChange={onChangeGender}
-                      onBlur={onBlurGender}
-                      name={nameGender}
-                      ref={refGender}
+                      {...register("gender")}
                     >
                       <option value="man">Masculino</option>
                       <option value="woman">Feminino</option>
@@ -350,10 +247,12 @@ const Profile = ({ user }: Props) => {
                         className="w-full"
                         id="website"
                         defaultValue={user.website_url}
-                        onChange={onChangeWebsite}
-                        onBlur={onBlurWebsite}
-                        name={nameWebsite}
-                        ref={refWebsite}
+                        {...register("website", {
+                          pattern: {
+                            value: patternURL,
+                            message: "Por favor, insira um URL Válido.",
+                          },
+                        })}
                       />
                     </div>
                     {errors.website?.message ? (
@@ -372,10 +271,12 @@ const Profile = ({ user }: Props) => {
                         className="w-full"
                         id="github"
                         defaultValue={user.github_url}
-                        onChange={onChangeGithub}
-                        onBlur={onBlurGithub}
-                        name={nameGithub}
-                        ref={refGithub}
+                        {...register("github", {
+                          pattern: {
+                            value: patternURL,
+                            message: "Por favor, insira um URL Válido.",
+                          },
+                        })}
                       />
                     </div>
                     {errors.github?.message ? (
@@ -394,10 +295,12 @@ const Profile = ({ user }: Props) => {
                         className="w-full"
                         id="linkedin"
                         defaultValue={user.linkedin_url}
-                        onChange={onChangeLinkedin}
-                        onBlur={onBlurLinkedin}
-                        name={nameLinkedin}
-                        ref={refLinkedin}
+                        {...register("linkedin", {
+                          pattern: {
+                            value: patternURL,
+                            message: "Por favor, insira um URL Válido.",
+                          },
+                        })}
                       />
                     </div>
                     {errors.linkedin?.message ? (
@@ -419,10 +322,7 @@ const Profile = ({ user }: Props) => {
                     <Textarea
                       id="stacks"
                       defaultValue={defaultStacksValue}
-                      onChange={onChangeStacks}
-                      onBlur={onBlurStacks}
-                      name={nameStacks}
-                      ref={refStacks}
+                      {...register("stacks")}
                       rows={4}
                     />
                   </td>
