@@ -1,4 +1,4 @@
-import JobsCard from "@components/JobCard";
+import JobCard from "@components/JobCard";
 import { Job } from "../../types/Job";
 import { useEffect, useState } from "react";
 import { fetchJob } from "@services/fetchJob";
@@ -56,6 +56,15 @@ const JobsContainer = () => {
     }));
   };
 
+  const allJobs =
+    jobs && jobs.length > 0 ? (
+      <div className="flex flex-col mt-10 gap-4">
+        {jobs?.map((job, index) => (
+          <JobCard key={index} job={job} />
+        ))}
+      </div>
+    ) : null;
+
   return (
     <main className="mainContainer">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -66,7 +75,7 @@ const JobsContainer = () => {
         setFiltersValues={setFilterValues}
       />
 
-      {loading ? <Spinner /> : <JobsCard jobs={jobs} />}
+      {loading ? <Spinner /> : allJobs}
 
       {jobs?.length === 0 ? (
         <div className="flex items-center justify-center h-[calc(100%-80px)]">

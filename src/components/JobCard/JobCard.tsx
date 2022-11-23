@@ -8,19 +8,20 @@ import Link from "next/link";
 import DevBadge from "@components/UI/Badge";
 
 type Props = {
-  jobs: Job[] | null;
+  job: Job | null;
 };
 
-const JobsCard = ({ jobs }: Props) => {
+const JobCard = ({ job }: Props) => {
   const formatter = (date: Date) =>
     formatDistanceStrict(new Date(date), new Date(), {
       locale: ptBR,
     });
-    
-  const allJobs = jobs?.map((job) => (
+
+  if (!job) return null;
+  return (
     <Link
       key={job.id}
-      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity"
+      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity block"
       data-testid="job-card"
       href={`job/${job.blob}`}
     >
@@ -59,10 +60,7 @@ const JobsCard = ({ jobs }: Props) => {
         </div>
       </div>
     </Link>
-  ));
-
-  if (jobs?.length === 0 || jobs === null) return null;
-  return <div className="flex flex-col mt-10 gap-4">{allJobs}</div>;
+  );
 };
 
-export default JobsCard;
+export default JobCard;

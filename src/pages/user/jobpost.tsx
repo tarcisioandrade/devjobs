@@ -20,6 +20,7 @@ import kebabCase from "just-kebab-case";
 import fetchJobPost from "@services/fetchJobPost";
 import { JobPost } from "src/types/Job";
 import Router from "next/router";
+import JobCard from "@components/JobCard";
 
 type FormValues = {
   company_name: string;
@@ -46,7 +47,7 @@ const JobPost = () => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
   const { getPreviewImage, preview } = useImgPreview();
 
   const stackList = Object.values(stacks);
@@ -72,6 +73,9 @@ const JobPost = () => {
   const company = watch("company_name") || "Empresa";
   const email = watch("company_email") || "example@email.com";
   const salaryRange = watch("salary_range") || "";
+  const modelWatch = watch("model");
+  const contractWatch = watch("contract");
+  const typeWatch = watch("type");
 
   const previewJob = useRef<HTMLDivElement>(null);
 
@@ -129,6 +133,28 @@ const JobPost = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setJobCardPreview({
+      id: 999,
+      company_avatar: preview,
+      stacks: selectedStacks,
+      title_job: jobTitle,
+      createAt: new Date(),
+      company_name: company,
+      model: modelWatch,
+      contract: contractWatch,
+      type: typeWatch,
+    });
+  }, [
+    company,
+    contractWatch,
+    jobTitle,
+    modelWatch,
+    preview,
+    selectedStacks,
+    typeWatch,
+  ]);
 
   return (
     <Layout>
@@ -379,6 +405,9 @@ const JobPost = () => {
         <section className="mt-12 pb-4">
           <div className="text-3xl dark:text-gray-200 mb-4 pl-4 lg:pl-0">
             Pré-visualização
+          </div>
+          <div className="my-4 pointer-events-none">
+            <JobCard job={jobCardPreview} />
           </div>
           <div className="lg:flex gap-4">
             <div
