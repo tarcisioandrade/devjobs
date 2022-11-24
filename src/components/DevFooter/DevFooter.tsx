@@ -1,5 +1,4 @@
 import { Footer } from "flowbite-react";
-import React from "react";
 
 const DevFooter = () => {
   return (

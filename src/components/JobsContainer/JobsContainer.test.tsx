@@ -57,7 +57,7 @@ describe("JobsContainer Search and Filters Test", () => {
 
     // check filter location for display no results
     await user.selectOptions(screen.getByRole("combobox", { name: "Local" }), [
-      "sp",
+      "SP",
     ]);
     await user.selectOptions(
       screen.getByRole("combobox", { name: "Modelo de Trabalho" }),

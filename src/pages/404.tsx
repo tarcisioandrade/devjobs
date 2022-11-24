@@ -1,6 +1,5 @@
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import React from "react";
 
 const PageNotFound = () => {
   return (
