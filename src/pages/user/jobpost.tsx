@@ -69,26 +69,27 @@ const JobPost = () => {
     return benefictHaveBeSelected;
   };
 
-  const jobTitle = watch("title_job") || "Titulo da Vaga";
-  const company = watch("company_name") || "Empresa";
-  const email = watch("company_email") || "example@email.com";
-  const salaryRange = watch("salary_range") || "";
+  const jobTitleWatch = watch("title_job") || "Titulo da Vaga";
+  const companyWatch = watch("company_name") || "Empresa";
+  const emailWatch = watch("company_email") || "example@email.com";
+  const salaryRangeWatch = watch("salary_range") || "";
   const modelWatch = watch("model");
   const contractWatch = watch("contract");
   const typeWatch = watch("type");
+  const localizationWatch = watch("localization");
 
   const previewJob = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (previewJob.current != null)
-      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitle}</div>${text}${
+      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitleWatch}</div>${text}${
         selectedBenefits.length > 0
           ? `<h1>Benefícios</h1><ul style="list-style: none; margin-left: 0">${selectedBenefits
               .map((benefict) => `<li>${benefict}</li>`)
               .join(" ")}`
           : ""
-      }</ul><h1>Faixa Sálarial</h1><p>${salaryRange}</p>`;
-  }, [text, jobTitle, selectedBenefits, salaryRange]);
+      }</ul><h1>Faixa Sálarial</h1><p>${salaryRangeWatch}</p>`;
+  }, [text, jobTitleWatch, selectedBenefits, salaryRangeWatch]);
 
   const onSubmitJob: SubmitHandler<FormValues> = async (data) => {
     const {
@@ -139,21 +140,23 @@ const JobPost = () => {
       id: 999,
       company_avatar: preview,
       stacks: selectedStacks,
-      title_job: jobTitle,
+      title_job: jobTitleWatch,
       createAt: new Date(),
-      company_name: company,
+      company_name: companyWatch,
+      location: localizationWatch,
       model: modelWatch,
       contract: contractWatch,
       type: typeWatch,
     });
   }, [
-    company,
+    companyWatch,
     contractWatch,
-    jobTitle,
+    jobTitleWatch,
     modelWatch,
     preview,
     selectedStacks,
     typeWatch,
+    localizationWatch
   ]);
 
   return (
@@ -417,9 +420,9 @@ const JobPost = () => {
             <div className="flex flex-col items-center border rounded border-blue-500 self-start p-4 lg:w-[500px] flex-[.4] mt-4 lg:mt-0">
               <Avatar img={preview} size="xl" />
               <div className="dark:text-gray-300 font-medium mt-2">
-                {company}
+                {companyWatch}
               </div>
-              <div className="dark:text-gray-400">{email}</div>
+              <div className="dark:text-gray-400">{emailWatch}</div>
               <div className="bg-slate-800 h-0.5 w-full mt-2"></div>
 
               <DevButton size="lg" className="mt-4 w-full">

@@ -1,5 +1,5 @@
-import { HouseIcon, LinkIcon, PaperIcon, UserIcon } from "@components/svg";
-import { Avatar, Badge } from "flowbite-react";
+import { LinkIcon } from "@components/svg";
+import { Avatar } from "flowbite-react";
 import React from "react";
 import { Job } from "../../types/Job";
 import { formatDistanceStrict } from "date-fns";
@@ -36,15 +36,30 @@ const JobCard = ({ job }: Props) => {
           <h2 className="text-slate-200 font-semibold">{job.title_job}</h2>
           <h3 className="text-slate-400 my-2">{job.company_name}</h3>
           <div className="flex items-center gap-2">
-            <Badge color="gray" icon={HouseIcon}>
-              {job.model}
-            </Badge>
-            <Badge color="gray" icon={UserIcon}>
-              {job.type}
-            </Badge>
-            <Badge color="gray" icon={PaperIcon}>
-              {job.contract}
-            </Badge>
+            <span
+              color="gray"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+            >
+              🏠 {job.model}
+            </span>
+            <span
+              color="gray"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+            >
+              💼 {job.type}
+            </span>
+            <span
+              color="gray"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+            >
+              📃 {job.contract}
+            </span>
+            <span
+              color="gray"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+            >
+              🌎 {job.location}
+            </span>
           </div>
         </div>
 
