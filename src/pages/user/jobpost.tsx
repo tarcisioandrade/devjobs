@@ -319,7 +319,7 @@ const JobPost = () => {
                 id="company_logo"
                 name="company_img"
                 onChange={getPreviewImage}
-                helperText=".PNG, .JPG, Quadrado ou Redondo"
+                helperText=".PNG, .JPG, Quadrado ou Redondo."
                 required
               />
             </div>

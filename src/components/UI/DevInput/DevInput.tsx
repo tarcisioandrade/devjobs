@@ -1,8 +1,10 @@
+import { FormValuesSignup } from "@pages/user/signup";
 import React, { forwardRef, InputHTMLAttributes, ForwardedRef } from "react";
+import { FieldErrorsImpl } from "react-hook-form";
 import ErrorMessage from "../../ErrorMessage";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  errors: {};
+  errors: Partial<FieldErrorsImpl<FormValuesSignup>>;
   label: string;
 }
 
@@ -10,7 +12,9 @@ const DevInput = forwardRef(
   (props: Props, ref: ForwardedRef<HTMLInputElement>) => {
     const { onChange, onBlur, name, errors, label } = props;
 
-    const hasError = errors[name] && errors[name].message != "";
+    const hasError =
+      errors[name as keyof FieldErrorsImpl<FormValuesSignup>] &&
+      errors[name as keyof FormValuesSignup]?.message != "";
 
     return (
       <div className="relative">
@@ -39,7 +43,11 @@ const DevInput = forwardRef(
         >
           {label}
         </label>
-        {hasError ? <ErrorMessage message={errors[name]?.message} /> : null}
+        {hasError ? (
+          <ErrorMessage
+            message={errors[name as keyof FormValuesSignup]?.message}
+          />
+        ) : null}
       </div>
     );
   }

@@ -46,13 +46,13 @@ const JobCard = ({ job }: Props) => {
               color="gray"
               className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
             >
-              💼 {job.type}
+              📃 {job.contract}
             </span>
             <span
               color="gray"
               className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
             >
-              📃 {job.contract}
+              💼 {job.type}
             </span>
             <span
               color="gray"

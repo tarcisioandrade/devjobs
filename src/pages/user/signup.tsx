@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type FormValues = {
+export type FormValuesSignup = {
   name: string;
   surname: string;
   email: string;
@@ -23,7 +23,7 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<FormValues>();
+  } = useForm<FormValuesSignup>();
 
   const router = useRouter();
 
@@ -32,7 +32,7 @@ const Signup = () => {
 
   const termsAccepted = watch("terms");
 
-  const onSubmitLogin: SubmitHandler<FormValues> = (data) => {
+  const onSubmitLogin: SubmitHandler<FormValuesSignup> = (data) => {
     router.push("/user/profile")
   };
 

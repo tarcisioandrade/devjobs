@@ -12,7 +12,7 @@ type FormValues = {
 };
 
 const Login = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -72,6 +72,7 @@ const Login = () => {
             name={nameEmail}
             ref={refEmail}
             errors={errors}
+            required
           />
         </div>
         <div className="my-4">
@@ -83,6 +84,7 @@ const Login = () => {
             name={namePassword}
             ref={refPassword}
             errors={errors}
+            required
           />
         </div>
         <DevButton type="submit" className="w-full" loading={+loading}>
