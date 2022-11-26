@@ -1,8 +1,8 @@
-import axios from "axios";
+import api from "@libs/axiosInstance";
 import { JobPost } from "src/types/Job";
 
 const fetchJobPost = async (job: JobPost) => {
-  const data = await axios.post("/jobpost", { ...job });
+  const data = await api.post("jobpost", { ...job });
 
   return data;
 };

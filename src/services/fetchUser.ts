@@ -1,10 +1,9 @@
-import axios from "axios";
+import api from "@libs/axiosInstance";
 
 const fetchUser = async () => {
-  const { data } = await axios.get("/login");
+  const { data } = await api.get("login");
 
   return data;
 };
 
 export default fetchUser;
-

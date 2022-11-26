@@ -1,7 +1,7 @@
-import axios from "axios";
+import api from "@libs/axiosInstance";
 
 const fetchServerUser = async () => {
-  const { data } = await axios.get("http://localhost:3000/api/user");
+  const { data } = await api.get("api/user");
 
   return data;
 };
