@@ -7,7 +7,7 @@ const Header = () => {
   const { login, user, logout } = useUserContext();
 
   return (
-    <header className="bg-gray-800 min-h-[4rem]">
+    <header className="bg-gray-800 min-h-[4rem] px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-2xl font-semibold text-gray-200">
           DevJobs

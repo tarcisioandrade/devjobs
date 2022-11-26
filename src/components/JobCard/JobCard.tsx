@@ -21,9 +21,9 @@ const JobCard = ({ job }: Props) => {
   return (
     <Link
       key={job.id}
-      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity block"
+      className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity block relative"
       data-testid="job-card"
-      href={`job/${job.blob}`}
+      href={`/job/${job.blob}`}
     >
       <div className="flex items-center gap-4">
         <Avatar
@@ -31,6 +31,7 @@ const JobCard = ({ job }: Props) => {
           size="lg"
           rounded
           alt={job.company_name}
+          className="hidden md:block"
         />
         <div className="w-[228px]">
           <h2 className="text-slate-200 font-semibold">{job.title_job}</h2>
@@ -63,13 +64,13 @@ const JobCard = ({ job }: Props) => {
           </div>
         </div>
 
-        <div className="flex gap-3 items-center grow ml-28">
+        <div className="hidden sm:flex gap-3 items-center grow ml-28">
           {job.stacks.slice(0, 3).map((stack) => (
             <DevBadge key={stack}>{stack}</DevBadge>
           ))}
         </div>
 
-        <div className="text-slate-400 flex items-center gap-1">
+        <div className="text-slate-400 flex items-center gap-1 absolute top-1 right-1 md:static">
           <LinkIcon />
           {formatter(job.createAt)}
         </div>

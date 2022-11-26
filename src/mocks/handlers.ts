@@ -107,4 +107,22 @@ export const handlers = [
 
     return res(ctx.json(job));
   }),
+
+  rest.get("/userjobsapplied", async (req, res, ctx) => {
+    const { searchParams } = req.url;
+    const id_user = searchParams.get("user");
+
+    if (id_user) {
+      const jobsApplied = data.jobs.filter((job) => {
+        const target = job.candidates_status.some(
+          (candidate) => candidate.id_user === Number(id_user)
+        );
+        return target;
+      });
+
+      return res(ctx.json(jobsApplied));
+    }
+
+    return res(ctx.status(404));
+  }),
 ];
