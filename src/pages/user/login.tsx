@@ -5,6 +5,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { patternEmail } from "@utils/REGEX";
 import Head from "next/head";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import Router from "next/router";
+import { Toast } from "flowbite-react";
 
 type FormValues = {
   email: string;
@@ -13,6 +16,7 @@ type FormValues = {
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const {
     register,
@@ -20,8 +24,26 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmitLogin: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+  const onSubmitLogin: SubmitHandler<FormValues> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      setLoading(true);
+      setError(false);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      console.log(res);
+      if (!res?.ok) throw new Error("Failed in login.");
+      Router.push("/");
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const {
@@ -97,6 +119,17 @@ const Login = () => {
           </Link>
         </p>
       </form>
+      {error ? (
+        <Toast className="absolute top-4">
+          <div className="inline-flex items-center justify-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-blue-200">
+            !
+          </div>
+          <div className="ml-3 text-sm font-normal">
+            Login ou senha incorretos.
+          </div>
+          <Toast.Toggle />
+        </Toast>
+      ) : null}
     </main>
   );
 };
