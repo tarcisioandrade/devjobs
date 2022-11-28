@@ -1,8 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import UserProvider from "@contexts/UserContext";
-import Header from "@components/Header";
 import DevFooter from "@components/DevFooter";
+import { SessionProvider } from "next-auth/react";
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
   require("../mocks");
@@ -11,10 +11,12 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="flex flex-col h-screen">
-      <UserProvider>
-        <Component {...pageProps} />
-      </UserProvider>
-      {/* <DevFooter /> */}
+      <SessionProvider session={pageProps.session}>
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
+        {/* <DevFooter /> */}
+      </SessionProvider>
     </div>
   );
 }

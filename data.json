@@ -85,7 +85,7 @@
       "stacks": ["JavaScript", "React", "Jest"],
       "blob": "programador-frontend-remoto-pleno-1",
       "salary_range": "R$ 1000,00 á 4000,00",
-      "candidates_status": [{ "id_user": 1, "status": "applied" }],
+      "candidates_status": [{ "id_user": 59, "status": "applied" }],
       "createAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },

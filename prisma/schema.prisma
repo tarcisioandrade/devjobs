@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id             String   @id @default(cuid())
+  title_job      String
+  company_name   String
+  company_email  String
+  company_avatar String
+  model          String
+  location       String
+  description    String
+  type           String
+  contract       String
+  status         Status   @default(active)
+  benefits       String[]
+  stacks         String[]
+  blob           String
+  salary_range   String
+  candidates     String[]
+  updateAt       DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+
+  @@map("jobs")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  status       Status   @default(active)
+  user_type    UserType @default(worker)
+  name         String
+  surname      String
+  password     String
+  email        String   @unique
+  avatar       String?
+  location     String?
+  biography    String?
+  gender       String?
+  website_url  String?  @unique
+  github_url   String?  @unique
+  linkedin_url String?  @unique
+  stacks       String[]
+  employee     Boolean  @default(false)
+  updateAt     DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  jobs         Job[]
+
+  @@map("users")
+}
+
+enum Status {
+  active
+  disabled
+}
+
+enum UserType {
+  worker
+  hiring
+}
