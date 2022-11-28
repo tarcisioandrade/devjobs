@@ -1,11 +1,13 @@
 import DevButton from "@components/UI/DevButton";
 import DevInput from "@components/UI/DevInput";
+import api from "@libs/axiosInstance";
 import { patternEmail, patternOnlyLetters } from "@utils/REGEX";
-import { Checkbox, Label } from "flowbite-react";
+import { Checkbox, Label, Toast } from "flowbite-react";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useRef } from "react";
+import Router, { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export type FormValuesSignup = {
@@ -24,16 +26,41 @@ const Signup = () => {
     formState: { errors },
     watch,
   } = useForm<FormValuesSignup>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const router = useRouter();
 
   const passwordMatchValue = useRef({});
   passwordMatchValue.current = watch("password", "");
-
   const termsAccepted = watch("terms");
 
-  const onSubmitLogin: SubmitHandler<FormValuesSignup> = (data) => {
-    router.push("/user/profile")
+  const onSubmitLogin: SubmitHandler<FormValuesSignup> = async ({
+    email,
+    surname,
+    name,
+    password,
+  }) => {
+    try {
+      setLoading(true);
+      setError(false);
+      await api.post("api/user", {
+        email,
+        name,
+        surname,
+        password,
+      });
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      if (res?.ok) Router.push("/user/profile");
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const {
@@ -199,7 +226,7 @@ const Signup = () => {
               href=""
               className="text-blue-600 hover:underline dark:text-blue-500"
             >
-              termos de uso
+              termos de uso.
             </a>
           </Label>
         </div>
@@ -207,10 +234,20 @@ const Signup = () => {
           type="submit"
           className="w-full mt-4"
           disabled={!termsAccepted}
+          loading={+loading}
         >
           Cadastrar
         </DevButton>
       </form>
+      {error ? (
+        <Toast className="absolute top-4">
+          <div className="inline-flex items-center justify-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-blue-200">
+            !
+          </div>
+          <div className="ml-3 text-sm font-normal">Este e-mail já existe.</div>
+          <Toast.Toggle />
+        </Toast>
+      ) : null}
     </main>
   );
 };
