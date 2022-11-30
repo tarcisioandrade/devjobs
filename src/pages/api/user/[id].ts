@@ -25,7 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
         github_url: true,
         linkedin_url: true,
         website_url: true,
-        updateAt: true,
+        updatedAt: true,
         createdAt: true,
       },
     });

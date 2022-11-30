@@ -21,12 +21,15 @@ import fetchJobPost from "@services/fetchJobPost";
 import { JobPost } from "src/types/Job";
 import Router from "next/router";
 import JobCard from "@components/JobCard";
+import { authOptions } from "@pages/api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
+import { GetServerSideProps } from "next";
 
 type FormValues = {
   company_name: string;
   title_job: string;
   model: string;
-  localization: string;
+  location: string;
   contract: string;
   type: string;
   company_email: string;
@@ -76,7 +79,7 @@ const JobPost = () => {
   const modelWatch = watch("model");
   const contractWatch = watch("contract");
   const typeWatch = watch("type");
-  const localizationWatch = watch("localization");
+  const locationWatch = watch("location");
 
   const previewJob = useRef<HTMLDivElement>(null);
 
@@ -93,7 +96,7 @@ const JobPost = () => {
 
   const onSubmitJob: SubmitHandler<FormValues> = async (data) => {
     const {
-      localization,
+      location,
       title_job,
       company_email,
       company_name,
@@ -105,7 +108,7 @@ const JobPost = () => {
 
     const job: JobPost = {
       id_user: 59,
-      location: localization,
+      location: location,
       title_job,
       company_email,
       company_name,
@@ -117,9 +120,7 @@ const JobPost = () => {
       benefits: selectedBenefits,
       stacks: selectedStacks,
       salary_range,
-      blob: kebabCase(
-        `${data.title_job}${data.model}${data.localization} ${1}`
-      ),
+      blob: kebabCase(`${data.title_job}${data.model}${data.location} ${1}`),
     };
 
     try {
@@ -143,7 +144,7 @@ const JobPost = () => {
       title_job: jobTitleWatch,
       createAt: new Date(),
       company_name: companyWatch,
-      location: localizationWatch,
+      location: locationWatch,
       model: modelWatch,
       contract: contractWatch,
       type: typeWatch,
@@ -156,7 +157,7 @@ const JobPost = () => {
     preview,
     selectedStacks,
     typeWatch,
-    localizationWatch
+    locationWatch,
   ]);
 
   return (
@@ -242,11 +243,11 @@ const JobPost = () => {
 
             <div>
               <div className="mb-2">
-                <label htmlFor="localization" className="text-lg text-gray-200">
+                <label htmlFor="location" className="text-lg text-gray-200">
                   Localização
                 </label>
               </div>
-              <Select {...register("localization")} id="localization">
+              <Select {...register("location")} id="location">
                 {estadosBR.UF.map((item, index) => (
                   <option key={index}>{item.sigla}</option>
                 ))}
@@ -442,6 +443,26 @@ const JobPost = () => {
       </main>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions
+  );
+
+  if (!session)
+    return {
+      redirect: {
+        destination: "/user/login",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
 };
 
 export default JobPost;

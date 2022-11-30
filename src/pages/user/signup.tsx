@@ -1,8 +1,9 @@
+import ErrorToast from "@components/ErrorToast";
 import DevButton from "@components/UI/DevButton";
 import DevInput from "@components/UI/DevInput";
 import api from "@libs/axiosInstance";
 import { patternEmail, patternOnlyLetters } from "@utils/REGEX";
-import { Checkbox, Label, Toast } from "flowbite-react";
+import { Checkbox, Label } from "flowbite-react";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -239,15 +240,7 @@ const Signup = () => {
           Cadastrar
         </DevButton>
       </form>
-      {error ? (
-        <Toast className="absolute top-4">
-          <div className="inline-flex items-center justify-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-blue-200">
-            !
-          </div>
-          <div className="ml-3 text-sm font-normal">Este e-mail já existe.</div>
-          <Toast.Toggle />
-        </Toast>
-      ) : null}
+      {error ? <ErrorToast message="Este e-mail já existe." /> : null}
     </main>
   );
 };

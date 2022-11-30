@@ -7,7 +7,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
-import { Toast } from "flowbite-react";
+import ErrorToast from "@components/ErrorToast";
 
 type FormValues = {
   email: string;
@@ -118,17 +118,7 @@ const Login = () => {
           </Link>
         </p>
       </form>
-      {error ? (
-        <Toast className="absolute top-4">
-          <div className="inline-flex items-center justify-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-blue-200">
-            !
-          </div>
-          <div className="ml-3 text-sm font-normal">
-            Login ou senha incorretos.
-          </div>
-          <Toast.Toggle />
-        </Toast>
-      ) : null}
+      {error ? <ErrorToast message="Login ou senha incorretos." /> : null}
     </main>
   );
 };

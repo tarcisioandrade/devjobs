@@ -2,11 +2,11 @@ import { Button } from "flowbite-react";
 import { Avatar, Dropdown } from "flowbite-react";
 import Link from "next/link";
 import { signIn, useSession, signOut } from "next-auth/react";
+import Router from "next/router";
 
 const Header = () => {
   const { data: session } = useSession();
-
-  console.log("session", session);
+  
   return (
     <header className="bg-gray-800 min-h-[4rem] px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
@@ -50,13 +50,18 @@ const Header = () => {
             </Dropdown>
           </div>
         ) : (
-          <Button
-            size="sm"
-            gradientDuoTone="greenToBlue"
-            onClick={() => signIn()}
-          >
-            Login
-          </Button>
+          <div className="flex items-center gap-2">
+            <button
+              className="dark:text-blue-200 underline"
+              onClick={() => signIn()}
+            >
+              Login
+            </button>
+            <span className="dark:text-gray-200">ou</span>
+            <Button size="sm" onClick={() => Router.push("/user/signup")}>
+              Signup
+            </Button>
+          </div>
         )}
       </div>
     </header>

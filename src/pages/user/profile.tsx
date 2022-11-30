@@ -28,6 +28,7 @@ import fetchUserUpdate from "@services/fetchUserUpdate";
 import Router from "next/router";
 import fetchUserDelete from "@services/fetchUserDelete";
 import { signOut } from "next-auth/react";
+import ErrorToast from "@components/ErrorToast";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -57,6 +58,7 @@ type Props = {
 const Profile = ({ user }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { getPreviewImage, preview } = useImgPreview();
 
   const {
@@ -85,7 +87,7 @@ const Profile = ({ user }: Props) => {
       const res = await fetchUserUpdate(userInfosForUpdate);
       if (res.status === 200) Router.reload();
     } catch (error) {
-      console.log(error);
+      setError("Ocorreu um erro no servidor, por favor, tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -103,11 +105,10 @@ const Profile = ({ user }: Props) => {
       Router.push("/");
       signOut();
     } catch (error) {
-      console.log("error", error);
+      setError("Ocorreu um erro no servidor, por favor, tente novamente.");
     }
   };
 
-  console.log("user", user);
   return (
     <Layout>
       <main className="mainContainer">
@@ -409,6 +410,7 @@ const Profile = ({ user }: Props) => {
           </div>
         </Modal.Body>
       </Modal>
+      {error ? <ErrorToast message={error} /> : null}
     </Layout>
   );
 };

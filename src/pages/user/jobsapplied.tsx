@@ -4,6 +4,8 @@ import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
 import JobCard from "@components/JobCard";
 import Head from "next/head";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "@pages/api/auth/[...nextauth]";
 
 type Props = {
   jobs: Job[];
@@ -28,6 +30,19 @@ const JobsApplied = ({ jobs }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const jobs: Job[] = await fetchUserJobsApplied(59);
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions
+  );
+
+  if (!session)
+    return {
+      redirect: {
+        destination: "/user/login",
+        permanent: false,
+      },
+    };
 
   return {
     props: {
