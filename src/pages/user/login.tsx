@@ -36,7 +36,6 @@ const Login = () => {
         email,
         password,
       });
-      console.log(res);
       if (!res?.ok) throw new Error("Failed in login.");
       Router.push("/");
     } catch (error) {

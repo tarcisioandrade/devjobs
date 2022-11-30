@@ -1,12 +1,11 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@libs/prismadb";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { UserNew } from "src/types/User";
+import fetchLogin from "@services/fetchLogin";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
@@ -17,21 +16,9 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials?.email,
-          },
-        });
+        const res = await fetchLogin(credentials);
 
-        const authUser = bcrypt.compareSync(
-          credentials?.password as string,
-          user?.password as string
-        );
-
-        if (authUser) {
-          return user;
-        }
-
+        if (res.status === 200 && res.data) return res.data;
         return null;
       },
     }),
@@ -43,7 +30,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token, user }) => {
       if (token) {
         session.user = token.user as UserNew;
       }

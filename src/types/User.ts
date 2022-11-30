@@ -6,7 +6,7 @@ export type User = {
   name: string;
   surname: string;
   biography: string;
-  localization: string;
+  location: string;
   gender: string;
   avatar: string;
   stacks: string[];
@@ -20,22 +20,21 @@ export type User = {
 };
 
 export type UserNew = {
-  id: number;
+  id: string;
   user_type: string;
-  status: string;
   email: string;
   name: string;
   surname: string;
-  biography?: string;
-  localization?: string;
-  gender?: string;
-  avatar?: string;
-  stacks?: string[];
-  employee?: boolean;
-  jobs?: string[];
-  github_url?: string;
-  linkedin_url?: string;
-  website_url?: string;
-  updateAt?: Date
-  createAt?: Date;
+  biography: string;
+  location?: string;
+  gender: string;
+  avatar: string;
+  stacks: string[];
+  employee: boolean;
+  jobs: string[];
+  github_url: string;
+  linkedin_url: string;
+  website_url: string;
+  updatedAt: Date;
+  createdAt: Date;
 };
