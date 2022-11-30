@@ -18,10 +18,16 @@ import {
 } from "@utils/REGEX";
 import ErrorMessage from "@components/ErrorMessage";
 import { GetServerSideProps } from "next";
-import { User } from "src/types/User";
+import { UserNew } from "src/types/User";
 import fetchServerUser from "@services/fetchServerUser";
 import Head from "next/head";
 import useImgPreview from "src/hooks/useImgPreview";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "@pages/api/auth/[...nextauth]";
+import fetchUserUpdate from "@services/fetchUserUpdate";
+import Router from "next/router";
+import fetchUserDelete from "@services/fetchUserDelete";
+import { signOut } from "next-auth/react";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -35,7 +41,7 @@ type FormValues = {
   account_type: string;
   name: string;
   surname: string;
-  localization: string;
+  location: string;
   biography: string;
   gender: string;
   website: string;
@@ -45,12 +51,12 @@ type FormValues = {
 };
 
 type Props = {
-  user: User;
+  user: UserNew;
 };
 
 const Profile = ({ user }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const { getPreviewImage, preview } = useImgPreview();
 
   const {
@@ -59,8 +65,30 @@ const Profile = ({ user }: Props) => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmitProfile: SubmitHandler<FormValues> = (data) => {
-    console.log(data.stacks.split(matchCommaAndSpaces));
+  const onSubmitProfile: SubmitHandler<FormValues> = async (data) => {
+    try {
+      setLoading(true);
+      const userInfosForUpdate = {
+        id: user.id,
+        user_type: data.account_type,
+        name: data.name,
+        surname: data.surname,
+        avatar: "/assets/user/profile.jpg",
+        gender: data.gender,
+        location: data.location,
+        biography: data.biography,
+        website_url: data.website,
+        github_url: data.github,
+        linkedin_url: data.linkedin,
+        stacks: data.stacks.split(matchCommaAndSpaces),
+      };
+      const res = await fetchUserUpdate(userInfosForUpdate);
+      if (res.status === 200) Router.reload();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const defaultStacksValue = user.stacks.join(", ");
@@ -69,8 +97,17 @@ const Profile = ({ user }: Props) => {
 
   const handleOpenModal = () => setModalOpen(!modalOpen);
 
-  const deleteAccount = () => {};
+  const deleteAccount = async () => {
+    try {
+      await fetchUserDelete(user.id);
+      Router.push("/");
+      signOut();
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
+  console.log("user", user);
   return (
     <Layout>
       <main className="mainContainer">
@@ -79,7 +116,7 @@ const Profile = ({ user }: Props) => {
         </Head>
         <form onSubmit={handleSubmit(onSubmitProfile)}>
           <div className="p-4 lg:p-0 lg:py-4">
-            <Button type="submit" className="ml-auto">
+            <Button type="submit" className="ml-auto" disabled={loading}>
               Salvar Mudanças
             </Button>
           </div>
@@ -93,7 +130,7 @@ const Profile = ({ user }: Props) => {
                   <td>
                     <Select
                       id="account_type"
-                      defaultValue={user.account_type}
+                      defaultValue={user.user_type}
                       {...register("account_type")}
                     >
                       <option value="worker">
@@ -186,14 +223,14 @@ const Profile = ({ user }: Props) => {
 
                 <tr>
                   <td>
-                    <label htmlFor="localization">Localização*</label>
+                    <label htmlFor="location">Localização*</label>
                     <TextHelper message="Onde você está agora?" />
                   </td>
                   <td>
                     <Select
-                      id="localization"
-                      defaultValue={user.localization}
-                      {...register("localization")}
+                      id="location"
+                      defaultValue={user.location}
+                      {...register("location")}
                       required
                     >
                       {estadosBR.UF.map((item, index) => (
@@ -341,7 +378,7 @@ const Profile = ({ user }: Props) => {
             </table>
           </div>
           <div className="py-4">
-            <Button type="submit" className="mx-auto">
+            <Button type="submit" className="ml-auto" disabled={loading}>
               Salvar Mudanças
             </Button>
           </div>
@@ -377,7 +414,20 @@ const Profile = ({ user }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user: User = await fetchServerUser();
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions
+  );
+  const user: UserNew = await fetchServerUser(session?.user.id as string);
+
+  if (!session)
+    return {
+      redirect: {
+        destination: "/user/login",
+        permanent: false,
+      },
+    };
 
   return {
     props: { user },
