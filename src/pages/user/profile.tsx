@@ -10,7 +10,7 @@ import {
 } from "flowbite-react";
 import estadosBR from "@utils/estadosBR.json";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   matchCommaAndSpaces,
   patternOnlyLetters,
@@ -29,6 +29,7 @@ import Router from "next/router";
 import fetchUserDelete from "@services/fetchUserDelete";
 import { signOut } from "next-auth/react";
 import ErrorToast from "@components/ErrorToast";
+import fetchImageUpload from "@services/fetchImageUpload";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -59,7 +60,7 @@ const Profile = ({ user }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { getPreviewImage, preview } = useImgPreview();
+  const { getPreviewImage, preview, selectedFile } = useImgPreview();
 
   const {
     register,
@@ -70,12 +71,21 @@ const Profile = ({ user }: Props) => {
   const onSubmitProfile: SubmitHandler<FormValues> = async (data) => {
     try {
       setLoading(true);
+      setError("");
+      let avatarImage;
+      if (selectedFile) {
+        const { data: axiosData } = await fetchImageUpload(
+          selectedFile as File,
+          "user_profile"
+        );
+        avatarImage = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
+      }
       const userInfosForUpdate = {
         id: user.id,
         user_type: data.account_type,
         name: data.name,
         surname: data.surname,
-        avatar: "/assets/user/profile.jpg",
+        avatar: avatarImage || user.avatar,
         gender: data.gender,
         location: data.location,
         biography: data.biography,
@@ -88,6 +98,7 @@ const Profile = ({ user }: Props) => {
       if (res.status === 200) Router.reload();
     } catch (error) {
       setError("Ocorreu um erro no servidor, por favor, tente novamente.");
+      console.log("error", error);
     } finally {
       setLoading(false);
     }

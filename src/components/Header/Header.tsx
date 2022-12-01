@@ -1,12 +1,15 @@
-import { Button } from "flowbite-react";
-import { Avatar, Dropdown } from "flowbite-react";
+import { Button, Dropdown, Avatar } from "flowbite-react";
 import Link from "next/link";
 import { signIn, useSession, signOut } from "next-auth/react";
 import Router from "next/router";
 
 const Header = () => {
   const { data: session } = useSession();
-  
+
+  const initialsUserName = `${session?.user.name.charAt(
+    0
+  )}${session?.user.surname.charAt(0)}`;
+
   return (
     <header className="bg-gray-800 min-h-[4rem] px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
@@ -19,11 +22,7 @@ const Header = () => {
               arrowIcon={false}
               inline={true}
               label={
-                <Avatar
-                  alt="User settings"
-                  img={session.user.avatar}
-                  rounded={true}
-                />
+                <Avatar rounded={true} placeholderInitials={initialsUserName} />
               }
             >
               <Dropdown.Header>
