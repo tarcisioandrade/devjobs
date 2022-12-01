@@ -28,7 +28,6 @@ const handler: NextApiHandler = async (req, res) => {
         surname: user?.surname,
         email: user?.email,
         avatar: user?.avatar,
-        status: user?.status,
         biography: user?.biography,
         jobs: user?.jobs,
         location: user?.location,
@@ -37,7 +36,7 @@ const handler: NextApiHandler = async (req, res) => {
         website_url: user?.website_url,
         github_url: user?.github_url,
         linkedin_url: user?.linkedin_url,
-        updatedAt: user?.updateAt,
+        updatedAt: user?.updatedAt,
         createdAt: user?.createdAt,
       };
       return res.status(200).json(userReturn);

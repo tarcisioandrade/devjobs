@@ -26,7 +26,7 @@ const useImgPreview = () => {
     return () => URL.revokeObjectURL(IMAGE);
   }, [selectedFile]);
 
-  return { preview, getPreviewImage };
+  return { preview, getPreviewImage, selectedFile };
 };
 
 export default useImgPreview;
