@@ -1,29 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from "@components/Layout";
-import { Avatar, FileInput, Select, TextInput } from "flowbite-react";
-import React, { useEffect, useRef } from "react";
 import estadosBR from "@utils/estadosBR.json";
 import beneficios from "@utils/benefits.json";
+import fetchImageUpload from "@services/fetchImageUpload";
 import salarysRanges from "@utils/salaryRange.json";
-import { useState } from "react";
 import MultipleSelect from "@components/MultipleSelect";
 import stacks from "@utils/stacks.json";
 import Head from "next/head";
-import { Editor } from "@tinymce/tinymce-react";
 import useImgPreview from "src/hooks/useImgPreview";
-import { useForm, SubmitHandler } from "react-hook-form";
 import DevBadge from "@components/UI/Badge";
 import DevButton from "@components/UI/DevButton";
-import { patternEmail } from "@utils/REGEX";
 import ErrorMessage from "@components/ErrorMessage";
 import kebabCase from "just-kebab-case";
 import fetchJobPost from "@services/fetchJobPost";
-import { JobPost } from "src/types/Job";
 import Router from "next/router";
 import JobCard from "@components/JobCard";
+import { useCallback, useEffect, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { patternEmail } from "@utils/REGEX";
+import { JobPost } from "src/types/Job";
+import { useState } from "react";
+import { Avatar, FileInput, Select, TextInput } from "flowbite-react";
 import { authOptions } from "@pages/api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import { useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
+import ErrorToast from "@components/ErrorToast";
 
 type FormValues = {
   company_name: string;
@@ -49,11 +52,12 @@ const JobPost = () => {
   const [text, setText] = useState("");
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
-  const { getPreviewImage, preview } = useImgPreview();
-
+  const { getPreviewImage, preview, selectedFile } = useImgPreview();
+  const { data: session } = useSession();
   const stackList = Object.values(stacks);
+  const [multipleSelectError, setMultipleSelectError] = useState("");
 
   const handleSelectedBenefits = (benefict: string) => {
     const benefictHaveBeSelected = benefitsHasSelected(benefict);
@@ -94,6 +98,14 @@ const JobPost = () => {
       }</ul><h1>Faixa Sálarial</h1><p>${salaryRangeWatch}</p>`;
   }, [text, jobTitleWatch, selectedBenefits, salaryRangeWatch]);
 
+  const handleMultipleSelectErrorMessage = useCallback(() => {
+    if (selectedStacks.length <= 0) {
+      setMultipleSelectError("Este campo é obrigatório.");
+    } else {
+      setMultipleSelectError("");
+    }
+  }, [selectedStacks.length]);
+
   const onSubmitJob: SubmitHandler<FormValues> = async (data) => {
     const {
       location,
@@ -105,32 +117,43 @@ const JobPost = () => {
       type,
       salary_range,
     } = data;
-
-    const job: JobPost = {
-      id_user: 59,
-      location: location,
-      title_job,
-      company_email,
-      company_name,
-      contract,
-      model,
-      type,
-      description: text,
-      company_avatar: preview,
-      benefits: selectedBenefits,
-      stacks: selectedStacks,
-      salary_range,
-      blob: kebabCase(`${data.title_job}${data.model}${data.location} ${1}`),
-    };
-
     try {
       setLoading(true);
-      setError(false);
-      const res = await fetchJobPost(job);
-      if (res.status !== 200) throw new Error("Failed to fetch");
+      setError("");
+      if (selectedStacks.length <= 0) {
+        handleMultipleSelectErrorMessage();
+        return;
+      }
+      let companyAvatar;
+      if (selectedFile) {
+        const { data: axiosData } = await fetchImageUpload(
+          selectedFile,
+          "company_avatar"
+        );
+        companyAvatar = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
+      }
+      const job: JobPost = {
+        id_user: session?.user.id as string,
+        location: location,
+        title_job,
+        company_email,
+        company_name,
+        company_avatar: preview,
+        contract,
+        model,
+        type,
+        description: text,
+        benefits: selectedBenefits,
+        stacks: selectedStacks,
+        salary_range,
+        blob: kebabCase(
+          `${data.title_job}${data.model}${data.location} ${session?.user.id}`
+        ),
+      };
+      await fetchJobPost(job);
       Router.push("/");
     } catch (error) {
-      setError(true);
+      setError("Falha na solicitação, por favor, tente novamente");
     } finally {
       setLoading(false);
     }
@@ -235,9 +258,9 @@ const JobPost = () => {
                 </label>
               </div>
               <Select {...register("model")} id="model">
-                <option>Presencial</option>
-                <option>Remoto</option>
-                <option>Híbrido</option>
+                <option value="presencial">Presencial</option>
+                <option value="remoto">Remoto</option>
+                <option value="hibrido">Híbrido</option>
               </Select>
             </div>
 
@@ -274,10 +297,10 @@ const JobPost = () => {
                 </label>
               </div>
               <Select {...register("type")} id="type">
-                <option>Estágio</option>
-                <option>Junior</option>
-                <option>Pleno</option>
-                <option>Sênior</option>
+                <option value="estagio">Estágio</option>
+                <option value="junior">Junior</option>
+                <option value="pleno">Pleno</option>
+                <option value="senior">Sênior</option>
               </Select>
             </div>
 
@@ -293,6 +316,8 @@ const JobPost = () => {
                   selected={selectedStacks}
                   setSelected={setSelectedStacks}
                   allOptionsList={stackList}
+                  errorMessage={multipleSelectError}
+                  setErrorMessage={setMultipleSelectError}
                   helperText="Escolha suas tags referente a vaga, as 3 primeiras tags serão mostradas no site, as demais serão mostradas na página da vaga (job/sua-vaga-aqui)."
                 />
               </div>
@@ -440,6 +465,7 @@ const JobPost = () => {
             </div>
           </div>
         </section>
+        <ErrorToast message={error} />
       </main>
     </Layout>
   );

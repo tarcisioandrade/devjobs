@@ -1,11 +1,11 @@
 export type CandidatesStatus = {
-  id_user: number;
+  id_user: string;
   status: "applied" | "approved";
 };
 
 export type Job = {
-  id: number;
-  id_user: number;
+  id: string;
+  id_user: string;
   title_job: string;
   company_name: string;
   company_email: string;
@@ -26,7 +26,7 @@ export type Job = {
 };
 
 export type JobPost = {
-  id_user: number;
+  id_user: string;
   title_job: string;
   company_name: string;
   company_email: string;
