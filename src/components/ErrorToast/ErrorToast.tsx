@@ -1,6 +1,7 @@
 import { Toast } from "flowbite-react";
 
 const ErrorToast = ({ message }: { message: string }) => {
+  if (!message) return null;
   return (
     <div className="flex justify-center">
       <Toast className="fixed top-4 ">

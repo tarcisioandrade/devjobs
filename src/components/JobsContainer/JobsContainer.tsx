@@ -7,7 +7,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import SearchLabel from "@components/UI/SearchLabel";
 import Spinner from "@components/UI/Spinner";
 import { EggBreak, SadEmoji } from "@components/svg";
-
+import { useSession } from "next-auth/react";
 type Input = {
   search: string;
 };
@@ -17,6 +17,8 @@ export type FilterValues = {
   type: string;
   model: string;
   local: string;
+  contract: string;
+  stacks: string[];
 };
 
 const JobsContainer = () => {
@@ -28,7 +30,10 @@ const JobsContainer = () => {
     type: "",
     model: "",
     local: "",
+    contract: "",
+    stacks: [],
   });
+  const { data: session } = useSession();
 
   const { register, handleSubmit } = useForm<Input>();
 
@@ -36,10 +41,11 @@ const JobsContainer = () => {
     try {
       setError(false);
       setLoading(true);
-      const data = await fetchJob(searchValue);
+      const data = await fetchJob(searchValue, session?.user.id as string);
       setJobs(data);
     } catch (error) {
       setError(true);
+      setJobs(null)
     } finally {
       setLoading(false);
     }
@@ -47,6 +53,7 @@ const JobsContainer = () => {
 
   useEffect(() => {
     getData(filterValues);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterValues]);
 
   const onSubmit: SubmitHandler<Input> = (data) => {

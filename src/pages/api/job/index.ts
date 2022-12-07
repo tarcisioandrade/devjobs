@@ -38,7 +38,7 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
     allJobs = allJobsDisponible;
 
     if (allJobs.length <= 0) {
-      return res.status(404).json({ message: "Jobs not found." });
+      return res.status(204).end();
     }
 
     return res.status(200).json(allJobs);
@@ -70,7 +70,7 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
     allJobs = allJobsDisponible;
 
     if (allJobs.length <= 0) {
-      return res.status(404).json({ message: "Jobs not found." });
+      return res.status(204).end();
     }
 
     return res.status(200).json(allJobs);

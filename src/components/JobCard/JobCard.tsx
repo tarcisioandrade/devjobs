@@ -39,32 +39,32 @@ const JobCard = ({ job }: Props) => {
           <div className="flex items-center gap-2">
             <span
               color="gray"
-              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap capitalize"
             >
               🏠 {job.model}
             </span>
             <span
               color="gray"
-              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap uppercase"
             >
               📃 {job.contract}
             </span>
             <span
               color="gray"
-              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap capitalize"
             >
               💼 {job.type}
             </span>
             <span
               color="gray"
-              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap"
+              className="text-xs bg-gray-700 text-gray-200 py-[.2rem] px-2 rounded whitespace-nowrap capitalize"
             >
               🌎 {job.location}
             </span>
           </div>
         </div>
 
-        <div className="hidden sm:flex gap-3 items-center grow ml-28">
+        <div className="hidden sm:flex gap-3 items-center grow ml-28 capitalize">
           {job.stacks.slice(0, 3).map((stack) => (
             <DevBadge key={stack}>{stack}</DevBadge>
           ))}
@@ -72,7 +72,7 @@ const JobCard = ({ job }: Props) => {
 
         <div className="text-slate-400 flex items-center gap-1 absolute top-1 right-1 md:static">
           <LinkIcon />
-          {formatter(job.createAt)}
+          {formatter(job.createdAt)}
         </div>
       </div>
     </Link>
