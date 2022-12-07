@@ -6,7 +6,7 @@ type Props = {
 
 const Badge = ({ children }: Props) => {
   return (
-    <span className="text-blueLock text-xs font-medium p-2 border rounded border-current">
+    <span className="text-blueLock text-xs font-medium p-2 border rounded border-current capitalize">
       {children}
     </span>
   );

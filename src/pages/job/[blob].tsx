@@ -8,11 +8,11 @@ import { useRef, useEffect, useState } from "react";
 import DevBadge from "@components/UI/Badge";
 import Head from "next/head";
 import fetchApplyJob from "@services/fetchApplyJob";
-import { useUserContext } from "@contexts/UserContext";
 import { useRouter } from "next/router";
 import fetchDisapplyJob from "@services/fetchDisapplyJob";
 import Layout from "@components/Layout";
 import DevButton from "@components/UI/DevButton";
+import { useSession } from "next-auth/react";
 
 type Props = {
   job: Job;
@@ -23,7 +23,7 @@ const JobPage = ({ job }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const { user } = useUserContext();
+  const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -33,12 +33,12 @@ const JobPage = ({ job }: Props) => {
   }, [job.description]);
 
   const handleApllyJob = async () => {
-    if (!user) router.push("/user/login");
-    if (user) {
+    if (!session?.user.id) router.push("/user/login");
+    if (session?.user.id) {
       try {
         setLoading(true);
         setError(false);
-        const res = await fetchApplyJob(job.id, user?.id_user);
+        const res = await fetchApplyJob(job.id, session?.user.id);
         if (res.status != 200) throw new Error("Failed Request");
         router.push("/");
       } catch (error) {
@@ -50,11 +50,11 @@ const JobPage = ({ job }: Props) => {
   };
 
   const handleDisapplyJob = async () => {
-    if (user) {
+    if (session?.user.id) {
       try {
         setLoading(true);
         setError(false);
-        const res = await fetchDisapplyJob(job.id, user?.id_user);
+        const res = await fetchDisapplyJob(job.id, session?.user.id);
         if (res.status != 204) throw new Error("Failed Request");
         router.push("/");
       } catch (error) {
@@ -65,11 +65,13 @@ const JobPage = ({ job }: Props) => {
     }
   };
   const hasApplied =
-    job.candidates_status.findIndex(
-      (candidates) => candidates.id_user === user?.id_user
+    job.candidates.findIndex(
+      (candidates) => candidates.id_user === session?.user.id
     ) != -1;
 
-  const titleHead = `${job.model} ${job.title_job}`;
+  const titleHead = `${
+    job.model.charAt(0).toUpperCase() + job.model.slice(1)
+  } ${job.title_job}`;
 
   return (
     <Layout>
@@ -163,7 +165,7 @@ const JobPage = ({ job }: Props) => {
             )}
 
             <div className="dark:text-gray-300 mt-4">
-              ✅{job.candidates_status.length} Candidatos
+              ✅{job.candidates.length} Candidatos
             </div>
 
             <div className="flex items-center justify-center flex-wrap gap-2 mt-4">
@@ -184,6 +186,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { blob } = ctx.query;
   const job: Job = await fetchJobWithBlob(blob as string);
 
+  console.log("JOOOOOOOOOOOOB", job);
   return {
     props: { job },
   };
