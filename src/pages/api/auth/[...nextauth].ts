@@ -2,7 +2,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import prisma from "@libs/prismadb";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { UserNew } from "src/types/User";
+import { User } from "src/types/User";
 import fetchLogin from "@services/fetchLogin";
 
 export const authOptions: NextAuthOptions = {
@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: async ({ session, token, user }) => {
       if (token) {
-        session.user = token.user as UserNew;
+        session.user = token.user as User;
       }
       return session;
     },

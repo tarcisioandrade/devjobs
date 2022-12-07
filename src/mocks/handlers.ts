@@ -1,5 +1,4 @@
 import { rest } from "msw";
-import { Job, JobPost } from "src/types/Job";
 import data from "../../data.json";
 
 type PostBodyProps = {

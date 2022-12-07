@@ -18,7 +18,7 @@ import {
 } from "@utils/REGEX";
 import ErrorMessage from "@components/ErrorMessage";
 import { GetServerSideProps } from "next";
-import { UserNew } from "src/types/User";
+import { User } from "src/types/User";
 import fetchServerUser from "@services/fetchServerUser";
 import Head from "next/head";
 import useImgPreview from "src/hooks/useImgPreview";
@@ -53,7 +53,7 @@ type FormValues = {
 };
 
 type Props = {
-  user: UserNew;
+  user: User;
 };
 
 const Profile = ({ user }: Props) => {
@@ -432,7 +432,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.res,
     authOptions
   );
-  const user: UserNew = await fetchServerUser(session?.user.id as string);
+  const user: User = await fetchServerUser(session?.user.id as string);
 
   if (!session)
     return {

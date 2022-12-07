@@ -5,7 +5,6 @@ import beneficios from "@utils/benefits.json";
 import fetchImageUpload from "@services/fetchImageUpload";
 import salarysRanges from "@utils/salaryRange.json";
 import MultipleSelect from "@components/MultipleSelect";
-import stacks from "@utils/stacks.json";
 import Head from "next/head";
 import useImgPreview from "src/hooks/useImgPreview";
 import DevBadge from "@components/UI/Badge";
@@ -19,7 +18,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { patternEmail } from "@utils/REGEX";
-import { JobPost } from "src/types/Job";
+import { Job } from "src/types/Job";
 import { useState } from "react";
 import { Avatar, FileInput, Select, TextInput } from "flowbite-react";
 import { authOptions } from "@pages/api/auth/[...nextauth]";
@@ -56,7 +55,6 @@ const JobPost = () => {
   const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
   const { data: session } = useSession();
-  const stackList = Object.values(stacks);
   const [multipleSelectError, setMultipleSelectError] = useState("");
 
   const handleSelectedBenefits = (benefict: string) => {
@@ -132,7 +130,7 @@ const JobPost = () => {
         );
         companyAvatar = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
       }
-      const job: JobPost = {
+      const job: Partial<Job> = {
         id_user: session?.user.id as string,
         location: location,
         title_job,
@@ -147,7 +145,7 @@ const JobPost = () => {
         stacks: selectedStacks,
         salary_range,
         blob: kebabCase(
-          `${data.title_job}${data.model}${data.location} ${session?.user.id}`
+          `${data.title_job} ${data.model} ${data.location} ${session?.user.id}`
         ),
       };
       await fetchJobPost(job);
@@ -165,7 +163,7 @@ const JobPost = () => {
       company_avatar: preview,
       stacks: selectedStacks,
       title_job: jobTitleWatch,
-      createAt: new Date(),
+      createdAt: new Date(),
       company_name: companyWatch,
       location: locationWatch,
       model: modelWatch,
@@ -284,9 +282,9 @@ const JobPost = () => {
                 </label>
               </div>
               <Select {...register("contract")} id="contract">
-                <option>PJ</option>
-                <option>CLT</option>
-                <option>Temporário</option>
+                <option value="pj">PJ</option>
+                <option value="clt">CLT</option>
+                <option value="temporary">Temporário</option>
               </Select>
             </div>
 
@@ -315,7 +313,6 @@ const JobPost = () => {
                 <MultipleSelect
                   selected={selectedStacks}
                   setSelected={setSelectedStacks}
-                  allOptionsList={stackList}
                   errorMessage={multipleSelectError}
                   setErrorMessage={setMultipleSelectError}
                   helperText="Escolha suas tags referente a vaga, as 3 primeiras tags serão mostradas no site, as demais serão mostradas na página da vaga (job/sua-vaga-aqui)."
