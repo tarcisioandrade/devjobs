@@ -11,7 +11,7 @@ const Header = () => {
   )}${session?.user.surname.charAt(0)}`;
 
   return (
-    <header className="bg-gray-800 min-h-[4rem] px-4">
+    <header className="bg-gray-800 h-16 px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-2xl font-semibold text-gray-200">
           DevJobs

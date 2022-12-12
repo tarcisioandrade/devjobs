@@ -98,7 +98,6 @@ const Profile = ({ user }: Props) => {
       if (res.status === 200) Router.reload();
     } catch (error) {
       setError("Ocorreu um erro no servidor, por favor, tente novamente.");
-      console.log("error", error);
     } finally {
       setLoading(false);
     }

@@ -10,7 +10,7 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="flex flex-col h-screen">
+    <div>
       <SessionProvider session={pageProps.session}>
         <UserProvider>
           <Component {...pageProps} />

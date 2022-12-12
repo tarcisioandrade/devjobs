@@ -3,7 +3,8 @@ import api from "@libs/axiosInstance";
 
 export const fetchJob = async (
   { searchValue, local, model, type, contract, stacks }: FilterValues,
-  id: string
+  id: string,
+  offset: number
 ) => {
   const URL_API = new URL("http://localhost:3000/api/job");
 
@@ -17,7 +18,9 @@ export const fetchJob = async (
       URL_API.searchParams.append("stacksFind", stack);
     });
 
-  const { data } = await api.get(URL_API.href, { params: { id, page: "1" } });
+  const { data } = await api.get(URL_API.href, {
+    params: { id, offset: offset.toString() },
+  });
 
   return data;
 };

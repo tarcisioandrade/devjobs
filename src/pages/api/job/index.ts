@@ -4,12 +4,20 @@ import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@libs/prismadb";
 
 const handleGetAllJob: NextApiHandler = async (req, res) => {
-  const { id, page, type, searchTitle, model, location, contract, stacksFind } =
-    req.query;
+  const {
+    id,
+    page,
+    type,
+    searchTitle,
+    model,
+    location,
+    contract,
+    stacksFind,
+    offset,
+  } = req.query;
 
-  let take = 8;
+  let take = parseInt(offset as string) || 6;
   let skip = 0;
-  let allJobs = [];
 
   if (page) {
     skip = (parseInt(page as string) - 1) * take;
@@ -20,6 +28,9 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
     const allJobsDisponible = await prisma.job.findMany({
       take,
       skip,
+      orderBy: {
+        createdAt: "asc",
+      },
       where: {
         type: type as string,
         model: model as string,
@@ -35,13 +46,11 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       },
     });
 
-    allJobs = allJobsDisponible;
-
-    if (allJobs.length <= 0) {
+    if (allJobsDisponible.length <= 0) {
       return res.status(204).end();
     }
 
-    return res.status(200).json(allJobs);
+    return res.status(200).json(allJobsDisponible);
   }
 
   // User is logged in
@@ -49,6 +58,9 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
     const allJobsDisponible = await prisma.job.findMany({
       take,
       skip,
+      orderBy: {
+        createdAt: "asc",
+      },
       where: {
         NOT: {
           userId: id as string,
@@ -67,13 +79,11 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       },
     });
 
-    allJobs = allJobsDisponible;
-
-    if (allJobs.length <= 0) {
+    if (allJobsDisponible.length <= 0) {
       return res.status(204).end();
     }
 
-    return res.status(200).json(allJobs);
+    return res.status(200).json(allJobsDisponible);
   }
 
   return res.status(500).end();

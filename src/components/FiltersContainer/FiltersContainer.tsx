@@ -17,9 +17,14 @@ type Inputs = {
 type Props = {
   filterValues: FilterValues;
   setFiltersValues: (newFilter: FilterValues) => void;
+  setLoading: (value: boolean) => void;
 };
 
-const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
+const FiltersContainer = ({
+  setFiltersValues,
+  filterValues,
+  setLoading,
+}: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [stackToShow, setStackToShow] = useState<string[][]>([]);
   const { register, watch, reset } = useForm<Inputs>();
@@ -27,6 +32,7 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
   const watchAllFields = watch();
 
   useEffect(() => {
+    setLoading(true);
     setFiltersValues({
       ...filterValues,
       type: watchAllFields.type,
@@ -44,6 +50,7 @@ const FiltersContainer = ({ setFiltersValues, filterValues }: Props) => {
   ]);
 
   const resetFilters = () => {
+    setLoading(true);
     reset({ model: "", local: "", type: "", contract: "" });
     setFiltersValues({
       ...filterValues,

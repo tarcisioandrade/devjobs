@@ -186,7 +186,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { blob } = ctx.query;
   const job: Job = await fetchJobWithBlob(blob as string);
 
-  console.log("JOOOOOOOOOOOOB", job);
   return {
     props: { job },
   };

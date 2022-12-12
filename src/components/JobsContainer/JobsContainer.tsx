@@ -1,13 +1,14 @@
 import JobCard from "@components/JobCard";
 import { Job } from "../../types/Job";
-import { useEffect, useState } from "react";
-import { fetchJob } from "@services/fetchJob";
+import { useEffect, useState, useCallback, useRef } from "react";
 import FiltersContainer from "@components/FiltersContainer";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SearchLabel from "@components/UI/SearchLabel";
-import Spinner from "@components/UI/Spinner";
 import { EggBreak, SadEmoji } from "@components/svg";
 import { useSession } from "next-auth/react";
+import { fetchJob } from "@services/fetchJob";
+import Skeleton from "@components/UI/Skeleton";
+
 type Input = {
   search: string;
 };
@@ -21,49 +22,72 @@ export type FilterValues = {
   stacks: string[];
 };
 
+export const InitialFilterValues = {
+  searchValue: "",
+  type: "",
+  model: "",
+  local: "",
+  contract: "",
+  stacks: [],
+};
+
 const JobsContainer = () => {
   const [jobs, setJobs] = useState<Job[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [filterValues, setFilterValues] = useState<FilterValues>({
-    searchValue: "",
-    type: "",
-    model: "",
-    local: "",
-    contract: "",
-    stacks: [],
-  });
+  const [offset, setOffset] = useState(6);
+
   const { data: session } = useSession();
 
-  const { register, handleSubmit } = useForm<Input>();
+  const [filterValues, setFilterValues] =
+    useState<FilterValues>(InitialFilterValues);
 
-  const getData = async (searchValue: FilterValues) => {
+  const getInitialAndFilterData = async (searchValue: FilterValues) => {
     try {
       setError(false);
-      setLoading(true);
-      const data = await fetchJob(searchValue, session?.user.id as string);
+      const data = await fetchJob(
+        searchValue,
+        session?.user.id as string,
+        offset
+      );
       setJobs(data);
     } catch (error) {
       setError(true);
-      setJobs(null)
+      setJobs(null);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getData(filterValues);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterValues]);
+    getInitialAndFilterData(filterValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset, filterValues]);
+
+  const { register, handleSubmit } = useForm<Input>();
 
   const onSubmit: SubmitHandler<Input> = (data) => {
+    setLoading(true);
     setFilterValues((prevState) => ({
       ...prevState,
       searchValue: data.search,
     }));
   };
 
-  const allJobs =
+  useEffect(() => {
+    const scrollTheEnd = () => {
+      const scrolEnd =
+        window.scrollY + window.innerHeight - 40 >= document.body.scrollHeight;
+      if (scrolEnd) {
+        setOffset((prev) => prev + 6);
+      }
+    };
+    window.addEventListener("scroll", scrollTheEnd);
+
+    return () => window.removeEventListener("scroll", scrollTheEnd);
+  }, []);
+
+  const allJobsBox =
     jobs && jobs.length > 0 ? (
       <div className="flex flex-col mt-10 gap-4">
         {jobs?.map((job, index) => (
@@ -77,14 +101,16 @@ const JobsContainer = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <SearchLabel register={register} />
       </form>
+
       <FiltersContainer
         filterValues={filterValues}
         setFiltersValues={setFilterValues}
+        setLoading={setLoading}
       />
 
-      {loading ? <Spinner /> : allJobs}
+      {loading ? <Skeleton /> : allJobsBox}
 
-      {jobs?.length === 0 ? (
+      {!loading && jobs?.length === 0 ? (
         <div className="flex items-center justify-center h-[calc(100%-80px)]">
           <div className="text-gray-600 text-3xl">
             Nenhum resultado encontrado.
