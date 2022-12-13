@@ -1,7 +1,4 @@
-export type CandidatesStatus = {
-  id_user: string;
-  status: "applied" | "approved";
-};
+
 
 export type Job = {
   id: string;
@@ -20,7 +17,7 @@ export type Job = {
   stacks: string[];
   blob: string;
   salary_range: string;
-  candidates: CandidatesStatus[];
+  candidates: string[];
   createdAt: Date;
   updatedAt: Date;
 };

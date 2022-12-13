@@ -2,14 +2,15 @@ import ErrorToast from "@components/ErrorToast";
 import DevButton from "@components/UI/DevButton";
 import DevInput from "@components/UI/DevInput";
 import api from "@libs/axiosInstance";
+import Head from "next/head";
+import Link from "next/link";
+import Router from "next/router";
 import { patternEmail, patternOnlyLetters } from "@utils/REGEX";
 import { Checkbox, Label } from "flowbite-react";
 import { signIn } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import Router, { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 export type FormValuesSignup = {
   name: string;
@@ -28,9 +29,6 @@ const Signup = () => {
     watch,
   } = useForm<FormValuesSignup>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const router = useRouter();
 
   const passwordMatchValue = useRef({});
   passwordMatchValue.current = watch("password", "");
@@ -44,7 +42,6 @@ const Signup = () => {
   }) => {
     try {
       setLoading(true);
-      setError(false);
       await api.post("api/user", {
         email,
         name,
@@ -58,7 +55,9 @@ const Signup = () => {
       });
       if (res?.ok) Router.push("/user/profile");
     } catch (error) {
-      setError(true);
+      toast.custom(() => (
+        <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+      ));
     } finally {
       setLoading(false);
     }
@@ -240,7 +239,6 @@ const Signup = () => {
           Cadastrar
         </DevButton>
       </form>
-      {error ? <ErrorToast message="Este e-mail já existe." /> : null}
     </main>
   );
 };

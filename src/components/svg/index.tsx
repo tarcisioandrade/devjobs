@@ -6,6 +6,7 @@ import UserIcon from "./UserIcon";
 import SadEmoji from "./SadEmoji";
 import EggBreak from "./EggBreak";
 import ArrowDown from "./ArrowDown";
+import CheckIcon from "./CheckIcon";
 
 export {
   HouseIcon,
@@ -15,5 +16,6 @@ export {
   ArrowLeft,
   SadEmoji,
   EggBreak,
-  ArrowDown
+  ArrowDown,
+  CheckIcon,
 };

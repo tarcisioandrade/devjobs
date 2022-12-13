@@ -4,8 +4,8 @@ import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
 import JobCard from "@components/JobCard";
 import Head from "next/head";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "@pages/api/auth/[...nextauth]";
+import { getSession } from "next-auth/react";
+import { SadEmoji } from "@components/svg";
 
 type Props = {
   jobs: Job[];
@@ -19,9 +19,16 @@ const JobsApplied = ({ jobs }: Props) => {
       </Head>
       <main className="mainContainer">
         <div className="flex gap-4 flex-col">
-          {jobs.map((job) => (
-            <JobCard key={job.id} job={job} />
-          ))}
+          {jobs.length ? (
+            jobs.map((job) => <JobCard key={job.id} job={job} />)
+          ) : (
+            <div className="dark:text-gray-400 flex flex-col items-center">
+              <h1 className="text-center text-2xl">
+                Você ainda não aplicou em nenhuma vaga.
+              </h1>
+              <SadEmoji />
+            </div>
+          )}
         </div>
       </main>
     </Layout>
@@ -29,12 +36,8 @@ const JobsApplied = ({ jobs }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const jobs: Job[] = await fetchUserJobsApplied(59);
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getSession(ctx);
+  const jobs: Job[] = await fetchUserJobsApplied(session?.user.id as string);
 
   if (!session)
     return {
@@ -46,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      jobs,
+      jobs: jobs || null,
     },
   };
 };

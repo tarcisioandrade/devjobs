@@ -1,13 +1,14 @@
 import DevButton from "@components/UI/DevButton";
 import DevInput from "@components/UI/DevInput";
 import Link from "next/link";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { patternEmail } from "@utils/REGEX";
 import Head from "next/head";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
 import Router from "next/router";
 import ErrorToast from "@components/ErrorToast";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { patternEmail } from "@utils/REGEX";
+import { toast } from "react-hot-toast";
 
 type FormValues = {
   email: string;
@@ -16,7 +17,6 @@ type FormValues = {
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const {
     register,
@@ -30,16 +30,15 @@ const Login = () => {
   }) => {
     try {
       setLoading(true);
-      setError(false);
       const res = await signIn("credentials", {
         redirect: false,
         email,
         password,
       });
-      if (!res?.ok) throw new Error("Failed in login.");
+      if (!res?.ok) throw new Error();
       Router.push("/");
     } catch (error) {
-      setError(true);
+      toast.custom(() => <ErrorToast message="E-mail ou senha incorretos." />);
     } finally {
       setLoading(false);
     }
@@ -118,7 +117,6 @@ const Login = () => {
           </Link>
         </p>
       </form>
-      {error ? <ErrorToast message="Login ou senha incorretos." /> : null}
     </main>
   );
 };

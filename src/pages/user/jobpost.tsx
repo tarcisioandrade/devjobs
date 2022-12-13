@@ -26,6 +26,7 @@ import { unstable_getServerSession } from "next-auth/next";
 import { useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import ErrorToast from "@components/ErrorToast";
+import { toast } from "react-hot-toast";
 
 type FormValues = {
   company_name: string;
@@ -51,12 +52,11 @@ const JobPost = () => {
   const [text, setText] = useState("");
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
   const { data: session } = useSession();
-  const [multipleSelectError, setMultipleSelectError] = useState("");
 
+  const [multipleSelectError, setMultipleSelectError] = useState("");
   const handleSelectedBenefits = (benefict: string) => {
     const benefictHaveBeSelected = benefitsHasSelected(benefict);
 
@@ -117,7 +117,6 @@ const JobPost = () => {
     } = data;
     try {
       setLoading(true);
-      setError("");
       if (selectedStacks.length <= 0) {
         handleMultipleSelectErrorMessage();
         return;
@@ -151,7 +150,12 @@ const JobPost = () => {
       await fetchJobPost(job);
       Router.push("/");
     } catch (error) {
-      setError("Falha na solicitação, por favor, tente novamente");
+      toast.custom((t) => (
+        <ErrorToast
+          message="Falha na solicitação, por favor, tente novamente."
+          t={t}
+        />
+      ));
     } finally {
       setLoading(false);
     }
@@ -462,7 +466,6 @@ const JobPost = () => {
             </div>
           </div>
         </section>
-        <ErrorToast message={error} />
       </main>
     </Layout>
   );

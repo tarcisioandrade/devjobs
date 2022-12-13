@@ -1,5 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from "@components/Layout";
+import estadosBR from "@utils/estadosBR.json";
+import ErrorMessage from "@components/ErrorMessage";
+import fetchServerUser from "@services/fetchServerUser";
+import Head from "next/head";
+import useImgPreview from "src/hooks/useImgPreview";
+import fetchUserUpdate from "@services/fetchUserUpdate";
+import Router from "next/router";
+import fetchUserDelete from "@services/fetchUserDelete";
+import ErrorToast from "@components/ErrorToast";
+import fetchImageUpload from "@services/fetchImageUpload";
+import { GetServerSideProps } from "next";
+import { User } from "src/types/User";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "@pages/api/auth/[...nextauth]";
+import { signOut } from "next-auth/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 import {
   Button,
   FileInput,
@@ -8,28 +25,13 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import estadosBR from "@utils/estadosBR.json";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
 import {
   matchCommaAndSpaces,
   patternOnlyLetters,
   patternURL,
 } from "@utils/REGEX";
-import ErrorMessage from "@components/ErrorMessage";
-import { GetServerSideProps } from "next";
-import { User } from "src/types/User";
-import fetchServerUser from "@services/fetchServerUser";
-import Head from "next/head";
-import useImgPreview from "src/hooks/useImgPreview";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "@pages/api/auth/[...nextauth]";
-import fetchUserUpdate from "@services/fetchUserUpdate";
-import Router from "next/router";
-import fetchUserDelete from "@services/fetchUserDelete";
-import { signOut } from "next-auth/react";
-import ErrorToast from "@components/ErrorToast";
-import fetchImageUpload from "@services/fetchImageUpload";
+import { toast } from "react-hot-toast";
+import SuccessToast from "@components/SuccessToast/SuccessToast";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -59,7 +61,7 @@ type Props = {
 const Profile = ({ user }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
 
   const {
@@ -71,7 +73,6 @@ const Profile = ({ user }: Props) => {
   const onSubmitProfile: SubmitHandler<FormValues> = async (data) => {
     try {
       setLoading(true);
-      setError("");
       let avatarImage;
       if (selectedFile) {
         const { data: axiosData } = await fetchImageUpload(
@@ -95,9 +96,14 @@ const Profile = ({ user }: Props) => {
         stacks: data.stacks.split(matchCommaAndSpaces),
       };
       const res = await fetchUserUpdate(userInfosForUpdate);
+      toast.custom(() => (
+        <SuccessToast message="Perfil atualizado." />
+      ));
       if (res.status === 200) Router.reload();
     } catch (error) {
-      setError("Ocorreu um erro no servidor, por favor, tente novamente.");
+      toast.custom(() => (
+        <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+      ));
     } finally {
       setLoading(false);
     }
@@ -115,7 +121,9 @@ const Profile = ({ user }: Props) => {
       Router.push("/");
       signOut();
     } catch (error) {
-      setError("Ocorreu um erro no servidor, por favor, tente novamente.");
+      toast.custom(() => (
+        <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+      ));
     }
   };
 
@@ -420,7 +428,6 @@ const Profile = ({ user }: Props) => {
           </div>
         </Modal.Body>
       </Modal>
-      {error ? <ErrorToast message={error} /> : null}
     </Layout>
   );
 };
