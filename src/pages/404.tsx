@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const PageNotFound = () => {
   return (
-    <main className="flex items-center justify-center h-full">
+    <main className="flex items-center justify-center h-screen">
       <div>
         <p className="dark:text-white text-4xl">Página não encontrada.</p>
         <Link href="/">
