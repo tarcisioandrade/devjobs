@@ -13,6 +13,9 @@ import fetchDisapplyJob from "@services/fetchDisapplyJob";
 import Layout from "@components/Layout";
 import DevButton from "@components/UI/DevButton";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import SuccessToast from "@components/SuccessToast/SuccessToast";
+import ErrorToast from "@components/ErrorToast";
 
 type Props = {
   job: Job;
@@ -21,7 +24,6 @@ type Props = {
 const JobPage = ({ job }: Props) => {
   const contentJob = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const { data: session } = useSession();
   const router = useRouter();
@@ -37,12 +39,15 @@ const JobPage = ({ job }: Props) => {
     if (session?.user.id) {
       try {
         setLoading(true);
-        setError(false);
-        const res = await fetchApplyJob(job.id, session?.user.id);
-        if (res.status != 200) throw new Error("Failed Request");
+        await fetchApplyJob(job.id, session?.user.id);
+        toast.custom(() => (
+          <SuccessToast message="Vaga aplicada com sucesso!" />
+        ));
         router.push("/");
       } catch (error) {
-        setError(true);
+        toast.custom(() => (
+          <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+        ));
       } finally {
         setLoading(false);
       }
@@ -53,21 +58,21 @@ const JobPage = ({ job }: Props) => {
     if (session?.user.id) {
       try {
         setLoading(true);
-        setError(false);
-        const res = await fetchDisapplyJob(job.id, session?.user.id);
-        if (res.status != 204) throw new Error("Failed Request");
+        await fetchDisapplyJob(job.id, session?.user.id);
+        toast.custom(() => (
+          <SuccessToast message="Candidatura cancelada com sucesso!" />
+        ));
         router.push("/");
       } catch (error) {
-        setError(true);
+        toast.custom(() => (
+          <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+        ));
       } finally {
         setLoading(false);
       }
     }
   };
-  const hasApplied =
-    job.candidates.findIndex(
-      (candidates) => candidates.id_user === session?.user.id
-    ) != -1;
+  const hasApplied = job.candidates.includes(session?.user.id as string);
 
   const titleHead = `${
     job.model.charAt(0).toUpperCase() + job.model.slice(1)

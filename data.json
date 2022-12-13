@@ -17,7 +17,7 @@
       "stacks": ["React", "JavaScript"],
       "employee": false,
       "modifiedAt": "2022-10-10T02:03:58.590Z",
-      "createAt": "2022-10-10T02:03:58.590Z"
+      "createdAt": "2022-10-10T02:03:58.590Z"
     }
   ],
   "companies": [
@@ -31,7 +31,7 @@
       "status": "active",
       "website_url": "",
       "linkedin_url": "",
-      "createAt": "2022-10-10T02:03:58.590Z"
+      "createdAt": "2022-10-10T02:03:58.590Z"
     },
     {
       "id_company": 2,
@@ -43,7 +43,7 @@
       "status": "active",
       "website_url": "",
       "linkedin_url": "",
-      "createAt": "2022-10-10T02:03:58.590Z"
+      "createdAt": "2022-10-10T02:03:58.590Z"
     }
   ],
   "jobs": [
@@ -65,7 +65,7 @@
       "blob": "programador-fullstack-remoto-ba-1",
       "salary_range": "R$ 1000,00 á 4000,00",
       "candidates_status": [{ "id_user": 1, "status": "applied" }],
-      "createAt": "2022-10-10T02:03:58.590Z",
+      "createdAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
     {
@@ -86,7 +86,7 @@
       "blob": "programador-frontend-remoto-pleno-1",
       "salary_range": "R$ 1000,00 á 4000,00",
       "candidates_status": [{ "id_user": 59, "status": "applied" }],
-      "createAt": "2022-10-10T02:03:58.590Z",
+      "createdAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
     {
@@ -115,7 +115,7 @@
       "blob": "analista-de-sistemas-estagio-rj-1",
       "salary_range": "R$ 1000,00 á 4000,00",
       "candidates_status": [{ "id_user": 59, "status": "applied" }],
-      "createAt": "2022-10-10T02:03:58.590Z",
+      "createdAt": "2022-10-10T02:03:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     },
     {
@@ -136,7 +136,7 @@
       "blob": "devops-presencial-senior-ba-1",
       "candidates_status": [{ "id_user": 1, "status": "applied" }],
       "salary_range": "R$ 1000,00 á 4000,00",
-      "createAt": "2022-11-05T11:10:58.590Z",
+      "createdAt": "2022-11-05T11:10:58.590Z",
       "modifiedAt": "2022-10-10T02:03:58.590Z"
     }
   ]
