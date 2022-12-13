@@ -73,7 +73,7 @@ const StacksBoxWithInput = ({
     <div className="relative">
       <div
         id="selectBox"
-        className={` bg-gray-700 p-2.5 text-sm max-h-[42px] rounded-lg border-2  flex items-center ${
+        className={` bg-gray-700 p-2.5 text-sm max-h-[42px] rounded-lg border-2  flex items-center justify-between ${
           openSelect ? "border-blue-500" : "border-gray-600"
         }`}
         onClick={handleOpenSelect}

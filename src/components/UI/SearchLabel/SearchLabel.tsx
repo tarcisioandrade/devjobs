@@ -1,17 +1,16 @@
+import { Inputs } from "@components/FiltersContainer/FiltersContainer";
 import { UseFormRegister } from "react-hook-form";
 
-type Input = {
-  search: string;
-};
+interface InputSearch extends Inputs {}
 
 type Props = {
-  register: UseFormRegister<Input>;
+  register: UseFormRegister<InputSearch>;
 };
 
 const SearchLabel = ({ register }: Props) => {
   return (
     <div className="flex justify-center">
-      <div className="relative lg:min-w-[500px]">
+      <div className="w-full relative lg:w-[500px]">
         <label className="sr-only" htmlFor="search">
           Pesquisar
         </label>

@@ -1,23 +1,31 @@
 import JobsContainer from "@components/JobsContainer";
 import Layout from "@components/Layout";
 import Head from "next/head";
-import { fetchJob } from "@services/fetchJob";
-import { useState } from "react";
-import { Job } from "src/types/Job";
 import { GetServerSideProps } from "next/types";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]";
-import { InitialFilterValues } from "@components/JobsContainer/JobsContainer";
+import { getSession } from "next-auth/react";
+import { User } from "src/types/User";
 
-const Home = () => {
+const Home = ({ user }: Props) => {
   return (
     <Layout>
       <Head>
         <title>DevJobs</title>
       </Head>
-      <JobsContainer />
+      <JobsContainer user={user} />
     </Layout>
   );
+};
+
+type Props = {
+  user: User | null;
+};
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const session = await getSession(ctx);
+
+  return {
+    props: { user: session?.user || null },
+  };
 };
 
 export default Home;

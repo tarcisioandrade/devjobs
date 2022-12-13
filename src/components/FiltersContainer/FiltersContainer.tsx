@@ -1,22 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FilterValues } from "@components/JobsContainer/JobsContainer";
-import { Button, Label, Select } from "flowbite-react";
-import React, { useEffect } from "react";
+import SearchLabel from "@components/UI/SearchLabel";
 import estadosBR from "@utils/estadosBR.json";
-import { useForm } from "react-hook-form";
+import { FilterValues } from "@components/JobsContainer/JobsContainer";
+import { useEffect, SetStateAction, Dispatch } from "react";
+import { Button, Label, Select } from "flowbite-react";
 import { StacksBoxWithInput, StacksSelected } from "@components/FilterStacks";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-type Inputs = {
+export type Inputs = {
   type: string;
   model: string;
   local: string;
   contract: string;
+  search: string;
 };
 
 type Props = {
   filterValues: FilterValues;
-  setFiltersValues: (newFilter: FilterValues) => void;
+  setFiltersValues: Dispatch<SetStateAction<FilterValues>>;
   setLoading: (value: boolean) => void;
 };
 
@@ -27,7 +29,7 @@ const FiltersContainer = ({
 }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [stackToShow, setStackToShow] = useState<string[][]>([]);
-  const { register, watch, reset } = useForm<Inputs>();
+  const { register, watch, reset, handleSubmit } = useForm<Inputs>();
 
   const watchAllFields = watch();
 
@@ -77,10 +79,22 @@ const FiltersContainer = ({
     selectedStacks.length === 0 &&
     stackToShow.length === 0;
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setLoading(true);
+    setFiltersValues((prevState) => ({
+      ...prevState,
+      searchValue: data.search,
+    }));
+  };
+
   return (
-    <div>
-      <div className="flex gap-6 items-center mt-5">
-        <div className="w-[120px]">
+    <div className="px-4">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <SearchLabel register={register} />
+      </form>
+
+      <div className="flex flex-col md:flex-row gap-6 items-center mt-5 whitespace-nowrap">
+        <div className="w-full md:w-[120px]">
           <StacksBoxWithInput
             selectedStacks={selectedStacks}
             setSelectedStacks={setSelectedStacks}
@@ -88,7 +102,7 @@ const FiltersContainer = ({
           />
         </div>
 
-        <div className="w-[200px]">
+        <div className="w-full md:w-[200px]">
           <Label htmlFor="tipo" value="Tipo da Vaga" className="sr-only" />
           <Select id="tipo" {...register("type")}>
             <option value="">Tipo da Vaga</option>
@@ -99,7 +113,7 @@ const FiltersContainer = ({
           </Select>
         </div>
 
-        <div className="w-[200px]">
+        <div className="w-full md:w-[200px]">
           <Label
             htmlFor="model"
             value="Modelo de Trabalho"
@@ -113,7 +127,7 @@ const FiltersContainer = ({
           </Select>
         </div>
 
-        <div className="w-[120px]">
+        <div className="w-full md:w-[120px]">
           <Label htmlFor="local" value="Local" className="sr-only" />
           <Select id="local" {...register("local")}>
             <option value="">Local</option>
@@ -125,7 +139,7 @@ const FiltersContainer = ({
           </Select>
         </div>
 
-        <div className="w-[120px]">
+        <div className="w-full md:w-[120px]">
           <Label htmlFor="contract" value="Contrato" className="sr-only" />
           <Select id="contract" {...register("contract")}>
             <option value="">Contrato</option>
@@ -138,7 +152,7 @@ const FiltersContainer = ({
         <div>
           <Button
             color="success"
-            size="sm"
+            size="md"
             onClick={resetFilters}
             disabled={filterButtonHasDisabled}
           >
