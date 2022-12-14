@@ -1,4 +1,5 @@
 import { FilterValues } from "@components/JobsContainer/JobsContainer";
+import api from "@libs/axiosInstance";
 import axios from "axios";
 
 export const fetchJob = async (
@@ -26,9 +27,13 @@ export const fetchJob = async (
 };
 
 export const fetchJobWithBlob = async (blob: string) => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/job/${blob}`
-  );
+  const { data } = await api.get(`/api/job/${blob}`);
+
+  return data;
+};
+
+export const fetchJobsPosted = async (id_user: string) => {
+  const { data } = await api.get(`/api/job/jobsposted?id_user=${id_user}`);
 
   return data;
 };

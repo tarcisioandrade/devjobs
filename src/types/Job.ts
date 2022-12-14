@@ -1,5 +1,3 @@
-
-
 export type Job = {
   id: string;
   id_user: string;

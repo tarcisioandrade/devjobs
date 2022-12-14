@@ -53,13 +53,14 @@ const FiltersContainer = ({
 
   const resetFilters = () => {
     setLoading(true);
-    reset({ model: "", local: "", type: "", contract: "" });
+    reset({ model: "", local: "", type: "", contract: "", search: "" });
     setFiltersValues({
       ...filterValues,
       type: "",
       model: "",
       local: "",
       contract: "",
+      searchValue: "",
     });
     setSelectedStacks([]);
     setStackToShow([]);
@@ -77,7 +78,8 @@ const FiltersContainer = ({
     filterValues.model == "" &&
     filterValues.type == "" &&
     selectedStacks.length === 0 &&
-    stackToShow.length === 0;
+    stackToShow.length === 0 &&
+    filterValues.searchValue == "";
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);

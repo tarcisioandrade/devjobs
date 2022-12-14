@@ -169,8 +169,12 @@ const JobPage = ({ job }: Props) => {
               </DevButton>
             )}
 
-            <div className="dark:text-gray-300 mt-4">
-              ✅{job.candidates.length} Candidatos
+            <div className="dark:text-gray-300 mt-4 text-center">
+              {job.candidates.length === 0
+                ? "Ainda não há candidatos, seja o primeiro!"
+                : job.candidates.length > 1
+                ? `✅ ${job.candidates.length} Candidatos`
+                : `✅ ${job.candidates.length} Candidato`}
             </div>
 
             <div className="flex items-center justify-center flex-wrap gap-2 mt-4">
