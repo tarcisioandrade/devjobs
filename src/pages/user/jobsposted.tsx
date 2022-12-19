@@ -1,11 +1,11 @@
 import Layout from "@components/Layout";
 import Head from "next/head";
+import JobPostDashboard from "@components/JobPostDashboard/JobPostDashboard";
 import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
 import { getSession } from "next-auth/react";
 import { fetchJobsPosted } from "@services/fetchJob";
 import { SadEmoji } from "@components/svg";
-import JobPostDashboard from "@components/JobPostDashboard/JobPostDashboard";
 
 const JobsPosted = ({ jobs }: Props) => {
   return (
@@ -14,7 +14,7 @@ const JobsPosted = ({ jobs }: Props) => {
         <title>Vagas Postadas</title>
       </Head>
       <main className="mainContainer">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 px-4 md:px-0">
           {jobs.length ? (
             <JobPostDashboard jobs={jobs} />
           ) : (
@@ -37,16 +37,17 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const session = await getSession(ctx);
-  const jobs = await fetchJobsPosted(session?.user.id as string);
 
   if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/user/login",
       },
     };
   }
+
+  const jobs = await fetchJobsPosted(session?.user.id as string);
 
   return { props: { jobs } };
 };

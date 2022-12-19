@@ -7,6 +7,7 @@ import SadEmoji from "./SadEmoji";
 import EggBreak from "./EggBreak";
 import ArrowDown from "./ArrowDown";
 import CheckIcon from "./CheckIcon";
+import FiltersIcon from "./FiltersIcon";
 
 export {
   HouseIcon,
@@ -18,4 +19,5 @@ export {
   EggBreak,
   ArrowDown,
   CheckIcon,
+  FiltersIcon,
 };

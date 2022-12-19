@@ -1,10 +1,9 @@
-import { LinkIcon } from "@components/svg";
-import { Avatar } from "flowbite-react";
-import React, { DOMAttributes } from "react";
-import { Job } from "../../types/Job";
 import Link from "next/link";
 import DevBadge from "@components/UI/Badge";
 import useFormatter from "src/hooks/useFormatter";
+import { LinkIcon } from "@components/svg";
+import { Avatar } from "flowbite-react";
+import { Job } from "../../types/Job";
 
 interface Props {
   job: Job | null;

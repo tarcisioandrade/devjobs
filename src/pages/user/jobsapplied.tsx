@@ -37,7 +37,6 @@ const JobsApplied = ({ jobs }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
-  const jobs: Job[] = await fetchUserJobsApplied(session?.user.id as string);
 
   if (!session)
     return {
@@ -46,6 +45,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         permanent: false,
       },
     };
+
+  const jobs: Job[] = await fetchUserJobsApplied(session?.user.id as string);
 
   return {
     props: {

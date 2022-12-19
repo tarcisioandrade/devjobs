@@ -1,10 +1,10 @@
-import { Button, Modal } from "flowbite-react";
 import CandidateLine from "./CandidateLine";
-import { fetchDeleteJob } from "@services/fetchJob";
-import { toast } from "react-hot-toast";
 import ErrorToast from "@components/ErrorToast";
 import SuccessToast from "@components/SuccessToast/SuccessToast";
 import Router from "next/router";
+import { Button, Modal } from "flowbite-react";
+import { fetchDeleteJob } from "@services/fetchJob";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 
 type Props = {
@@ -32,7 +32,7 @@ const Dashboard = ({ candidates, id }: Props) => {
   const handleOpenModal = () => setOpenModal(!openModal);
 
   return (
-    <div className="border border-gray-700 mt-[-2px] bg-gray-800 p-4 drop-shadow-xl rounded-b">
+    <div className="border border-gray-700 mt-[-2px] bg-gray-800 p-4 drop-shadow-xl rounded-b hidden">
       <Button
         color="failure"
         size="xs"

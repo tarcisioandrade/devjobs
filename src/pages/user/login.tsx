@@ -38,7 +38,7 @@ const Login = () => {
       if (!res?.ok) throw new Error();
       Router.push("/");
     } catch (error) {
-      toast.custom(() => <ErrorToast message="E-mail ou senha incorretos." />);
+      toast.custom(() => <ErrorToast message="E-mail ou senha incorreto." />);
     } finally {
       setLoading(false);
     }

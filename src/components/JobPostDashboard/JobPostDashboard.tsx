@@ -1,6 +1,6 @@
-import { Job } from "src/types/Job";
 import JobCard from "@components/JobCard";
 import Dashboard from "./Dashboard";
+import { Job } from "src/types/Job";
 
 type Props = {
   jobs: Job[];

@@ -1,21 +1,21 @@
+import DevBadge from "@components/UI/Badge";
+import Head from "next/head";
+import fetchApplyJob from "@services/fetchApplyJob";
+import fetchDisapplyJob from "@services/fetchDisapplyJob";
+import Layout from "@components/Layout";
+import DevButton from "@components/UI/DevButton";
+import SuccessToast from "@components/SuccessToast/SuccessToast";
+import ErrorToast from "@components/ErrorToast";
+import Router from "next/router";
 import { ArrowLeft } from "@components/svg";
 import { fetchJobWithBlob } from "@services/fetchJob";
 import { Avatar, Button } from "flowbite-react";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import { Job } from "src/types/Job";
 import { useRef, useEffect, useState } from "react";
-import DevBadge from "@components/UI/Badge";
-import Head from "next/head";
-import fetchApplyJob from "@services/fetchApplyJob";
 import { useRouter } from "next/router";
-import fetchDisapplyJob from "@services/fetchDisapplyJob";
-import Layout from "@components/Layout";
-import DevButton from "@components/UI/DevButton";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import SuccessToast from "@components/SuccessToast/SuccessToast";
-import ErrorToast from "@components/ErrorToast";
 
 type Props = {
   job: Job;
@@ -84,11 +84,9 @@ const JobPage = ({ job }: Props) => {
         <Head>
           <title>{titleHead}</title>
         </Head>
-        <Link href="/">
-          <Button outline>
-            <ArrowLeft />
-          </Button>
-        </Link>
+        <Button outline onClick={() => Router.back()}>
+          <ArrowLeft />
+        </Button>
         <div className="flex gap-4">
           <div className="rounded border border-gray-800 mt-4 p-6 leading-relaxed flex-1">
             <h1 className="text-4xl dark:text-gray-200 font-semibold">
