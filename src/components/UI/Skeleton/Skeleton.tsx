@@ -4,7 +4,7 @@ const Skeleton = () => {
   const sixSkeletons = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="flex flex-col gap-4 mt-10">
+    <div className="flex flex-col gap-4 mt-10 px-4 md:px-0">
       {sixSkeletons.map((item) => (
         <div
           key={item}
@@ -18,12 +18,12 @@ const Skeleton = () => {
               <div className="h-2 w-[228px] bg-gray-600 rounded"></div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex  items-center gap-4">
             <div className="h-6 w-12 rounded bg-gray-600"></div>
             <div className="h-6 w-12 rounded bg-gray-600"></div>
             <div className="h-6 w-12 rounded bg-gray-600"></div>
           </div>
-          <div className="h-2 w-[120px] bg-gray-600 rounded"></div>
+          <div className="hidden md:block h-2 w-[120px] bg-gray-600 rounded"></div>
         </div>
       ))}
     </div>
