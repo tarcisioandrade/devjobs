@@ -1,8 +1,6 @@
 import { NextApiHandler } from "next";
 import prisma from "@libs/prismadb";
 import bcrypt from "bcrypt";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
 
 const handleGetUser: NextApiHandler = async (req, res) => {
   const { id } = req.query;
@@ -65,11 +63,6 @@ const handleNewUser: NextApiHandler = async (req, res) => {
 
 const handleUpdateUser: NextApiHandler = async (req, res) => {
   const user = req.body;
-  const session = await unstable_getServerSession(req, res, authOptions);
-
-  if (!session) {
-    return res.status(401).json({ message: "You must be logged in." });
-  }
 
   await prisma.user.update({
     where: {
@@ -96,18 +89,15 @@ const handleUpdateUser: NextApiHandler = async (req, res) => {
 
 const handleDeleteUser: NextApiHandler = async (req, res) => {
   const id = req.body;
-  const session = await unstable_getServerSession(req, res, authOptions);
 
-  if (!session) {
-    return res.status(401).json({ message: "You must be logged in." });
+  if (id) {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).end();
   }
-  const userDeleted = await prisma.user.delete({
-    where: {
-      id,
-    },
-  });
-
-  if (userDeleted) return res.status(200).end();
 
   return res.status(500).end();
 };

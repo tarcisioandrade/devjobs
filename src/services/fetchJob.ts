@@ -33,13 +33,15 @@ export const fetchJobWithBlob = async (blob: string) => {
 };
 
 export const fetchJobsPosted = async (id_user: string) => {
-  const { data } = await api.get(`/api/job/jobsposted?id_user=${id_user}`);
+  const { data } = await api.get(`/api/job/jobsposted`, {
+    params: { id_user },
+  });
 
   return data;
 };
 
 export const fetchDeleteJob = async (id: string) => {
-  const { data } = await api.delete(`/api/job?id=${id}`);
+  const { data } = await api.delete(`/api/job`, { params: { id } });
 
   return data;
 };
