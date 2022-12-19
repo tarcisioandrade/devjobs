@@ -135,7 +135,7 @@ const JobPost = () => {
         title_job,
         company_email,
         company_name,
-        company_avatar: preview,
+        company_avatar: companyAvatar,
         contract,
         model,
         type,
@@ -151,10 +151,7 @@ const JobPost = () => {
       Router.push("/");
     } catch (error) {
       toast.custom((t) => (
-        <ErrorToast
-          message="Falha na solicitação, por favor, tente novamente."
-          t={t}
-        />
+        <ErrorToast message="Falha na solicitação, por favor, tente novamente." />
       ));
     } finally {
       setLoading(false);

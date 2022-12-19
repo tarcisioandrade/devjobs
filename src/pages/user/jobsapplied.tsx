@@ -22,7 +22,7 @@ const JobsApplied = ({ jobs }: Props) => {
           {jobs.length ? (
             jobs.map((job) => <JobCard key={job.id} job={job} />)
           ) : (
-            <div className="dark:text-gray-400 flex flex-col items-center">
+            <div className="dark:text-gray-600 flex flex-col items-center">
               <h1 className="text-center text-2xl">
                 Você ainda não aplicou em nenhuma vaga.
               </h1>

@@ -33,3 +33,15 @@ html.dark {
 .devTable tr:last-child td {
   @apply border-none pr-0;
 }
+
+.profilePublicTable tr td {
+  @apply dark:text-gray-300 border-b border-gray-700 py-4 align-top text-lg block lg:table-cell mt-4;
+}
+
+.profilePublicTable tr td:first-child {
+  @apply lg:w-[400px] pr-4 font-semibold;
+}
+
+.profilePublicTable tr:last-child td:last-child {
+  @apply border-transparent pr-0 sm:border-gray-700;
+}

@@ -34,6 +34,7 @@ model Job {
 model User {
   id           String   @id @default(cuid())
   user_type    UserType @default(worker)
+  id_devjobs   String   @unique 
   name         String
   surname      String
   password     String
@@ -41,6 +42,7 @@ model User {
   avatar       String?
   location     String?
   biography    String?
+  fluents      String[]
   gender       String?
   website_url  String?  @unique
   github_url   String?  @unique

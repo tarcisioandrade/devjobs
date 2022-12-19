@@ -2,6 +2,7 @@ import api from "@libs/axiosInstance";
 
 type Props = {
   id: string;
+  id_devjobs: string;
   user_type: string;
   name: string;
   surname: string;
@@ -13,6 +14,7 @@ type Props = {
   github_url: string;
   linkedin_url: string;
   stacks: string[];
+  fluents: string[]
 };
 
 const fetchUserUpdate = async (userInfos: Props) => {
@@ -29,9 +31,12 @@ const fetchUserUpdate = async (userInfos: Props) => {
     surname,
     user_type,
     website_url,
+    fluents,
+    id_devjobs
   } = userInfos;
   const res = await api.patch("api/user", {
     id,
+    id_devjobs,
     user_type,
     name,
     surname,
@@ -43,6 +48,7 @@ const fetchUserUpdate = async (userInfos: Props) => {
     github_url,
     linkedin_url,
     stacks,
+    fluents
   });
 
   return res;

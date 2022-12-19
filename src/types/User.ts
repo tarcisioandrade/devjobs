@@ -1,6 +1,7 @@
 export type User = {
   id: string;
   user_type: string;
+  id_devjobs: string;
   email: string;
   name: string;
   surname: string;
@@ -11,6 +12,7 @@ export type User = {
   stacks: string[];
   employee: boolean;
   jobs: string[];
+  fluents: string[];
   github_url: string;
   linkedin_url: string;
   website_url: string;

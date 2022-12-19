@@ -6,4 +6,10 @@ const fetchUser = async () => {
   return data;
 };
 
+export const fetchUserWithIdDevJobs = async (id: string) => {
+  const { data } = await api.get(`/api/user/id_devjobs`, { params: { id } });
+
+  return data;
+};
+
 export default fetchUser;
