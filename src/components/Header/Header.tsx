@@ -1,7 +1,7 @@
-import { Button, Dropdown, Avatar } from "flowbite-react";
 import Link from "next/link";
-import { signIn, useSession, signOut } from "next-auth/react";
 import Router from "next/router";
+import { signIn, useSession, signOut } from "next-auth/react";
+import { Button, Dropdown, Avatar } from "flowbite-react";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -22,7 +22,10 @@ const Header = () => {
               arrowIcon={false}
               inline={true}
               label={
-                <Avatar rounded={true} placeholderInitials={initialsUserName} />
+                <Avatar
+                  rounded={true}
+                  placeholderInitials={initialsUserName.toUpperCase()}
+                />
               }
             >
               <Dropdown.Header>

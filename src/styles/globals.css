@@ -45,3 +45,7 @@ html.dark {
 .profilePublicTable tr:last-child td:last-child {
   @apply border-transparent pr-0 sm:border-gray-700;
 }
+
+[data-testid="flowbite-tooltip"].invisible {
+  @apply hidden;
+}
