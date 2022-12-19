@@ -1,5 +1,5 @@
-import { formatDistanceStrict } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { formatDistanceStrict, differenceInDays } from "date-fns";
 
 const useFormatter = () => {
   const formatter = (date: Date) =>
@@ -7,7 +7,12 @@ const useFormatter = () => {
       locale: ptBR,
     });
 
-  return { formatter };
+  const differenceDateAndToday = (date: Date) => {
+    const today = new Date();
+    return differenceInDays(today, date);
+  };
+
+  return { formatter, differenceDateAndToday };
 };
 
 export default useFormatter;

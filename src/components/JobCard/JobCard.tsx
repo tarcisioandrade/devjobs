@@ -11,7 +11,10 @@ interface Props {
 }
 
 const JobCard = ({ job, onClick }: Props) => {
-  const { formatter } = useFormatter();
+  const { formatter, differenceDateAndToday } = useFormatter();
+
+  const jobDateCreated = new Date(job?.createdAt as Date);
+  const isNew = differenceDateAndToday(jobDateCreated) <= 3;
 
   if (!job) return null;
   return (
@@ -31,7 +34,14 @@ const JobCard = ({ job, onClick }: Props) => {
           className="hidden md:block"
         />
         <div className="w-[228px]">
-          <h2 className="text-slate-200 font-semibold">{job.title_job}</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-slate-200 font-semibold">{job.title_job}</h2>
+            {isNew ? (
+              <div className="text-xs text-amber-300 shadow animate-bounce">
+                NEW
+              </div>
+            ) : null}
+          </div>
           <h3 className="text-slate-400 my-2">{job.company_name}</h3>
           <div className="flex items-center gap-2">
             <span
