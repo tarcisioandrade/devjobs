@@ -64,7 +64,7 @@ const PublicProfile = ({ user }: Props) => {
                   <tr>
                     <td>WebSite</td>
                     <td>
-                      <Link href={`${user.website_url}`} target="_blank">
+                      <Link href={`https://${user.website_url}`} target="_blank">
                         {user.website_url}
                       </Link>
                     </td>
@@ -75,7 +75,7 @@ const PublicProfile = ({ user }: Props) => {
                   <tr>
                     <td>Github</td>
                     <td>
-                      <Link href={`${user.github_url}`} target="_blank">
+                      <Link href={`https://${user.github_url}`} target="_blank">
                         {user.github_url}
                       </Link>
                     </td>
@@ -86,7 +86,7 @@ const PublicProfile = ({ user }: Props) => {
                   <tr>
                     <td>Linkedin</td>
                     <td>
-                      <Link href={`${user.linkedin_url}`} target="_blank">
+                      <Link href={`https://${user.linkedin_url}`} target="_blank">
                         {user.linkedin_url}
                       </Link>
                     </td>
