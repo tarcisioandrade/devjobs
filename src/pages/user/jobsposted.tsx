@@ -14,7 +14,7 @@ const JobsPosted = ({ jobs }: Props) => {
         <title>Vagas Postadas</title>
       </Head>
       <main className="mainContainer">
-        <div className="flex flex-col gap-4 px-4 md:px-0">
+        <div className="flex flex-col gap-4">
           {jobs.length ? (
             <JobPostDashboard jobs={jobs} />
           ) : (

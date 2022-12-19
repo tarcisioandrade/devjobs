@@ -4,7 +4,7 @@ const Skeleton = () => {
   const sixSkeletons = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="flex flex-col gap-4 mt-10 px-4 md:px-0">
+    <div className="flex flex-col gap-4 mt-10">
       {sixSkeletons.map((item) => (
         <div
           key={item}

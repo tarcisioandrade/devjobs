@@ -110,7 +110,7 @@ const FiltersContainer = ({
   }, []);
 
   return (
-    <div className="px-4">
+    <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <SearchLabel register={register} />
       </form>

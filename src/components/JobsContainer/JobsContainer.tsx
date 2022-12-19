@@ -71,7 +71,7 @@ const JobsContainer = ({ user }: Props) => {
 
   const allJobsBox =
     jobs && jobs.length > 0 ? (
-      <div className="flex flex-col mt-10 gap-4 px-4">
+      <div className="flex flex-col mt-10 gap-4">
         {jobs?.map((job, index) => (
           <JobCard key={index} job={job} />
         ))}

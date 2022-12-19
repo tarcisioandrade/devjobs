@@ -10,7 +10,7 @@ type Props = {
 const SearchLabel = ({ register }: Props) => {
   return (
     <div className="flex justify-center">
-      <div className="w-full relative lg:w-[500px]">
+      <div className="w-full relative md:w-[500px]">
         <label className="sr-only" htmlFor="search">
           Pesquisar
         </label>

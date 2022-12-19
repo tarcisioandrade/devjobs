@@ -7,7 +7,7 @@ html.dark {
 }
 
 .mainContainer {
-  @apply max-w-screen-lg mx-auto my-10 w-full h-full;
+  @apply max-w-screen-lg mx-auto my-10 w-full h-full px-4;
 }
 
 .JobContainer h1 {

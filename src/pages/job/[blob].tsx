@@ -80,14 +80,14 @@ const JobPage = ({ job }: Props) => {
 
   return (
     <Layout>
-      <main className="mainContainer">
+      <main className="mainContainer ">
         <Head>
           <title>{titleHead}</title>
         </Head>
         <Button outline onClick={() => Router.back()}>
           <ArrowLeft />
         </Button>
-        <div className="flex gap-4">
+        <div className="flex-col md:flex-row flex gap-4">
           <div className="rounded border border-gray-800 mt-4 p-6 leading-relaxed flex-1">
             <h1 className="text-4xl dark:text-gray-200 font-semibold">
               {job.title_job}
@@ -111,10 +111,10 @@ const JobPage = ({ job }: Props) => {
               <p className="dark:text-gray-300">{job.salary_range}</p>
             </div>
             <div className="border rounded border-gray-800 flex flex-col items-center gap-4 p-4 mt-12">
-              <div className="text-5xl dark:text-gray-200 font-bold">
+              <div className="text-3xl md:text-5xl dark:text-gray-200 font-bold">
                 Gostou da Vaga?
               </div>
-              <div className="text-xl dark:text-gray-300 font-medium">
+              <div className="text-lg md:text-xl dark:text-gray-300 font-medium">
                 Veja como é facil se candidatar, só apertar no botão abaixo :D
               </div>
               {hasApplied ? (

@@ -1,9 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import prisma from "@libs/prismadb";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import { User } from "src/types/User";
 import fetchLogin from "@services/fetchLogin";
+import { User } from "src/types/User";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
