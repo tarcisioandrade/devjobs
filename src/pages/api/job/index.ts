@@ -90,10 +90,6 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
 };
 
 const handleNewJob: NextApiHandler = async (req, res) => {
-  const session = unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    return res.status(401).json({ message: "You must be logged in." });
-  }
   const job = req.body;
   try {
     await prisma.job.create({
@@ -128,10 +124,19 @@ const handleUpdateJob: NextApiHandler = async (req, res) => {
 };
 
 const handleDeleteJob: NextApiHandler = async (req, res) => {
-  const session = unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    return res.status(401).json({ message: "You must be logged in." });
+  const { id } = req.query;
+
+  if (id) {
+    await prisma.job.delete({
+      where: {
+        id: id as string,
+      },
+    });
+
+    return res.status(200).json({ message: "Job has successfuly deleted." });
   }
+
+  return res.status(500).end();
 };
 
 const handler: NextApiHandler = (req, res) => {

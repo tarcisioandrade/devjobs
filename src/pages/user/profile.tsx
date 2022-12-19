@@ -16,7 +16,7 @@ import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@pages/api/auth/[...nextauth]";
 import { signOut } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   FileInput,
@@ -27,6 +27,7 @@ import {
 } from "flowbite-react";
 import {
   matchCommaAndSpaces,
+  patternDevJobsID,
   patternOnlyLetters,
   patternURL,
 } from "@utils/REGEX";
@@ -35,7 +36,11 @@ import SuccessToast from "@components/SuccessToast/SuccessToast";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
-    <p className={`text-base text-gray-300 font-normal ${mt && "mt-4"}`}>
+    <p
+      className={`text-base text-gray-500 dark:text-gray-400 font-normal ${
+        mt && "mt-4"
+      }`}
+    >
       {message}
     </p>
   );
@@ -52,6 +57,8 @@ type FormValues = {
   github: string;
   linkedin: string;
   stacks: string;
+  id_devjobs: string;
+  fluents: string;
 };
 
 type Props = {
@@ -84,6 +91,7 @@ const Profile = ({ user }: Props) => {
       const userInfosForUpdate = {
         id: user.id,
         user_type: data.account_type,
+        id_devjobs: data.id_devjobs.toLowerCase(),
         name: data.name,
         surname: data.surname,
         avatar: avatarImage || user.avatar,
@@ -94,11 +102,10 @@ const Profile = ({ user }: Props) => {
         github_url: data.github,
         linkedin_url: data.linkedin,
         stacks: data.stacks.split(matchCommaAndSpaces),
+        fluents: data.fluents.split(matchCommaAndSpaces),
       };
       const res = await fetchUserUpdate(userInfosForUpdate);
-      toast.custom(() => (
-        <SuccessToast message="Perfil atualizado." />
-      ));
+      toast.custom(() => <SuccessToast message="Perfil atualizado." />);
       if (res.status === 200) Router.reload();
     } catch (error) {
       toast.custom(() => (
@@ -110,8 +117,11 @@ const Profile = ({ user }: Props) => {
   };
 
   const defaultStacksValue = user.stacks.join(", ");
+  const defaultFluentsValue = user.fluents.join(", ");
 
-  const textTitle = `DevJobs | ${user.name}`;
+  const textTitle = `DevJobs | ${user.name
+    .charAt(0)
+    .toUpperCase()}${user.name.slice(1)}`;
 
   const handleOpenModal = () => setModalOpen(!modalOpen);
 
@@ -142,6 +152,28 @@ const Profile = ({ user }: Props) => {
           <div className="border border-blue-500 rounded p-4 ">
             <table className="devTable w-full">
               <tbody>
+                <tr>
+                  <td>
+                    <label htmlFor="id_devjobs">DevJobs ID</label>
+                    <TextHelper message="Certifique-se de colocar o '@' no inicio do ID." />
+                  </td>
+                  <td>
+                    <TextInput
+                      id="id_devjobs"
+                      defaultValue={user.id_devjobs}
+                      {...register("id_devjobs", {
+                        required: "Este campo é obrigatório.",
+                        pattern: {
+                          value: patternDevJobsID,
+                          message: "Digite um ID Válido.",
+                        },
+                      })}
+                    />
+                    {errors.id_devjobs?.message ? (
+                      <ErrorMessage message={errors.id_devjobs.message} />
+                    ) : null}
+                  </td>
+                </tr>
                 <tr>
                   <td>
                     <label htmlFor="account_type">Tipo da Conta</label>
@@ -242,7 +274,7 @@ const Profile = ({ user }: Props) => {
 
                 <tr>
                   <td>
-                    <label htmlFor="location">Localização*</label>
+                    <label htmlFor="location">Localização</label>
                     <TextHelper message="Onde você está agora?" />
                   </td>
                   <td>
@@ -260,7 +292,6 @@ const Profile = ({ user }: Props) => {
                     </Select>
                   </td>
                 </tr>
-
                 <tr>
                   <td>
                     <label htmlFor="biography">Biografia</label>{" "}
@@ -272,6 +303,24 @@ const Profile = ({ user }: Props) => {
                       defaultValue={user.biography}
                       {...register("biography")}
                       rows={4}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="fluents">Fluente em</label>
+                    <TextHelper message="Ex: Português, inglês, espanhol." />
+                    <TextHelper
+                      message="Certifique-se de separar por vírgulas."
+                      mt
+                    />
+                  </td>
+                  <td>
+                    <Textarea
+                      id="fluents"
+                      defaultValue={defaultFluentsValue}
+                      {...register("fluents")}
+                      rows={2}
                     />
                   </td>
                 </tr>

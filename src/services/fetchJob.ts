@@ -37,3 +37,9 @@ export const fetchJobsPosted = async (id_user: string) => {
 
   return data;
 };
+
+export const fetchDeleteJob = async (id: string) => {
+  const { data } = await api.delete(`/api/job?id=${id}`);
+
+  return data;
+};

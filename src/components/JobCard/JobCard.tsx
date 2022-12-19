@@ -1,21 +1,18 @@
 import { LinkIcon } from "@components/svg";
 import { Avatar } from "flowbite-react";
-import React from "react";
+import React, { DOMAttributes } from "react";
 import { Job } from "../../types/Job";
-import { formatDistanceStrict } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
 import Link from "next/link";
 import DevBadge from "@components/UI/Badge";
+import useFormatter from "src/hooks/useFormatter";
 
-type Props = {
+interface Props {
   job: Job | null;
-};
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+}
 
-const JobCard = ({ job }: Props) => {
-  const formatter = (date: Date) =>
-    formatDistanceStrict(new Date(date), new Date(), {
-      locale: ptBR,
-    });
+const JobCard = ({ job, onClick }: Props) => {
+  const { formatter } = useFormatter();
 
   if (!job) return null;
   return (
@@ -24,6 +21,7 @@ const JobCard = ({ job }: Props) => {
       className="border border-gray-700 bg-gray-800 p-4 rounded drop-shadow-xl hover:opacity-80 transition-opacity block relative"
       data-testid="job-card"
       href={`/job/${job.blob}`}
+      onClick={onClick}
     >
       <div className="flex items-center gap-4">
         <Avatar
