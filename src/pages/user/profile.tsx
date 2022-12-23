@@ -163,6 +163,14 @@ const Profile = ({ user }: Props) => {
                       defaultValue={user.id_devjobs}
                       {...register("id_devjobs", {
                         required: "Este campo é obrigatório.",
+                        minLength: {
+                          value: 3,
+                          message: "Mínimo de 3 Carácteres",
+                        },
+                        maxLength: {
+                          value: 15,
+                          message: "Máximo de 15 Carácteres",
+                        },
                         pattern: {
                           value: patternDevJobsID,
                           message: "Digite um ID Válido.",
@@ -487,7 +495,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.res,
     authOptions
   );
-  const user: User = await fetchServerUser(session?.user.id as string);
 
   if (!session)
     return {
@@ -496,6 +503,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         permanent: false,
       },
     };
+
+  const user: User = await fetchServerUser(session?.user.id as string);
 
   return {
     props: { user },

@@ -23,6 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (authUser) {
       const userReturn = {
         id: user?.id,
+        id_devjobs: user?.id_devjobs,
         user_type: user?.user_type,
         name: user?.name,
         surname: user?.surname,
@@ -33,6 +34,7 @@ const handler: NextApiHandler = async (req, res) => {
         location: user?.location,
         gender: user?.gender,
         stacks: user?.stacks,
+        fluents: user?.fluents,
         website_url: user?.website_url,
         github_url: user?.github_url,
         linkedin_url: user?.linkedin_url,

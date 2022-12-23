@@ -39,7 +39,7 @@ const Header = () => {
                 <Link href="/user/jobsapplied">Vagas Aplicadas</Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link href="/user/profile">Meu Perfil</Link>
+                <Link href={`/${session.user.id_devjobs}`}>Meu Perfil</Link>
               </Dropdown.Item>
               <Dropdown.Item>
                 <Link href="/user/jobpost">Postar Vaga</Link>

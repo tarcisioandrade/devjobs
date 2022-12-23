@@ -4,12 +4,15 @@ import DevBadge from "@components/UI/Badge";
 import Link from "next/link";
 import Head from "next/head";
 import useFormatter from "src/hooks/useFormatter";
+import Router from "next/router";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
 import { fetchUserWithIdDevJobs } from "@services/fetchUser";
 import { EggBreak } from "@components/svg";
+import { Button } from "flowbite-react";
+import { getSession } from "next-auth/react";
 
-const PublicProfile = ({ user }: Props) => {
+const PublicProfile = ({ user, isUserThisPefil }: Props) => {
   const { formatter } = useFormatter();
 
   const title = `DevJobs | ${user?.name
@@ -18,12 +21,22 @@ const PublicProfile = ({ user }: Props) => {
     .charAt(0)
     .toUpperCase()}${user?.surname.slice(1)}`;
 
+  console.log(isUserThisPefil);
   return (
     <Layout>
       <Head>
         <title>{user ? title : "DevJobs"}</title>
       </Head>
       <main className="mainContainer">
+        {isUserThisPefil ? (
+          <Button
+            className="mb-4 w-fit ml-auto"
+            onClick={() => Router.push("/user/profile")}
+          >
+            Editar Meu Perfil
+          </Button>
+        ) : null}
+
         {user ? (
           <div className="border border-blue-500 rounded p-4 ">
             <div>
@@ -43,7 +56,6 @@ const PublicProfile = ({ user }: Props) => {
                   : "A Proucura de um Trabalhador"}
               </div>
             </div>
-
             <table className="profilePublicTable w-full mt-12">
               <tbody>
                 {user.location ? (
@@ -52,25 +64,25 @@ const PublicProfile = ({ user }: Props) => {
                     <td>{user.location}</td>
                   </tr>
                 ) : null}
-
                 <tr>
                   <td>E-mail</td>
                   <td>
                     <Link href={`mailto:${user.email}`}>{user.email}</Link>
                   </td>
                 </tr>
-
                 {user.website_url ? (
                   <tr>
                     <td>WebSite</td>
                     <td>
-                      <Link href={`https://${user.website_url}`} target="_blank">
+                      <Link
+                        href={`https://${user.website_url}`}
+                        target="_blank"
+                      >
                         {user.website_url}
                       </Link>
                     </td>
                   </tr>
                 ) : null}
-
                 {user.github_url ? (
                   <tr>
                     <td>Github</td>
@@ -81,18 +93,19 @@ const PublicProfile = ({ user }: Props) => {
                     </td>
                   </tr>
                 ) : null}
-
                 {user.linkedin_url ? (
                   <tr>
                     <td>Linkedin</td>
                     <td>
-                      <Link href={`https://${user.linkedin_url}`} target="_blank">
+                      <Link
+                        href={`https://${user.linkedin_url}`}
+                        target="_blank"
+                      >
                         {user.linkedin_url}
                       </Link>
                     </td>
                   </tr>
                 ) : null}
-
                 {user.stacks.length ? (
                   <tr>
                     <td>Stacks</td>
@@ -105,14 +118,12 @@ const PublicProfile = ({ user }: Props) => {
                     </td>
                   </tr>
                 ) : null}
-
                 {user.biography ? (
                   <tr>
                     <td>Biografia</td>
                     <td className="leading-relaxed">{user.biography}</td>
                   </tr>
                 ) : null}
-
                 {user.fluents.length ? (
                   <tr>
                     <td>Fluente em</td>
@@ -125,7 +136,6 @@ const PublicProfile = ({ user }: Props) => {
                     </td>
                   </tr>
                 ) : null}
-
                 <tr>
                   <td>Membro há</td>
                   <td>{formatter(user.createdAt)}</td>
@@ -145,13 +155,16 @@ const PublicProfile = ({ user }: Props) => {
 
 type Props = {
   user: User | null;
+  isUserThisPefil: boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { id_devjobs } = ctx.query;
-  const user = await fetchUserWithIdDevJobs(id_devjobs as string);
+  const session = await getSession(ctx);
+  const user: User | null = await fetchUserWithIdDevJobs(id_devjobs as string);
+  const isUserThisPefil = session?.user.id === user?.id;
 
-  return { props: { user: user || null } };
+  return { props: { user: user || null, isUserThisPefil } };
 };
 
 export default PublicProfile;
