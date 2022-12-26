@@ -28,7 +28,7 @@ const PublicProfile = ({ user, isUserThisPefil }: Props) => {
         <title>{user ? title : "DevJobs"}</title>
       </Head>
       <main className="mainContainer">
-        {isUserThisPefil ? (
+        {user && isUserThisPefil ? (
           <Button
             className="mb-4 w-fit ml-auto"
             onClick={() => Router.push("/user/profile")}

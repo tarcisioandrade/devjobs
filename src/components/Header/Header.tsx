@@ -10,6 +10,11 @@ const Header = () => {
     0
   )}${session?.user.surname.charAt(0)}`;
 
+  const logout = () => {
+    signOut();
+    Router.push("/");
+  };
+  
   return (
     <header className="bg-gray-800 h-16 px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
@@ -48,7 +53,7 @@ const Header = () => {
                 <Link href="/user/jobsposted">Vagas Postadas</Link>
               </Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item onClick={() => signOut()}>Sair</Dropdown.Item>
+              <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
             </Dropdown>
           </div>
         ) : (

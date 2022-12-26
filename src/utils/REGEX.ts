@@ -8,4 +8,4 @@ export const patternURL =
 
 export const matchCommaAndSpaces = /,\s*/;
 
-export const patternDevJobsID = /^@(\w){3,15}$/;
+export const patternDevJobsID = /^@(\w){3,20}$/;

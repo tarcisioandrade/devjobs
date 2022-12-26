@@ -165,11 +165,11 @@ const Profile = ({ user }: Props) => {
                         required: "Este campo é obrigatório.",
                         minLength: {
                           value: 3,
-                          message: "Mínimo de 3 Carácteres",
+                          message: "Mínimo de 3 Carácteres.",
                         },
                         maxLength: {
-                          value: 15,
-                          message: "Máximo de 15 Carácteres",
+                          value: 20,
+                          message: "Máximo de 20 Carácteres.",
                         },
                         pattern: {
                           value: patternDevJobsID,
