@@ -14,18 +14,16 @@ const JobsPosted = ({ jobs }: Props) => {
         <title>Vagas Postadas</title>
       </Head>
       <main className="mainContainer">
-        <div className="flex flex-col gap-4">
-          {jobs.length ? (
-            <JobPostDashboard jobs={jobs} />
-          ) : (
-            <div className="dark:text-gray-600 flex flex-col items-center">
-              <h1 className="text-center text-2xl">
-                Você não tem vagas postadas.
-              </h1>
-              <SadEmoji />
-            </div>
-          )}
-        </div>
+        {jobs.length ? (
+          <JobPostDashboard jobs={jobs} />
+        ) : (
+          <div className="dark:text-gray-600 flex flex-col items-center">
+            <h1 className="text-center text-2xl">
+              Você não tem vagas postadas.
+            </h1>
+            <SadEmoji />
+          </div>
+        )}
       </main>
     </Layout>
   );

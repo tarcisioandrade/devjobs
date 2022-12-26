@@ -38,4 +38,6 @@ next-env.d.ts
 
 # mock
 /public/mockServiceWorker.js
+
+# prisma
 /prisma/migrations

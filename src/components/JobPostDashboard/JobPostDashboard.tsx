@@ -17,7 +17,7 @@ const JobPostDashboard = ({ jobs }: Props) => {
       {jobs.map((job) => (
         <div key={job.id}>
           <JobCard job={job} onClick={handleDashboard} />
-          <Dashboard candidates={job.candidates} id={job.id}/>
+          <Dashboard candidates={job.candidates} id={job.id} />
         </div>
       ))}
     </div>

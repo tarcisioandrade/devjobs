@@ -1,3 +1,3 @@
 import JobPostDashboard from "./JobPostDashboard";
 
-JobPostDashboard
+export default JobPostDashboard

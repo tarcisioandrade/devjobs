@@ -43,7 +43,7 @@ const Dashboard = ({ candidates, id }: Props) => {
       </Button>
       {candidates.length ? (
         <span className="dark:text-gray-200 text-lg">Candidatos</span>
-      ) : null}
+      ) : <span className="dark:text-gray-200 text-lg">Nenhum candidato aplicado a vaga.</span>}
       <div className="mt-6 flex flex-col gap-4">
         {candidates.map((candidate) => (
           <CandidateLine key={candidate} candidate={candidate} />
