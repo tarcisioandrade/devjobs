@@ -27,6 +27,7 @@ import { useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import ErrorToast from "@components/ErrorToast";
 import { toast } from "react-hot-toast";
+import { User } from "src/types/User";
 
 type FormValues = {
   company_name: string;
@@ -39,7 +40,7 @@ type FormValues = {
   salary_range: string;
 };
 
-const JobPost = () => {
+const JobPost = ({ user }: Props) => {
   const {
     register,
     handleSubmit,
@@ -183,7 +184,7 @@ const JobPost = () => {
   ]);
 
   return (
-    <Layout>
+    <Layout user={user}>
       <main className="mainContainer">
         <Head>
           <title>DevJobs | Postar Vaga</title>
@@ -468,7 +469,11 @@ const JobPost = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+type Props = {
+  user: User;
+};
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const session = await unstable_getServerSession(
     ctx.req,
     ctx.res,
@@ -484,7 +489,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
 
   return {
-    props: {},
+    props: {
+      user: session.user,
+    },
   };
 };
 

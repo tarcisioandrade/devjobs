@@ -6,14 +6,16 @@ import { Job } from "src/types/Job";
 import { fetchUserJobsApplied } from "@services/fetchUser";
 import { getSession } from "next-auth/react";
 import { SadEmoji } from "@components/svg";
+import { User } from "src/types/User";
 
 type Props = {
   jobs: Job[];
+  user: User;
 };
 
-const JobsApplied = ({ jobs }: Props) => {
+const JobsApplied = ({ jobs, user }: Props) => {
   return (
-    <Layout>
+    <Layout user={user}>
       <Head>
         <title>DevJobs | Vagas Aplicadas</title>
       </Head>
@@ -35,7 +37,7 @@ const JobsApplied = ({ jobs }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const session = await getSession(ctx);
 
   if (!session)
@@ -51,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       jobs: jobs || null,
+      user: session.user,
     },
   };
 };

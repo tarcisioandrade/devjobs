@@ -108,7 +108,9 @@ const Profile = ({ user }: Props) => {
       };
       const res = await fetchUserUpdate(userInfosForUpdate);
       toast.custom(() => <SuccessToast message="Perfil atualizado." />);
-      if (res.status === 200) Router.reload();
+      if (res.status === 200) {
+        Router.reload();
+      }
     } catch (error) {
       toast.custom(() => (
         <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
@@ -140,7 +142,7 @@ const Profile = ({ user }: Props) => {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <main className="mainContainer">
         <Head>
           <title>{textTitle}</title>

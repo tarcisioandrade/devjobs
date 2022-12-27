@@ -1,27 +1,28 @@
 import Link from "next/link";
 import Router from "next/router";
-import { signIn, useSession, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { Button, Dropdown, Avatar } from "flowbite-react";
+import { User } from "src/types/User";
 
-const Header = () => {
-  const { data: session } = useSession();
+type Props = {
+  user: User | null;
+};
 
-  const initialsUserName = `${session?.user.name.charAt(
-    0
-  )}${session?.user.surname.charAt(0)}`;
+const Header = ({ user }: Props) => {
+  const initialsUserName = `${user?.name.charAt(0)}${user?.surname.charAt(0)}`;
 
   const logout = () => {
     signOut();
     Router.push("/");
   };
-  
+
   return (
     <header className="bg-gray-800 h-16 px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-2xl font-semibold text-gray-200">
           DevJobs
         </Link>
-        {session ? (
+        {user ? (
           <div className="flex md:order-2">
             <Dropdown
               arrowIcon={false}
@@ -34,9 +35,9 @@ const Header = () => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">{`${session.user.name} ${session.user.surname}`}</span>
+                <span className="block text-sm">{`${user.name} ${user.surname}`}</span>
                 <span className="block truncate text-sm font-medium">
-                  {session.user.email}
+                  {user.email}
                 </span>
               </Dropdown.Header>
 
@@ -44,7 +45,7 @@ const Header = () => {
                 <Link href="/user/jobsapplied">Vagas Aplicadas</Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link href={`/${session.user.id_devjobs}`}>Meu Perfil</Link>
+                <Link href={`/${user.id_devjobs}`}>Meu Perfil</Link>
               </Dropdown.Item>
               <Dropdown.Item>
                 <Link href="/user/jobpost">Postar Vaga</Link>

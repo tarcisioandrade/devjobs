@@ -1,14 +1,16 @@
 import Header from "@components/Header";
 import { ReactNode } from "react";
+import { User } from "src/types/User";
 
 type Props = {
   children: ReactNode;
+  user: User | null;
 };
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, user }: Props) => {
   return (
     <>
-      <Header />
+      <Header user={user}/>
       {children}
     </>
   );

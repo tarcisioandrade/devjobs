@@ -12,22 +12,22 @@ import { EggBreak } from "@components/svg";
 import { Button } from "flowbite-react";
 import { getSession } from "next-auth/react";
 
-const PublicProfile = ({ user, isUserThisPefil }: Props) => {
+const PublicProfile = ({ user, isUserThisPefil, user_devjobs }: Props) => {
   const { formatter } = useFormatter();
 
-  const title = `DevJobs | ${user?.name
+  const title = `DevJobs | ${user_devjobs?.name
     .charAt(0)
-    .toUpperCase()}${user?.name.slice(1)} ${user?.surname
+    .toUpperCase()}${user_devjobs?.name.slice(1)} ${user_devjobs?.surname
     .charAt(0)
-    .toUpperCase()}${user?.surname.slice(1)}`;
+    .toUpperCase()}${user_devjobs?.surname.slice(1)}`;
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Head>
-        <title>{user ? title : "DevJobs"}</title>
+        <title>{user_devjobs ? title : "DevJobs"}</title>
       </Head>
       <main className="mainContainer">
-        {user && isUserThisPefil ? (
+        {user_devjobs && isUserThisPefil ? (
           <Button
             className="mb-4 w-fit ml-auto"
             onClick={() => Router.push("/user/profile")}
@@ -36,99 +36,106 @@ const PublicProfile = ({ user, isUserThisPefil }: Props) => {
           </Button>
         ) : null}
 
-        {user ? (
+        {user_devjobs ? (
           <div className="border border-blue-500 rounded p-4 ">
             <div>
               <img
                 className="mx-auto object-cover max-w-[200px] max-h-[300px] rounded"
-                src={user.avatar || "assets/user/no-profile.jpg"}
-                alt={user.name}
+                src={user_devjobs.avatar || "assets/user/no-profile.jpg"}
+                alt={user_devjobs.name}
               />
             </div>
             <div className="text-center mt-4">
               <strong className="dark:text-gray-200 text-4xl font-medium capitalize">
-                {user.name} {user.surname}
+                {user_devjobs.name} {user_devjobs.surname}
               </strong>
               <div className="dark:text-gray-400 mt-2">
-                {user.user_type === "worker"
+                {user_devjobs.user_type === "worker"
                   ? "A Proucura de Trabalho"
                   : "A Proucura de um Trabalhador"}
               </div>
             </div>
             <table className="profilePublicTable w-full mt-12">
               <tbody>
-                {user.location ? (
+                {user_devjobs.location ? (
                   <tr>
                     <td>Localização</td>
-                    <td>{user.location}</td>
+                    <td>{user_devjobs.location}</td>
                   </tr>
                 ) : null}
                 <tr>
                   <td>E-mail</td>
                   <td>
-                    <Link href={`mailto:${user.email}`}>{user.email}</Link>
+                    <Link href={`mailto:${user_devjobs.email}`}>
+                      {user_devjobs.email}
+                    </Link>
                   </td>
                 </tr>
-                {user.website_url ? (
+                {user_devjobs.website_url ? (
                   <tr>
                     <td>WebSite</td>
                     <td>
                       <Link
-                        href={`https://${user.website_url}`}
+                        href={`https://${user_devjobs.website_url}`}
                         target="_blank"
                       >
-                        {user.website_url}
+                        {user_devjobs.website_url}
                       </Link>
                     </td>
                   </tr>
                 ) : null}
-                {user.github_url ? (
+                {user_devjobs.github_url ? (
                   <tr>
                     <td>Github</td>
                     <td>
-                      <Link href={`https://${user.github_url}`} target="_blank">
-                        {user.github_url}
+                      <Link
+                        href={`https://${user_devjobs.github_url}`}
+                        target="_blank"
+                      >
+                        {user_devjobs.github_url}
                       </Link>
                     </td>
                   </tr>
                 ) : null}
-                {user.linkedin_url ? (
+                {user_devjobs.linkedin_url ? (
                   <tr>
                     <td>Linkedin</td>
                     <td>
                       <Link
-                        href={`https://${user.linkedin_url}`}
+                        href={`https://${user_devjobs.linkedin_url}`}
                         target="_blank"
                       >
-                        {user.linkedin_url}
+                        {user_devjobs.linkedin_url}
                       </Link>
                     </td>
                   </tr>
                 ) : null}
-                {user.stacks.length ? (
+                {user_devjobs.stacks.length ? (
                   <tr>
                     <td>Stacks</td>
                     <td>
                       <div className="flex gap-4 flex-wrap">
-                        {user.stacks.map((stack) => (
+                        {user_devjobs.stacks.map((stack) => (
                           <DevBadge key={stack}>{stack}</DevBadge>
                         ))}
                       </div>
                     </td>
                   </tr>
                 ) : null}
-                {user.biography ? (
+                {user_devjobs.biography ? (
                   <tr>
                     <td>Biografia</td>
-                    <td className="leading-relaxed">{user.biography}</td>
+                    <td className="leading-relaxed">
+                      {user_devjobs.biography}
+                    </td>
                   </tr>
                 ) : null}
-                {user.fluents.length ? (
+                {user_devjobs.fluents.length ? (
                   <tr>
                     <td>Fluente em</td>
                     <td>
                       <div className="flex gap-4 flex-wrap">
-                        {user.fluents.map((fluent) => (
+                        {user_devjobs.fluents.map((fluent) => (
                           <DevBadge key={fluent}>{fluent}</DevBadge>
                         ))}
                       </div>
@@ -137,7 +144,7 @@ const PublicProfile = ({ user, isUserThisPefil }: Props) => {
                 ) : null}
                 <tr>
                   <td>Membro há</td>
-                  <td>{formatter(user.createdAt)}</td>
+                  <td>{formatter(user_devjobs.createdAt)}</td>
                 </tr>
               </tbody>
             </table>
@@ -153,6 +160,7 @@ const PublicProfile = ({ user, isUserThisPefil }: Props) => {
 };
 
 type Props = {
+  user_devjobs: User | null;
   user: User | null;
   isUserThisPefil: boolean;
 };
@@ -163,7 +171,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const user: User | null = await fetchUserWithIdDevJobs(id_devjobs as string);
   const isUserThisPefil = session?.user.id === user?.id;
 
-  return { props: { user: user || null, isUserThisPefil } };
+  return {
+    props: {
+      user: session?.user || null,
+      user_devjobs: user || null,
+      isUserThisPefil,
+    },
+  };
 };
 
 export default PublicProfile;

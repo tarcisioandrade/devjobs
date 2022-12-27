@@ -7,7 +7,7 @@ import { User } from "src/types/User";
 
 const Home = ({ user }: Props) => {
   return (
-    <Layout>
+    <Layout user={user}>
       <Head>
         <title>DevJobs</title>
       </Head>

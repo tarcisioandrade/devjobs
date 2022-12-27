@@ -6,10 +6,11 @@ import { Job } from "src/types/Job";
 import { getSession } from "next-auth/react";
 import { fetchJobsPosted } from "@services/fetchJob";
 import { SadEmoji } from "@components/svg";
+import { User } from "src/types/User";
 
-const JobsPosted = ({ jobs }: Props) => {
+const JobsPosted = ({ jobs, user }: Props) => {
   return (
-    <Layout>
+    <Layout user={user}>
       <Head>
         <title>Vagas Postadas</title>
       </Head>
@@ -31,6 +32,7 @@ const JobsPosted = ({ jobs }: Props) => {
 
 type Props = {
   jobs: Job[];
+  user: User;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -47,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   const jobs = await fetchJobsPosted(session?.user.id as string);
 
-  return { props: { jobs } };
+  return { props: { jobs, user: session.user } };
 };
 
 export default JobsPosted;

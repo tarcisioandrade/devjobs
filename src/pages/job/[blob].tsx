@@ -1,11 +1,11 @@
 import DevBadge from "@components/UI/Badge";
 import Head from "next/head";
-import { fetchApplyJob, fetchDisapplyJob } from "@services/fetchJob";
 import Layout from "@components/Layout";
 import DevButton from "@components/UI/DevButton";
 import SuccessToast from "@components/SuccessToast/SuccessToast";
 import ErrorToast from "@components/ErrorToast";
 import Router from "next/router";
+import { fetchApplyJob, fetchDisapplyJob } from "@services/fetchJob";
 import { ArrowLeft } from "@components/svg";
 import { fetchJobWithBlob } from "@services/fetchJob";
 import { Avatar, Button } from "flowbite-react";
@@ -13,14 +13,16 @@ import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { User } from "src/types/User";
 
 type Props = {
   job: Job;
+  user: User | null;
 };
 
-const JobPage = ({ job }: Props) => {
+const JobPage = ({ job, user }: Props) => {
   const contentJob = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +80,7 @@ const JobPage = ({ job }: Props) => {
   } ${job.title_job}`;
 
   return (
-    <Layout>
+    <Layout user={user}>
       <main className="mainContainer ">
         <Head>
           <title>{titleHead}</title>
@@ -188,11 +190,12 @@ const JobPage = ({ job }: Props) => {
 
 export default JobPage;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const session = await getSession(ctx);
   const { blob } = ctx.query;
   const job: Job = await fetchJobWithBlob(blob as string);
 
   return {
-    props: { job },
+    props: { job, user: session?.user || null },
   };
 };
