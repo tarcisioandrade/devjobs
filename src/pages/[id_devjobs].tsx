@@ -21,7 +21,6 @@ const PublicProfile = ({ user, isUserThisPefil }: Props) => {
     .charAt(0)
     .toUpperCase()}${user?.surname.slice(1)}`;
 
-  console.log(isUserThisPefil);
   return (
     <Layout>
       <Head>
