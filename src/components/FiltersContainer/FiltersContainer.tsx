@@ -124,7 +124,7 @@ const FiltersContainer = ({
       </Button>
       <div className={`${openFilters ? "block" : "hidden"}`}>
         <div className="flex flex-col md:flex-row gap-6 items-center mt-5 whitespace-nowrap">
-          <div className="w-full md:w-[120px]">
+          <div className="w-full md:w-[230px]">
             <StacksBoxWithInput
               selectedStacks={selectedStacks}
               setSelectedStacks={setSelectedStacks}
@@ -132,7 +132,7 @@ const FiltersContainer = ({
             />
           </div>
 
-          <div className="w-full md:w-[200px]">
+          <div className="w-full md:w-[170px]">
             <Label htmlFor="tipo" value="Tipo da Vaga" className="sr-only" />
             <Select id="tipo" {...register("type")}>
               <option value="">Tipo da Vaga</option>
@@ -157,7 +157,7 @@ const FiltersContainer = ({
             </Select>
           </div>
 
-          <div className="w-full md:w-[120px]">
+          <div className="w-full md:w-[140px]">
             <Label htmlFor="local" value="Local" className="sr-only" />
             <Select id="local" {...register("local")}>
               <option value="">Local</option>
@@ -169,7 +169,7 @@ const FiltersContainer = ({
             </Select>
           </div>
 
-          <div className="w-full md:w-[120px]">
+          <div className="w-full md:w-[140px]">
             <Label htmlFor="contract" value="Contrato" className="sr-only" />
             <Select id="contract" {...register("contract")}>
               <option value="">Contrato</option>

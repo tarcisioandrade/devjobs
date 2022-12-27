@@ -1,6 +1,7 @@
-import { FilterValues } from "@components/JobsContainer/JobsContainer";
-import api from "@libs/axiosInstance";
+import api from "@libs/axios";
 import axios from "axios";
+import { FilterValues } from "@components/JobsContainer/JobsContainer";
+import { Job } from "src/types/Job";
 
 export const fetchJob = async (
   { searchValue, local, model, type, contract, stacks }: FilterValues,
@@ -45,3 +46,22 @@ export const fetchDeleteJob = async (id: string) => {
 
   return data;
 };
+
+export const fetchDisapplyJob = async (id_job: string, id_user: string) => {
+  const res = await api.patch(`/api/job/jobdisapply`, { id_job, id_user });
+
+  return res;
+};
+
+export const fetchApplyJob = async (id_job: string, id_user: string) => {
+  const res = await api.patch("/api/job/jobapply", { id_job, id_user });
+
+  return res;
+};
+
+export const fetchJobPost = async (job: Partial<Job>) => {
+  const data = await api.post("api/job", { ...job });
+
+  return data;
+};
+

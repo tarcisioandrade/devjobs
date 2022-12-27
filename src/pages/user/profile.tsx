@@ -2,14 +2,16 @@
 import Layout from "@components/Layout";
 import estadosBR from "@utils/estadosBR.json";
 import ErrorMessage from "@components/ErrorMessage";
-import fetchServerUser from "@services/fetchServerUser";
 import Head from "next/head";
 import useImgPreview from "src/hooks/useImgPreview";
-import fetchUserUpdate from "@services/fetchUserUpdate";
 import Router from "next/router";
-import fetchUserDelete from "@services/fetchUserDelete";
 import ErrorToast from "@components/ErrorToast";
 import fetchImageUpload from "@services/fetchImageUpload";
+import {
+  fetchServerUser,
+  fetchUserUpdate,
+  fetchUserDelete,
+} from "@services/fetchUser";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
 import { unstable_getServerSession } from "next-auth/next";

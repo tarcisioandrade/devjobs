@@ -1,7 +1,6 @@
 import DevBadge from "@components/UI/Badge";
 import Head from "next/head";
-import fetchApplyJob from "@services/fetchApplyJob";
-import fetchDisapplyJob from "@services/fetchDisapplyJob";
+import { fetchApplyJob, fetchDisapplyJob } from "@services/fetchJob";
 import Layout from "@components/Layout";
 import DevButton from "@components/UI/DevButton";
 import SuccessToast from "@components/SuccessToast/SuccessToast";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import api from "@libs/axiosInstance";
+import api from "@libs/axios";
 import { useState, useEffect, useCallback } from "react";
 import { User } from "../../types/User";
 
@@ -19,7 +19,9 @@ const CandidateLine = ({ candidate }: Props) => {
     getUserData();
   }, [getUserData]);
 
-  const userFullName = `${user?.name.charAt(0).toUpperCase()}${user?.name.slice(1)} ${user?.surname.charAt(0).toUpperCase()}${user?.surname.slice(1)}`;
+  const userFullName = `${user?.name.charAt(0).toUpperCase()}${user?.name.slice(
+    1
+  )} ${user?.surname.charAt(0).toUpperCase()}${user?.surname.slice(1)}`;
 
   if (!user) return null;
   return (
@@ -27,9 +29,7 @@ const CandidateLine = ({ candidate }: Props) => {
       key={user.id}
       className="flex items-center justify-between dark:text-gray-300 text-sm border-b border-gray-700 pb-2"
     >
-      <span className="text-blueLock ">
-        {userFullName}
-      </span>
+      <span className="text-blueLock ">{userFullName}</span>
       <Link
         className="text-blueLock hover:underline"
         href={`/${user.id_devjobs}`}

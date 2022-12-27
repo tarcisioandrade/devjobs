@@ -1,6 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import fetchLogin from "@services/fetchLogin";
+import { fetchUserLogin } from "@services/fetchUser";
 import { User } from "src/types/User";
 
 export const authOptions: NextAuthOptions = {
@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const res = await fetchLogin(credentials);
+        const res = await fetchUserLogin(credentials);
 
         if (res.status === 200 && res.data) return res.data;
         return null;

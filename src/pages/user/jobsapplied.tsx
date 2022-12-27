@@ -1,9 +1,9 @@
 import Layout from "@components/Layout";
-import fetchUserJobsApplied from "@services/fetchUserJobsApplied";
-import { GetServerSideProps } from "next";
-import { Job } from "src/types/Job";
 import JobCard from "@components/JobCard";
 import Head from "next/head";
+import { GetServerSideProps } from "next";
+import { Job } from "src/types/Job";
+import { fetchUserJobsApplied } from "@services/fetchUser";
 import { getSession } from "next-auth/react";
 import { SadEmoji } from "@components/svg";
 
