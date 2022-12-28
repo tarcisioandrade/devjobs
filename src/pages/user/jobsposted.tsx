@@ -3,10 +3,11 @@ import Head from "next/head";
 import JobPostDashboard from "@components/JobPostDashboard/JobPostDashboard";
 import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
-import { getSession } from "next-auth/react";
 import { fetchJobsPosted } from "@services/fetchJob";
 import { SadEmoji } from "@components/svg";
 import { User } from "src/types/User";
+import { getCookie } from "cookies-next";
+import { fetchAuthUserToken } from "@services/fetchUser";
 
 const JobsPosted = ({ jobs, user }: Props) => {
   return (
@@ -36,9 +37,9 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const session = await getSession(ctx);
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
 
-  if (!session) {
+  if (!token) {
     return {
       redirect: {
         permanent: false,
@@ -47,9 +48,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     };
   }
 
-  const jobs = await fetchJobsPosted(session?.user.id as string);
+  const user: User = await fetchAuthUserToken(token as string);
 
-  return { props: { jobs, user: session.user } };
+  const jobs = await fetchJobsPosted(user.id as string);
+
+  return { props: { jobs, user } };
 };
 
 export default JobsPosted;

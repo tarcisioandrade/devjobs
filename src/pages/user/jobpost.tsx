@@ -13,6 +13,7 @@ import ErrorMessage from "@components/ErrorMessage";
 import kebabCase from "just-kebab-case";
 import Router from "next/router";
 import JobCard from "@components/JobCard";
+import ErrorToast from "@components/ErrorToast";
 import { fetchJobPost } from "@services/fetchJob";
 import { useCallback, useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
@@ -21,13 +22,11 @@ import { patternEmail } from "@utils/REGEX";
 import { Job } from "src/types/Job";
 import { useState } from "react";
 import { Avatar, FileInput, Select, TextInput } from "flowbite-react";
-import { authOptions } from "@pages/api/auth/[...nextauth]";
-import { unstable_getServerSession } from "next-auth/next";
-import { useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
-import ErrorToast from "@components/ErrorToast";
 import { toast } from "react-hot-toast";
 import { User } from "src/types/User";
+import { getCookie } from "cookies-next";
+import { fetchAuthUserToken } from "@services/fetchUser";
 
 type FormValues = {
   company_name: string;
@@ -55,7 +54,6 @@ const JobPost = ({ user }: Props) => {
   const [loading, setLoading] = useState(false);
   const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
-  const { data: session } = useSession();
 
   const [multipleSelectError, setMultipleSelectError] = useState("");
   const handleSelectedBenefits = (benefict: string) => {
@@ -131,7 +129,7 @@ const JobPost = ({ user }: Props) => {
         companyAvatar = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
       }
       const job: Partial<Job> = {
-        id_user: session?.user.id as string,
+        id_user: user.id,
         location: location,
         title_job,
         company_email,
@@ -145,7 +143,7 @@ const JobPost = ({ user }: Props) => {
         stacks: selectedStacks,
         salary_range,
         blob: kebabCase(
-          `${data.title_job} ${data.model} ${data.location} ${session?.user.id}`
+          `${data.title_job} ${data.model} ${data.location} ${user.id}`
         ),
       };
       await fetchJobPost(job);
@@ -474,13 +472,9 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
 
-  if (!session)
+  if (!token)
     return {
       redirect: {
         destination: "/user/login",
@@ -488,9 +482,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       },
     };
 
+  const user: User = await fetchAuthUserToken(token as string);
   return {
     props: {
-      user: session.user,
+      user,
     },
   };
 };

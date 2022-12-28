@@ -6,7 +6,7 @@ export type User = {
   name: string;
   surname: string;
   biography: string;
-  location?: string;
+  location: string;
   gender: string;
   avatar: string;
   stacks: string[];

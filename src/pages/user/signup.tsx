@@ -7,10 +7,11 @@ import Link from "next/link";
 import Router from "next/router";
 import { patternEmail, patternOnlyLetters } from "@utils/REGEX";
 import { Checkbox, Label } from "flowbite-react";
-import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { fetchUserLogin } from "@services/fetchUser";
+import { setCookie } from "cookies-next";
 
 export type FormValuesSignup = {
   name: string;
@@ -48,12 +49,9 @@ const Signup = () => {
         surname,
         password,
       });
-      const res = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-      if (res?.ok) Router.push("/user/profile");
+      const res = await fetchUserLogin(email, password);
+      setCookie("token", res.data);
+      if (res.status === 200) Router.push("/user/profile");
     } catch (error) {
       toast.custom(() => (
         <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
