@@ -13,9 +13,10 @@ import { GetServerSideProps } from "next";
 import { Job } from "src/types/Job";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession, getSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { User } from "src/types/User";
+import { getCookie } from "cookies-next";
+import { fetchAuthUserToken } from "@services/fetchUser";
 
 type Props = {
   job: Job;
@@ -26,7 +27,6 @@ const JobPage = ({ job, user }: Props) => {
   const contentJob = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
 
-  const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,11 +36,11 @@ const JobPage = ({ job, user }: Props) => {
   }, [job.description]);
 
   const handleApllyJob = async () => {
-    if (!session?.user.id) router.push("/user/login");
-    if (session?.user.id) {
+    if (!user?.id) router.push("/user/login");
+    if (user?.id) {
       try {
         setLoading(true);
-        await fetchApplyJob(job.id, session?.user.id);
+        await fetchApplyJob(job.id, user.id);
         toast.custom(() => (
           <SuccessToast message="Vaga aplicada com sucesso!" />
         ));
@@ -56,10 +56,10 @@ const JobPage = ({ job, user }: Props) => {
   };
 
   const handleDisapplyJob = async () => {
-    if (session?.user.id) {
+    if (user?.id) {
       try {
         setLoading(true);
-        await fetchDisapplyJob(job.id, session?.user.id);
+        await fetchDisapplyJob(job.id, user?.id);
         toast.custom(() => (
           <SuccessToast message="Candidatura cancelada com sucesso!" />
         ));
@@ -73,7 +73,7 @@ const JobPage = ({ job, user }: Props) => {
       }
     }
   };
-  const hasApplied = job.candidates.includes(session?.user.id as string);
+  const hasApplied = job.candidates.includes(user?.id as string);
 
   const titleHead = `${
     job.model.charAt(0).toUpperCase() + job.model.slice(1)
@@ -191,11 +191,17 @@ const JobPage = ({ job, user }: Props) => {
 export default JobPage;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const session = await getSession(ctx);
   const { blob } = ctx.query;
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
+  let user;
+
+  if (token) {
+    const data = await fetchAuthUserToken(token as string);
+    user = data;
+  }
   const job: Job = await fetchJobWithBlob(blob as string);
 
   return {
-    props: { job, user: session?.user || null },
+    props: { job, user: user || null },
   };
 };

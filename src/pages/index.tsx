@@ -2,8 +2,9 @@ import JobsContainer from "@components/JobsContainer";
 import Layout from "@components/Layout";
 import Head from "next/head";
 import { GetServerSideProps } from "next/types";
-import { getSession } from "next-auth/react";
+import { getCookie } from "cookies-next";
 import { User } from "src/types/User";
+import { fetchAuthUserToken } from "@services/fetchUser";
 
 const Home = ({ user }: Props) => {
   return (
@@ -21,10 +22,16 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const session = await getSession(ctx);
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
+  let user;
+
+  if (token) {
+    const data = await fetchAuthUserToken(token as string);
+    user = data;
+  }
 
   return {
-    props: { user: session?.user || null },
+    props: { user: user || null },
   };
 };
 

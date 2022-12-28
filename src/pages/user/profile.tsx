@@ -8,14 +8,12 @@ import Router from "next/router";
 import ErrorToast from "@components/ErrorToast";
 import fetchImageUpload from "@services/fetchImageUpload";
 import {
-  fetchServerUser,
   fetchUserUpdate,
   fetchUserDelete,
+  fetchAuthUserToken,
 } from "@services/fetchUser";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "@pages/api/auth/[...nextauth]";
 import { signOut } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
@@ -35,6 +33,7 @@ import {
 } from "@utils/REGEX";
 import { toast } from "react-hot-toast";
 import SuccessToast from "@components/SuccessToast/SuccessToast";
+import { getCookie } from "cookies-next";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -99,12 +98,16 @@ const Profile = ({ user }: Props) => {
         avatar: avatarImage || user.avatar,
         gender: data.gender,
         location: data.location,
-        biography: data.biography,
-        website_url: data.website,
-        github_url: data.github,
-        linkedin_url: data.linkedin,
-        stacks: data.stacks.split(matchCommaAndSpaces),
-        fluents: data.fluents.split(matchCommaAndSpaces),
+        biography: data.biography || undefined,
+        website_url: data.website || undefined,
+        github_url: data.github || undefined,
+        linkedin_url: data.linkedin || undefined,
+        stacks: data.stacks.length
+          ? data.stacks.split(matchCommaAndSpaces)
+          : undefined,
+        fluents: data.fluents.length
+          ? data.fluents.split(matchCommaAndSpaces)
+          : undefined,
       };
       const res = await fetchUserUpdate(userInfosForUpdate);
       toast.custom(() => <SuccessToast message="Perfil atualizado." />);
@@ -494,13 +497,9 @@ const Profile = ({ user }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
 
-  if (!session)
+  if (!token)
     return {
       redirect: {
         destination: "/user/login",
@@ -508,7 +507,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
 
-  const user: User = await fetchServerUser(session?.user.id as string);
+  const user: User = await fetchAuthUserToken(token as string);
 
   return {
     props: { user },

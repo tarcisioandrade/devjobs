@@ -63,28 +63,31 @@ const handleNewUser: NextApiHandler = async (req, res) => {
 
 const handleUpdateUser: NextApiHandler = async (req, res) => {
   const user = req.body;
-
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      user_type: user.user_type,
-      id_devjobs: user.id_devjobs,
-      name: user.name,
-      surname: user.surname,
-      avatar: user.avatar,
-      location: user.location,
-      biography: user.biography,
-      gender: user.gender,
-      website_url: user.website_url,
-      github_url: user.github_url,
-      linkedin_url: user.linkedin_url,
-      stacks: user.stacks,
-      fluents: user.fluents,
-    },
-  });
-  return res.status(200).end();
+  try {
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        user_type: user.user_type,
+        id_devjobs: user.id_devjobs,
+        name: user.name,
+        surname: user.surname,
+        avatar: user.avatar,
+        location: user.location,
+        biography: user.biography,
+        gender: user.gender,
+        website_url: user.website_url,
+        github_url: user.github_url,
+        linkedin_url: user.linkedin_url,
+        stacks: user.stacks,
+        fluents: user.fluents,
+      },
+    });
+    return res.status(200).end();
+  } catch (error) {
+    return res.status(500).end();
+  }
 };
 
 const handleDeleteUser: NextApiHandler = async (req, res) => {

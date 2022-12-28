@@ -1,6 +1,4 @@
 import type { NextApiHandler } from "next";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@libs/prismadb";
 
 const handleGetAllJob: NextApiHandler = async (req, res) => {
@@ -62,9 +60,14 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
         createdAt: "asc",
       },
       where: {
-        NOT: {
-          userId: id as string,
-        },
+        NOT: [
+          {
+            userId: id as string,
+          },
+          {
+            candidates: { has: id as string },
+          },
+        ],
         type: type as string,
         model: model as string,
         location: location as string,
@@ -116,12 +119,7 @@ const handleNewJob: NextApiHandler = async (req, res) => {
   }
 };
 
-const handleUpdateJob: NextApiHandler = async (req, res) => {
-  const session = unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    return res.status(401).json({ message: "You must be logged in." });
-  }
-};
+const handleUpdateJob: NextApiHandler = async (req, res) => {};
 
 const handleDeleteJob: NextApiHandler = async (req, res) => {
   const { id } = req.query;

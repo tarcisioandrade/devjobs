@@ -15,15 +15,20 @@ export const fetchUserWithIdDevJobs = async (id: string) => {
 
 export default fetchUser;
 
-export const fetchUserLogin = async (
-  crenditals: Record<"email" | "password", string> | undefined
-) => {
-  const res = await api.post("api/user/login", {
-    email: crenditals?.email,
-    password: crenditals?.password,
-  });
+export const fetchUserLogin = async (email: string, password: string) => {
+  const res = await api.post("/api/user/auth", { email, password });
 
   return res;
+};
+
+export const fetchAuthUserToken = async (token: string) => {
+  const res = await api.get("/api/user/auth", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
 };
 
 export const fetchServerUser = async (id: string) => {

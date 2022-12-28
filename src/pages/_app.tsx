@@ -1,9 +1,8 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import UserProvider from "@contexts/UserContext";
 import DevFooter from "@components/DevFooter";
-import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+
+import "../styles/globals.css";
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
   require("../mocks");
@@ -11,14 +10,10 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div>
-      <SessionProvider session={pageProps.session}>
-        <UserProvider>
-          <Component {...pageProps} />
-          <Toaster />
-        </UserProvider>
-        {/* <DevFooter /> */}
-      </SessionProvider>
+    <div className="">
+      <Component {...pageProps} />
+      <Toaster />
+      {/* <DevFooter /> */}
     </div>
   );
 }

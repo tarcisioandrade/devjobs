@@ -5,10 +5,11 @@ import Head from "next/head";
 import Router from "next/router";
 import ErrorToast from "@components/ErrorToast";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { patternEmail } from "@utils/REGEX";
 import { toast } from "react-hot-toast";
+import { setCookie } from "cookies-next";
+import { fetchUserLogin } from "@services/fetchUser";
 
 type FormValues = {
   email: string;
@@ -30,12 +31,9 @@ const Login = () => {
   }) => {
     try {
       setLoading(true);
-      const res = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-      if (!res?.ok) throw new Error();
+      const res = await fetchUserLogin(email, password);
+      if (res.status != 200) throw new Error();
+      setCookie("token", res.data);
       Router.push("/");
     } catch (error) {
       toast.custom(() => <ErrorToast message="E-mail ou senha incorreto." />);

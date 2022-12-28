@@ -7,10 +7,13 @@ import useFormatter from "src/hooks/useFormatter";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
-import { fetchUserWithIdDevJobs } from "@services/fetchUser";
+import {
+  fetchAuthUserToken,
+  fetchUserWithIdDevJobs,
+} from "@services/fetchUser";
 import { EggBreak } from "@components/svg";
 import { Button } from "flowbite-react";
-import { getSession } from "next-auth/react";
+import { getCookie } from "cookies-next";
 
 const PublicProfile = ({ user, isUserThisPefil, user_devjobs }: Props) => {
   const { formatter } = useFormatter();
@@ -167,13 +170,18 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { id_devjobs } = ctx.query;
-  const session = await getSession(ctx);
+  const token = getCookie("token", { req: ctx.req, res: ctx.res });
+
+  // User in page
   const user: User | null = await fetchUserWithIdDevJobs(id_devjobs as string);
-  const isUserThisPefil = session?.user.id === user?.id;
+
+  // Verify if user logged is user in page
+  const userLogged: User = await fetchAuthUserToken(token as string);
+  const isUserThisPefil = userLogged?.id === user?.id;
 
   return {
     props: {
-      user: session?.user || null,
+      user: userLogged || null,
       user_devjobs: user || null,
       isUserThisPefil,
     },

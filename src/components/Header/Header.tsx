@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Router from "next/router";
-import { signIn, signOut } from "next-auth/react";
 import { Button, Dropdown, Avatar } from "flowbite-react";
 import { User } from "src/types/User";
+import { deleteCookie } from "cookies-next";
 
 type Props = {
   user: User | null;
@@ -12,8 +12,8 @@ const Header = ({ user }: Props) => {
   const initialsUserName = `${user?.name.charAt(0)}${user?.surname.charAt(0)}`;
 
   const logout = () => {
-    signOut();
-    Router.push("/");
+    deleteCookie("token");
+    Router.reload();
   };
 
   return (
@@ -35,7 +35,7 @@ const Header = ({ user }: Props) => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">{`${user.name} ${user.surname}`}</span>
+                <span className="block text-sm capitalize">{`${user.name} ${user.surname}`}</span>
                 <span className="block truncate text-sm font-medium">
                   {user.email}
                 </span>
@@ -61,7 +61,7 @@ const Header = ({ user }: Props) => {
           <div className="flex items-center gap-2">
             <button
               className="dark:text-blue-200 underline"
-              onClick={() => signIn()}
+              onClick={() => Router.push("/user/login")}
             >
               Login
             </button>
