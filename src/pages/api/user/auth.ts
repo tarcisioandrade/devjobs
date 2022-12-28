@@ -71,19 +71,22 @@ const userLogin: NextApiHandler = async (req, res) => {
       },
     });
 
+    if (!user) {
+      return res.status(401).json({ message: "Email or password incorrect." });
+    }
+
     const authUser = bcrypt.compareSync(
       password as string,
-      user.password as string
+      user?.password as string
     );
 
     if (authUser) {
       const token = jwt.sign({ email }, process.env.JWT_SECRET as string, {
         expiresIn: "24h",
       });
-
-      res.status(200).json(token);
+      return res.status(200).json(token);
     }
-    res.status(401).json({ message: "Email or password incorrect." });
+    return res.status(401).json({ message: "Email or password incorrect." });
   } else {
     res.status(500).end();
   }
