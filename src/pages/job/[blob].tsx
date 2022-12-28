@@ -196,8 +196,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   let user;
 
   if (token) {
-    const data = await fetchAuthUserToken(token as string);
-    user = data;
+    const res = await fetchAuthUserToken(token as string);
+    user = res.data;
   }
   const job: Job = await fetchJobWithBlob(blob as string);
 
