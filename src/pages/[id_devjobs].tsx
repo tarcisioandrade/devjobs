@@ -13,7 +13,7 @@ import {
 } from "@services/fetchUser";
 import { EggBreak } from "@components/svg";
 import { Button } from "flowbite-react";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 
 const PublicProfile = ({ user, isUserThisPefil, user_devjobs }: Props) => {
   const { formatter } = useFormatter();
@@ -171,12 +171,19 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { id_devjobs } = ctx.query;
   const token = getCookie("token", { req: ctx.req, res: ctx.res });
-
+  let userLogged: User | null = null;
+  
   // User in page
   const user: User | null = await fetchUserWithIdDevJobs(id_devjobs as string);
 
   // Verify if user logged is user in page
-  const userLogged: User = await fetchAuthUserToken(token as string);
+  try {
+    const res = await fetchAuthUserToken(token as string);
+    userLogged = res.data;
+  } catch (error) {
+    deleteCookie("token", { req: ctx.req, res: ctx.res });
+  }
+
   const isUserThisPefil = userLogged?.id === user?.id;
 
   return {

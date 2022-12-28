@@ -2,7 +2,7 @@ import JobsContainer from "@components/JobsContainer";
 import Layout from "@components/Layout";
 import Head from "next/head";
 import { GetServerSideProps } from "next/types";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 import { User } from "src/types/User";
 import { fetchAuthUserToken } from "@services/fetchUser";
 
@@ -26,8 +26,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   let user;
 
   if (token) {
-    const data = await fetchAuthUserToken(token as string);
-    user = data;
+    try {
+      const res = await fetchAuthUserToken(token as string);
+      user = res.data;
+    } catch (error) {
+      deleteCookie("token", { req: ctx.req, res: ctx.res });
+    }
   }
 
   return {

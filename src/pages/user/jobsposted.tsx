@@ -6,7 +6,7 @@ import { Job } from "src/types/Job";
 import { fetchJobsPosted } from "@services/fetchJob";
 import { SadEmoji } from "@components/svg";
 import { User } from "src/types/User";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 import { fetchAuthUserToken } from "@services/fetchUser";
 
 const JobsPosted = ({ jobs, user }: Props) => {
@@ -48,11 +48,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     };
   }
 
-  const user: User = await fetchAuthUserToken(token as string);
-
-  const jobs = await fetchJobsPosted(user.id as string);
-
-  return { props: { jobs, user } };
+  try {
+    const res: { data: User } = await fetchAuthUserToken(token as string);
+    const jobs = await fetchJobsPosted(res.data.id as string);
+    return { props: { jobs, user: res.data } };
+  } catch (error) {
+    deleteCookie("token", { req: ctx.req, res: ctx.res });
+    return {
+      redirect: {
+        destination: "/user/login",
+        permanent: false,
+      },
+    };
+  }
 };
 
 export default JobsPosted;

@@ -33,7 +33,7 @@ import {
 } from "@utils/REGEX";
 import { toast } from "react-hot-toast";
 import SuccessToast from "@components/SuccessToast/SuccessToast";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -507,11 +507,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
 
-  const user: User = await fetchAuthUserToken(token as string);
+  try {
+    const res: { data: User } = await fetchAuthUserToken(token as string);
 
-  return {
-    props: { user },
-  };
+    return {
+      props: { user: res.data },
+    };
+  } catch (error) {
+    deleteCookie("token", { req: ctx.req, res: ctx.res });
+    return {
+      redirect: {
+        destination: "/user/login",
+        permanent: false,
+      },
+    };
+  }
 };
 
 export default Profile;

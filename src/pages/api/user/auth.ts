@@ -16,8 +16,17 @@ const authUser: NextApiHandler = async (req, res) => {
       token as string,
       process.env.JWT_SECRET as string,
       async (err, decoded) => {
+        // Token Expired error
+        if (err?.name === "TokenExpiredError")
+          return res.status(498).json({ message: err.message });
+
+        // Others Errors
         if (err)
-          return res.status(401).json({ message: "Token invalid or expired." });
+          return res
+            .status(401)
+            .json({ message: "Token invalid or expired.", err });
+
+        // Get Data
         const user = await prisma.user.findUnique({
           where: {
             email: decoded.email,
@@ -69,7 +78,7 @@ const userLogin: NextApiHandler = async (req, res) => {
 
     if (authUser) {
       const token = jwt.sign({ email }, process.env.JWT_SECRET as string, {
-        expiresIn: "1 day",
+        expiresIn: "24h",
       });
 
       res.status(200).json(token);

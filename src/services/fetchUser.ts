@@ -28,7 +28,7 @@ export const fetchAuthUserToken = async (token: string) => {
     },
   });
 
-  return res.data;
+  return res;
 };
 
 export const fetchServerUser = async (id: string) => {
