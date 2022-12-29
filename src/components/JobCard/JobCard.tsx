@@ -35,7 +35,7 @@ const JobCard = ({ job, onClick }: Props) => {
         />
         <div className="w-[228px]">
           <div className="flex items-center gap-4">
-            <h2 className="text-slate-200 font-semibold whitespace-nowrap">{job.title_job}</h2>
+            <h2 className="text-slate-200 font-semibold sm:whitespace-nowrap">{job.title_job}</h2>
             {isNew ? (
               <div className="text-xs text-amber-300 shadow animate-bounce">
                 NEW
@@ -77,7 +77,7 @@ const JobCard = ({ job, onClick }: Props) => {
           ))}
         </div>
 
-        <div className="text-slate-400 flex items-center gap-1 absolute top-1 right-1 md:static">
+        <div className="text-slate-400 sm:flex items-center gap-1 absolute top-1 right-1 md:static hidden">
           <LinkIcon />
           {formatter(job.createdAt)}
         </div>

@@ -85,12 +85,12 @@ const JobPage = ({ job, user }: Props) => {
         <Head>
           <title>{titleHead}</title>
         </Head>
-        <Button outline onClick={() => Router.back()}>
+        <Button outline onClick={() => Router.back()} title="back">
           <ArrowLeft />
         </Button>
         <div className="flex-col md:flex-row flex gap-4">
           <div className="rounded border border-gray-800 mt-4 p-6 leading-relaxed flex-1">
-            <h1 className="text-4xl dark:text-gray-200 font-semibold">
+            <h1 className="text-4xl dark:text-gray-200 font-semibold mb-4">
               {job.title_job}
             </h1>
             <div ref={contentJob} className="JobContainer"></div>
@@ -140,7 +140,7 @@ const JobPage = ({ job, user }: Props) => {
               )}
             </div>
           </div>
-          <div className="flex flex-col items-center border rounded border-gray-800 self-start p-4 lg:w-[500px] mt-4 flex-[.4]">
+          <div className="w-full flex flex-col items-center border rounded border-gray-800 self-start p-4 lg:w-[500px] mt-4 flex-[.4]">
             <Avatar img={job.company_avatar} size="xl" />
             <div className="dark:text-gray-300 font-medium mt-2">
               {job.company_name}

@@ -64,9 +64,6 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
           {
             userId: id as string,
           },
-          {
-            candidates: { has: id as string },
-          },
         ],
         type: type as string,
         model: model as string,
@@ -86,7 +83,9 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       return res.status(204).end();
     }
 
-    return res.status(200).json(allJobsDisponible);
+    const jobsNoApplied = allJobsDisponible.filter((job) => !job.candidates.includes(id as string))
+    
+    return res.status(200).json(jobsNoApplied);
   }
 
   return res.status(500).end();
