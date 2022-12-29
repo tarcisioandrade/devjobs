@@ -26,6 +26,7 @@
     "jsonwebtoken": "^9.0.0",
     "just-kebab-case": "^4.1.1",
     "next": "13.0.0",
+    "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.39.1",

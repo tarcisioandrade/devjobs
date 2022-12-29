@@ -86,7 +86,7 @@ const JobPost = ({ user }: Props) => {
 
   useEffect(() => {
     if (previewJob.current != null)
-      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold">${jobTitleWatch}</div>${text}${
+      previewJob.current.innerHTML = `<div class="text-4xl dark:text-gray-200 font-semibold mb-4">${jobTitleWatch}</div>${text}${
         selectedBenefits.length > 0
           ? `<h1>Benefícios</h1><ul style="list-style: none; margin-left: 0">${selectedBenefits
               .map((benefict) => `<li>${benefict}</li>`)
@@ -126,7 +126,7 @@ const JobPost = ({ user }: Props) => {
           selectedFile,
           "company_avatar"
         );
-        companyAvatar = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
+        companyAvatar = `https://res.cloudinary.com/drdzrfm15/image/upload/c_scale,w_500/v1669900046/${axiosData.public_id}.${axiosData.format}`;
       }
       const job: Partial<Job> = {
         id_user: user.id,
@@ -147,7 +147,7 @@ const JobPost = ({ user }: Props) => {
         ),
       };
       await fetchJobPost(job);
-      Router.push("/");
+      Router.push("/user/jobpost");
     } catch (error) {
       toast.custom((t) => (
         <ErrorToast message="Falha na solicitação, por favor, tente novamente." />
@@ -332,7 +332,7 @@ const JobPost = ({ user }: Props) => {
                 <img
                   className="mx-auto lg:mx-0 object-cover max-w-[200px] max-h-[300px] rounded"
                   src={
-                    preview ? preview : "/assets/user/no-company-profile.jpg"
+                    preview ? preview : "/assets/company/no-company-profile.jpg"
                   }
                   alt="Foto do Perfil"
                 />
@@ -416,12 +416,7 @@ const JobPost = ({ user }: Props) => {
             </div>
 
             <div className="my-2">
-              <DevButton
-                className="w-full"
-                size="xl"
-                type="submit"
-                loading={+loading}
-              >
+              <DevButton size="xl" type="submit" loading={+loading}>
                 Postar Vaga
               </DevButton>
             </div>

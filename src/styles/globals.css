@@ -13,9 +13,12 @@ html.dark {
 .JobContainer h1 {
   @apply font-bold text-2xl dark:text-gray-300 mt-8 mb-4;
 }
+.JobContainer h2 {
+  @apply font-bold text-xl dark:text-gray-300 mt-8 mb-4;
+}
 
 .JobContainer p {
-  @apply dark:text-gray-300 mt-4;
+  @apply dark:text-gray-300 leading-relaxed;
 }
 
 .JobContainer ul {

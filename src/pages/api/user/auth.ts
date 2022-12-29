@@ -83,7 +83,7 @@ const userLogin: NextApiHandler = async (req, res) => {
     if (authUser) {
       const token = jwt.sign({ email }, process.env.JWT_SECRET as string, {
         expiresIn: "24h",
-      });
+      }); 
       return res.status(200).json(token);
     }
     return res.status(401).json({ message: "Email or password incorrect." });

@@ -219,7 +219,7 @@ const Signup = () => {
             ref={refTerms}
           />
           <Label htmlFor="accept">
-            Eu li e aceito os{" "}
+            Eu li e concordo com os{" "}
             <a
               href=""
               className="text-blue-600 hover:underline dark:text-blue-500"
@@ -230,7 +230,7 @@ const Signup = () => {
         </div>
         <DevButton
           type="submit"
-          className="w-full mt-4"
+          className="mt-4"
           disabled={!termsAccepted}
           loading={+loading}
         >

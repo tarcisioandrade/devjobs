@@ -150,7 +150,7 @@ const JobPage = ({ job, user }: Props) => {
             {hasApplied ? (
               <DevButton
                 size="lg"
-                className="mt-4 w-full"
+                className="mt-4"
                 color="failure"
                 loading={+loading}
                 onClick={handleDisapplyJob}
@@ -160,7 +160,7 @@ const JobPage = ({ job, user }: Props) => {
             ) : (
               <DevButton
                 size="lg"
-                className="mt-4 w-full"
+                className="mt-4"
                 onClick={handleApllyJob}
                 loading={+loading}
               >

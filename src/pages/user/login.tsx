@@ -105,7 +105,7 @@ const Login = () => {
             required
           />
         </div>
-        <DevButton type="submit" className="w-full" loading={+loading}>
+        <DevButton type="submit" loading={+loading}>
           Entrar
         </DevButton>
         <p className="dark:text-gray-200 mt-4">

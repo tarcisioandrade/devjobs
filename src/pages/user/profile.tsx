@@ -87,7 +87,7 @@ const Profile = ({ user }: Props) => {
           selectedFile as File,
           "user_profile"
         );
-        avatarImage = `https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
+        avatarImage = `https://res.cloudinary.com/drdzrfm15/image/upload/c_scale,w_550/v1669900046/${axiosData.public_id}.${axiosData.format}`;
       }
       const userInfosForUpdate = {
         id: user.id,

@@ -1,13 +1,19 @@
 {
   "benefits": [
-    { "name": "Assistencia Médica" },
-    { "name": "Convênio Dentário" },
+    { "name": "Assistência Médica" },
+    { "name": "Assistência Odotológica" },
     { "name": "Vale Alimentação" },
     { "name": "PLR" },
     { "name": "Day off no Aniversário" },
     { "name": "Gym Pass" },
-    { "name": "Bolsa Pet" },
     { "name": "VB 4Work" },
-    { "name": "Cartão Combustível" }
+    { "name": "Auxílio Combustível" },
+    { "name": "Auxílio Educação" },
+    { "name": "Seguro de Vida" },
+    { "name": "Vale-refeição" },
+    { "name": "Vale-transporte" },
+    { "name": "Auxílio Home Office" },
+    { "name": "Inglês in Company" }
+
   ]
 }

@@ -10,8 +10,8 @@ const DevButton = (props: Props) => {
   const { loading, children } = props;
 
   return (
-    <Button {...props}>
-      {loading ? <Spinner color="warning" /> : children}
+    <Button style={{ width: "100%", height: "48px" }} {...props}>
+      {loading ? <Spinner /> : children}
     </Button>
   );
 };

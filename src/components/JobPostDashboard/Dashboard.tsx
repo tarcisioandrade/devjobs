@@ -10,9 +10,10 @@ import { useState } from "react";
 type Props = {
   candidates: string[];
   id: string;
+  blob: string;
 };
 
-const Dashboard = ({ candidates, id }: Props) => {
+const Dashboard = ({ candidates, id, blob }: Props) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleDeleteJob = async () => {
@@ -33,17 +34,21 @@ const Dashboard = ({ candidates, id }: Props) => {
 
   return (
     <div className="border border-gray-700 mt-[-2px] bg-gray-800 p-4 drop-shadow-xl rounded-b hidden">
-      <Button
-        color="failure"
-        size="xs"
-        className="mb-4 ml-auto w-fit"
-        onClick={handleOpenModal}
-      >
-        Deletar Vaga
-      </Button>
+      <div className="flex gap-4 mb-4 ml-auto w-fit">
+        <Button size="xs" onClick={() => Router.push(`/job/${blob}`)}>
+          Página da Vaga
+        </Button>
+        <Button color="failure" size="xs" onClick={handleOpenModal}>
+          Deletar Vaga
+        </Button>
+      </div>
       {candidates.length ? (
         <span className="dark:text-gray-200 text-lg">Candidatos</span>
-      ) : <span className="dark:text-gray-200 text-lg">Nenhum candidato aplicado a vaga.</span>}
+      ) : (
+        <span className="dark:text-gray-200 text-lg">
+          Nenhum candidato aplicado a vaga.
+        </span>
+      )}
       <div className="mt-6 flex flex-col gap-4">
         {candidates.map((candidate) => (
           <CandidateLine key={candidate} candidate={candidate} />
