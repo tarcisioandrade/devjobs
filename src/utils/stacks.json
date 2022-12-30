@@ -157,7 +157,7 @@
   "clean code": "🍸 Clean Code",
   "units tests": "🤖 Units Tests",
   "copywriter": "🔷 Copywriter",
-  "net": "🌊 Net",
+  ".net": "🌊 .Net",
   "distributed systems": "♾️ Distributed Systems",
   "azure": "☁️ Azure",
   "smart contract": "📋 Smart Contract",
@@ -257,6 +257,5 @@
   "technology": "⚙️ Technology",
   "dashboard": " Dashboard",
   "site reliability engineer": "♾️ Site Reliability Engineer",
-  "analysis": " Analysis",
-  "reactnative": "⚛️ Reactnative"
+  "analysis": " Analysis"
 }

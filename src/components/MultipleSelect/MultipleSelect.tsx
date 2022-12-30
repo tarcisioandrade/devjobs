@@ -1,7 +1,7 @@
 import ErrorMessage from "@components/ErrorMessage";
-import { ArrowDown } from "@components/svg";
-import React, { MouseEventHandler, useEffect, useRef, useState } from "react";
 import stacks from "@utils/stacks.json";
+import { ArrowDown } from "@components/svg";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 
 type Props = {
   selected: string[];
@@ -20,7 +20,7 @@ const MultipleSelect = ({
 }: Props) => {
   const [openSelect, setOpenSelect] = useState(false);
   const [valueForFilter, setValueForFilter] = useState("");
-  const [stackToShow, setStackToShow] = useState<string[]>([]);
+  const [stackToShow, setStackToShow] = useState<string[][]>([]);
 
   const allOptionStacks = Object.entries(stacks);
 
@@ -30,7 +30,6 @@ const MultipleSelect = ({
 
   const optionsFiltered = allOptionsFilteredForValueInInput.filter((item) => {
     const isEqual = selected.findIndex((selec) => item[0] === selec);
-
     return isEqual === -1;
   });
 
@@ -38,9 +37,9 @@ const MultipleSelect = ({
   const inputSearchFilter = useRef<HTMLInputElement>(null);
   const selectItems = useRef<HTMLDivElement>(null);
 
-  const removeSelect = (option: string) => {
-    const newValue = selected.filter((item) => item != option);
-    const newValueToShow = stackToShow.filter((item) => item != option);
+  const removeSelect = (option: string[]) => {
+    const newValue = selected.filter((item) => item != option[0]);
+    const newValueToShow = stackToShow.filter((item) => item[0] != option[0]);
     setOpenSelect(false);
     setSelected(newValue);
     setStackToShow(newValueToShow);
@@ -48,7 +47,7 @@ const MultipleSelect = ({
 
   const addSelect = async (option: string[]) => {
     setSelected((prev) => [...prev, option[0]]);
-    setStackToShow((prev) => [...prev, option[1]]);
+    setStackToShow((prev) => [...prev, option]);
     setOpenSelect(!openSelect);
     setValueForFilter("");
     inputSearchFilter.current?.focus();
@@ -104,10 +103,10 @@ const MultipleSelect = ({
         >
           {stackToShow.map((item) => (
             <div
-              key={item}
+              key={item[0]}
               className="border border-blueLock  p-1 rounded bg-gray-900  dark:text-blueLock inline-block"
             >
-              {item}{" "}
+              {item[1]}{" "}
               <button
                 className="inline-block mx-1 cursor-pointer"
                 onClick={() => removeSelect(item)}

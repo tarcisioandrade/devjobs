@@ -147,7 +147,7 @@ const JobPost = ({ user }: Props) => {
         ),
       };
       await fetchJobPost(job);
-      Router.push("/user/jobpost");
+      Router.push("/user/jobsposted");
     } catch (error) {
       toast.custom((t) => (
         <ErrorToast message="Falha na solicitação, por favor, tente novamente." />
