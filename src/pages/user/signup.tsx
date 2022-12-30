@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { fetchUserLogin } from "@services/fetchUser";
 import { setCookie } from "cookies-next";
+import MetaTags from "@components/MetaTags";
 
 export type FormValuesSignup = {
   name: string;
@@ -138,6 +139,11 @@ const Signup = () => {
     <main className="h-screen flex items-center justify-center px-4">
       <Head>
         <title>DevJobs | Cadastro</title>
+        <MetaTags
+          title={"Signup"}
+          url={`${process.env.NEXT_PUBLIC_BASE_URL}/user/signup`}
+          description={"Realizar cadastro no portal."}
+        />
       </Head>
       <form
         className="bg-gray-100 dark:bg-transparent border-blue-500 border p-4 rounded w-full md:max-w-[400px]"

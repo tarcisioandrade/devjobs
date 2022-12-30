@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 import { User } from "src/types/User";
 import { getCookie } from "cookies-next";
 import { fetchAuthUserToken } from "@services/fetchUser";
+import MetaTags from "@components/MetaTags";
 
 type Props = {
   job: Job;
@@ -84,6 +85,11 @@ const JobPage = ({ job, user }: Props) => {
       <main className="mainContainer ">
         <Head>
           <title>{titleHead}</title>
+          <MetaTags
+            title={titleHead}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/job/${job.blob}`}
+            description={titleHead}
+          />
         </Head>
         <Button outline onClick={() => Router.back()} title="back">
           <ArrowLeft />

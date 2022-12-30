@@ -8,6 +8,7 @@ import EggBreak from "./EggBreak";
 import ArrowDown from "./ArrowDown";
 import CheckIcon from "./CheckIcon";
 import FiltersIcon from "./FiltersIcon";
+import DevLogo from "./DevLogo";
 
 export {
   HouseIcon,
@@ -20,4 +21,5 @@ export {
   ArrowDown,
   CheckIcon,
   FiltersIcon,
+  DevLogo,
 };

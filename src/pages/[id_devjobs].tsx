@@ -14,6 +14,7 @@ import {
 import { EggBreak } from "@components/svg";
 import { Button } from "flowbite-react";
 import { getCookie, deleteCookie } from "cookies-next";
+import MetaTags from "@components/MetaTags";
 
 const PublicProfile = ({ user, isUserThisPefil, user_devjobs }: Props) => {
   const { formatter } = useFormatter();
@@ -28,6 +29,11 @@ const PublicProfile = ({ user, isUserThisPefil, user_devjobs }: Props) => {
     <Layout user={user}>
       <Head>
         <title>{user_devjobs ? title : "DevJobs"}</title>
+        <MetaTags
+            title={user_devjobs ? title : "DevJobs"}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/${user?.id_devjobs}`}
+            description={user_devjobs ? title : "DevJobs"}
+          />
       </Head>
       <main className="mainContainer">
         {user_devjobs && isUserThisPefil ? (

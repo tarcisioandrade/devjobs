@@ -8,6 +8,7 @@ import { fetchAuthUserToken } from "@services/fetchUser";
 import { useEffect, useState } from "react";
 import { Modal, Button } from "flowbite-react";
 import { setCookie, hasCookie } from "cookies-next";
+import MetaTags from "@components/MetaTags";
 
 const Home = ({ user }: Props) => {
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +33,11 @@ const Home = ({ user }: Props) => {
     <Layout user={user}>
       <Head>
         <title>DevJobs</title>
+        <MetaTags
+          title="DevJobs"
+          url={process.env.NEXT_PUBLIC_BASE_URL as string}
+          description="Plataforma de postagem e candidatura de vagas na área tecnológica."
+        />
       </Head>
       <JobsContainer user={user} />
       <Modal position="center" show={showModal} size="md" onClose={handleShow}>

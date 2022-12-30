@@ -3,6 +3,8 @@ import Router from "next/router";
 import { Button, Dropdown, Avatar } from "flowbite-react";
 import { User } from "src/types/User";
 import { deleteCookie } from "cookies-next";
+import Image from "next/image";
+import { DevLogo } from "@components/svg";
 
 type Props = {
   user: User | null;
@@ -20,7 +22,7 @@ const Header = ({ user }: Props) => {
     <header className="bg-gray-800 h-16 px-4">
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-2xl font-semibold text-gray-200">
-          DevJobs
+          <DevLogo />
         </Link>
         {user ? (
           <div className="flex md:order-2">

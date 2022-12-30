@@ -10,6 +10,7 @@ import { patternEmail } from "@utils/REGEX";
 import { toast } from "react-hot-toast";
 import { setCookie } from "cookies-next";
 import { fetchUserLogin } from "@services/fetchUser";
+import MetaTags from "@components/MetaTags";
 
 type FormValues = {
   email: string;
@@ -70,6 +71,11 @@ const Login = () => {
     <main className="h-screen flex items-center justify-center px-4">
       <Head>
         <title>DevJobs | Login</title>
+        <MetaTags
+          title={"Login"}
+          url={`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`}
+          description={"Realizar login no portal."}
+        />
       </Head>
       <form
         className="bg-gray-100 dark:bg-transparent border-blue-500 border p-4 rounded w-full md:max-w-[400px]"
