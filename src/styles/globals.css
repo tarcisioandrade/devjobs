@@ -52,3 +52,7 @@ html.dark {
 [data-testid="flowbite-tooltip"].invisible {
   @apply hidden;
 }
+
+[data-testid="modal"] > div {
+  @apply h-fit;
+}

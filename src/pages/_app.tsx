@@ -1,7 +1,7 @@
 import DevFooter from "@components/DevFooter";
+import NextNProgress from "nextjs-progressbar";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
-import NextNProgress from "nextjs-progressbar";
 
 import "../styles/globals.css";
 
@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         startPosition={0.2}
         stopDelayMs={200}
         height={3}
+        options={{ showSpinner: false }}
       />
       <Component {...pageProps} />
       <Toaster />

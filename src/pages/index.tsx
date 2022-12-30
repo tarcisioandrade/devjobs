@@ -5,14 +5,48 @@ import { GetServerSideProps } from "next/types";
 import { getCookie, deleteCookie } from "cookies-next";
 import { User } from "src/types/User";
 import { fetchAuthUserToken } from "@services/fetchUser";
+import { useEffect, useState } from "react";
+import { Modal, Button } from "flowbite-react";
+import { setCookie, hasCookie } from "cookies-next";
 
 const Home = ({ user }: Props) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const cookieExpires = new Date(
+    new Date().getTime() + 1 * 24 * 60 * 60 * 1000
+  ); // 2 days;
+
+  const handleShow = () => {
+    setShowModal(false);
+    setCookie("modalHasBeenRead", true, { expires: cookieExpires });
+  };
+
+  useEffect(() => {
+    const modalNotBeenRead = hasCookie("modalHasBeenRead");
+    if (!modalNotBeenRead) {
+      setShowModal(true);
+    }
+  }, []);
+
   return (
     <Layout user={user}>
       <Head>
         <title>DevJobs</title>
       </Head>
       <JobsContainer user={user} />
+      <Modal position="center" show={showModal} size="md" onClose={handleShow}>
+        <Modal.Header>Aviso!</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Todas as vagas aqui são meramentes ilustrativas.
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleShow}>Entendi</Button>
+        </Modal.Footer>
+      </Modal>
     </Layout>
   );
 };
