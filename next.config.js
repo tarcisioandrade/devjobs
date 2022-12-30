@@ -5,6 +5,19 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
+  headers: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

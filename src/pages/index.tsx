@@ -40,7 +40,7 @@ const Home = ({ user }: Props) => {
         />
       </Head>
       <JobsContainer user={user} />
-      <Modal position="center" show={showModal} size="md" onClose={handleShow}>
+      <Modal className="h-screen" position="center" show={showModal} size="md" onClose={handleShow}>
         <Modal.Header>Aviso!</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">

@@ -468,7 +468,7 @@ const Profile = ({ user }: Props) => {
         </form>
       </main>
 
-      <Modal show={modalOpen} size="md" popup={true} onClose={handleOpenModal}>
+      <Modal className="h-screen" show={modalOpen} size="md" popup={true} onClose={handleOpenModal}>
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
