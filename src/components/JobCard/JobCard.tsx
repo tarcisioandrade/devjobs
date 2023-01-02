@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DevBadge from "@components/UI/Badge";
-import useFormatter from "src/hooks/useFormatter";
+import useFormatter from "@hooks/useFormatter";
 import { LinkIcon } from "@components/svg";
 import { Avatar } from "flowbite-react";
 import { Job } from "../../types/Job";

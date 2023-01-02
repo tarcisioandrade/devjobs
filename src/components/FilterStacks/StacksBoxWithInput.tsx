@@ -68,7 +68,7 @@ const StacksBoxWithInput = ({
     setValueForFilter(e.target.value);
     setOpenSelect(true);
   };
-  
+
   return (
     <div className="relative">
       <div
@@ -109,6 +109,7 @@ const StacksBoxWithInput = ({
         {optionsFiltered.map((option, i) => (
           <div
             className="hover:bg-gray-500 pl-2"
+            title={`${option[0]}`}
             key={i}
             onClick={() => addSelect(option)}
           >

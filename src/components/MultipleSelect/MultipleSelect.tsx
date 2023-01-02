@@ -110,7 +110,7 @@ const MultipleSelect = ({
               <button
                 className="inline-block mx-1 cursor-pointer"
                 onClick={() => removeSelect(item)}
-                data-testid={`close-item-${item}`}
+                data-testid={`close-item`}
               >
                 X
               </button>

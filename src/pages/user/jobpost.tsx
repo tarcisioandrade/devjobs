@@ -6,7 +6,7 @@ import fetchImageUpload from "@services/fetchImageUpload";
 import salarysRanges from "@utils/salaryRange.json";
 import MultipleSelect from "@components/MultipleSelect";
 import Head from "next/head";
-import useImgPreview from "src/hooks/useImgPreview";
+import useImgPreview from "@hooks/useImgPreview";
 import DevBadge from "@components/UI/Badge";
 import DevButton from "@components/UI/DevButton";
 import ErrorMessage from "@components/ErrorMessage";

@@ -1,25 +1,23 @@
-import { setup } from "@components/JobsContainer/JobsContainer.test";
 import { screen, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import MultipleSelect from ".";
 
-const setState = jest.fn();
+const setSelectedFN = jest.fn();
 const initialState: string[] = ["Node"];
 
-const allOptionsList = ["JavaScript", "Taillwind", "Node", "Docker"];
+export const setup = (tsx: JSX.Element) => ({
+  user: userEvent.setup(),
+  ...render(tsx),
+});
 
 describe("MultipleSelect", () => {
-  beforeEach(() => {
-    jest
-      .spyOn(React, "useState")
-      .mockImplementation(() => setState(initialState));
-  });
-
   it("test render", () => {
     render(
       <MultipleSelect
-        allOptionsList={allOptionsList}
-        setSelected={setState}
+        setErrorMessage={jest.fn()}
+        errorMessage="Este Campo é Obrigatório"
+        setSelected={setSelectedFN}
         selected={initialState}
       />
     );
@@ -28,8 +26,9 @@ describe("MultipleSelect", () => {
   it("check MultipleSelect appear after click in searchInput and disapear after click again", async () => {
     const { user } = setup(
       <MultipleSelect
-        allOptionsList={allOptionsList}
-        setSelected={setState}
+        setErrorMessage={jest.fn()}
+        errorMessage="Este Campo é Obrigatório"
+        setSelected={setSelectedFN}
         selected={initialState}
       />
     );
@@ -44,18 +43,19 @@ describe("MultipleSelect", () => {
     expect(await screen.findByTestId("filtersBox")).toHaveClass("hidden");
   });
 
-  it("check filter have selected after of click", async () => {
+  it("check filter have selected after of click and remove filter after click in button close.", async () => {
     const { user } = setup(
       <MultipleSelect
-        allOptionsList={allOptionsList}
-        setSelected={setState}
+        setErrorMessage={jest.fn()}
+        errorMessage="Este Campo é Obrigatório"
+        setSelected={setSelectedFN}
         selected={initialState}
       />
     );
 
     const searchInput = screen.getByRole("searchbox", { name: "Search Stack" });
 
-    // click for appear
+    // Filter item
     await user.click(searchInput);
     await user.clear(searchInput);
     await user.type(searchInput, "Javascript");
@@ -63,6 +63,11 @@ describe("MultipleSelect", () => {
     const filterItem = screen.getByText(/javascript/i);
     expect(filterItem).toBeInTheDocument();
     await user.click(filterItem);
-    expect(setState).toBeCalledTimes(1);
+    expect(setSelectedFN).toBeCalledTimes(1);
+
+    // Remove filter
+    const buttonClose = screen.getByTestId("close-item");
+    await user.click(buttonClose);
+    expect(buttonClose).not.toBeInTheDocument();
   });
 });

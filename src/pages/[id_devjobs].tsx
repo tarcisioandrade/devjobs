@@ -3,7 +3,7 @@ import Layout from "@components/Layout";
 import DevBadge from "@components/UI/Badge";
 import Link from "next/link";
 import Head from "next/head";
-import useFormatter from "src/hooks/useFormatter";
+import useFormatter from "@hooks/useFormatter";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";

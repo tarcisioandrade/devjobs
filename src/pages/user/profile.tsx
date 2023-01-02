@@ -3,7 +3,7 @@ import Layout from "@components/Layout";
 import estadosBR from "@utils/estadosBR.json";
 import ErrorMessage from "@components/ErrorMessage";
 import Head from "next/head";
-import useImgPreview from "src/hooks/useImgPreview";
+import useImgPreview from "@hooks/useImgPreview";
 import Router from "next/router";
 import ErrorToast from "@components/ErrorToast";
 import fetchImageUpload from "@services/fetchImageUpload";
@@ -468,7 +468,13 @@ const Profile = ({ user }: Props) => {
         </form>
       </main>
 
-      <Modal className="h-screen" show={modalOpen} size="md" popup={true} onClose={handleOpenModal}>
+      <Modal
+        className="h-screen"
+        show={modalOpen}
+        size="md"
+        popup={true}
+        onClose={handleOpenModal}
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

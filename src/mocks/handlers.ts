@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import data from "../../data.json";
+import data from "./dataForTests.json";
 
 type PostBodyProps = {
   id_job: number;
@@ -7,17 +7,19 @@ type PostBodyProps = {
 };
 
 export const handlers = [
-  rest.get("/jobs", (req, res, ctx) => {
+  rest.get("http://localhost:3000/api/job", (req, res, ctx) => {
     const { searchParams } = req.url;
-    const search = searchParams.get("search");
-    const type = searchParams.get("tipo");
+    const searchTitle = searchParams.get("searchTitle");
+    const type = searchParams.get("type");
     const model = searchParams.get("model");
-    const location = searchParams.get("local");
+    const location = searchParams.get("location");
+    const contract = searchParams.get("contract");
+    const stacksFind = searchParams.get("stacksFind");
 
     let copyArray = [...data.jobs];
 
-    if (search) {
-      const valueSearched = search.toLowerCase();
+    if (searchTitle) {
+      const valueSearched = searchTitle.toLowerCase();
       const filterTitle = data.jobs.filter((job) => {
         const validation1 = job.title_job.toLowerCase().includes(valueSearched);
         const validation2 = job.stacks.some((stack) =>
@@ -57,71 +59,86 @@ export const handlers = [
       copyArray = filterLocation;
     }
 
+    if (contract) {
+      const filterContract = copyArray.filter((job) =>
+        job.contract.includes(contract)
+      );
+      copyArray = filterContract;
+    }
+
+    if (stacksFind) {
+      const filterStacks = copyArray.filter((job) =>
+        job.stacks.includes(stacksFind)
+      );
+
+      copyArray = filterStacks;
+    }
+
     return res(ctx.json(copyArray));
   }),
 
-  rest.get("/login", (_req, res, ctx) => {
-    return res(ctx.json(data.users[0]));
-  }),
+  // rest.get("/login", (_req, res, ctx) => {
+  //   return res(ctx.json(data.users[0]));
+  // }),
 
-  rest.post("/jobapply", async (req, res, ctx) => {
-    const body: PostBodyProps = await req.json();
+  // rest.post("/jobapply", async (req, res, ctx) => {
+  //   const body: PostBodyProps = await req.json();
 
-    const job = data.jobs.find((job) => job.id === body.id_job);
+  //   const job = data.jobs.find((job) => job.id === body.id_job);
 
-    job?.candidates_status.push({ id_user: body.id_user, status: "applied" });
+  //   job?.candidates_status.push({ id_user: body.id_user, status: "applied" });
 
-    return res(ctx.json(job));
-  }),
+  //   return res(ctx.json(job));
+  // }),
 
-  rest.delete("/jobdisapply", async (req, res, ctx) => {
-    const { searchParams } = req.url;
-    const id_job = searchParams.get("job");
-    const id_user = searchParams.get("user");
+  // rest.delete("/jobdisapply", async (req, res, ctx) => {
+  //   const { searchParams } = req.url;
+  //   const id_job = searchParams.get("job");
+  //   const id_user = searchParams.get("user");
 
-    const job = data.jobs.find((job) => job.id === Number(id_job));
+  //   const job = data.jobs.find((job) => job.id === Number(id_job));
 
-    const target = job?.candidates_status.findIndex(
-      (candidates) => candidates.id_user === Number(id_user)
-    );
+  //   const target = job?.candidates_status.findIndex(
+  //     (candidates) => candidates.id_user === Number(id_user)
+  //   );
 
-    job?.candidates_status.splice(target as number, 1);
+  //   job?.candidates_status.splice(target as number, 1);
 
-    return res(ctx.status(204));
-  }),
+  //   return res(ctx.status(204));
+  // }),
 
-  rest.post("/jobpost", async (req, res, ctx) => {
-    const body = await req.json();
-    if (!body) return res(ctx.status(500));
+  // rest.post("/jobpost", async (req, res, ctx) => {
+  //   const body = await req.json();
+  //   if (!body) return res(ctx.status(500));
 
-    const job = {
-      ...body,
-      id: Math.random() * 10,
-      createAt: "2022-11-05T11:10:58.590Z",
-      modifiedAt: "2022-10-10T02:03:58.590Z",
-      candidates_status: [],
-    };
+  //   const job = {
+  //     ...body,
+  //     id: Math.random() * 10,
+  //     createAt: "2022-11-05T11:10:58.590Z",
+  //     modifiedAt: "2022-10-10T02:03:58.590Z",
+  //     candidates_status: [],
+  //   };
 
-    data.jobs.push(job);
+  //   data.jobs.push(job);
 
-    return res(ctx.json(job));
-  }),
+  //   return res(ctx.json(job));
+  // }),
 
-  rest.get("/userjobsapplied", async (req, res, ctx) => {
-    const { searchParams } = req.url;
-    const id_user = searchParams.get("user");
+  // rest.get("/userjobsapplied", async (req, res, ctx) => {
+  //   const { searchParams } = req.url;
+  //   const id_user = searchParams.get("user");
 
-    if (id_user) {
-      const jobsApplied = data.jobs.filter((job) => {
-        const target = job.candidates_status.some(
-          (candidate) => candidate.id_user === Number(id_user)
-        );
-        return target;
-      });
+  //   if (id_user) {
+  //     const jobsApplied = data.jobs.filter((job) => {
+  //       const target = job.candidates_status.some(
+  //         (candidate) => candidate.id_user === Number(id_user)
+  //       );
+  //       return target;
+  //     });
 
-      return res(ctx.json(jobsApplied));
-    }
+  //     return res(ctx.json(jobsApplied));
+  //   }
 
-    return res(ctx.status(404));
-  }),
+  //   return res(ctx.status(404));
+  // }),
 ];

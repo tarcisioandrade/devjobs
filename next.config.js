@@ -12,7 +12,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+            value: `*`,
           },
         ],
       },

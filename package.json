@@ -55,5 +55,9 @@
   },
   "msw": {
     "workerDirectory": "public"
-  }
+  },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }
