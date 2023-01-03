@@ -1,14 +1,15 @@
 import JobsContainer from "@components/JobsContainer";
-import { setup } from "@components/MultipleSelect/MultipleSelect.test";
+import { setup } from "./MultipleSelect.test";
 import { screen, waitFor } from "@testing-library/react";
-import { server } from "../../mocks/server";
+import { server } from "../src/mocks/server";
 import { rest } from "msw";
 
 describe("Home", () => {
   test("loading skeleton appears when data has fetching", async () => {
     setup(<JobsContainer user={null} />);
+    expect(await screen.findByTestId("skeleton")).toBeInTheDocument();
 
-    expect(screen.getByTestId("skeleton")).toBeInTheDocument();
+    await screen.findAllByTestId("job-card");
   });
 
   test("all filters job and remove filters button", async () => {

@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import MultipleSelect from ".";
+import MultipleSelect from "../src/components/MultipleSelect";
 
 const setSelectedFN = jest.fn();
 const initialState: string[] = ["Node"];

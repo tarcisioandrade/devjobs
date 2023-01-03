@@ -1,4 +1,4 @@
-import { setup } from "@components/MultipleSelect/MultipleSelect.test";
+import { setup } from "./MultipleSelect.test";
 import { screen } from "@testing-library/react";
 import Login from "@pages/user/login";
 import puppeteer, { Browser, Page } from "puppeteer";

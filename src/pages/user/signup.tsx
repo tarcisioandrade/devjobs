@@ -53,10 +53,16 @@ const Signup = () => {
       const res = await fetchUserLogin(email, password);
       setCookie("token", res.data);
       if (res.status === 200) Router.push("/user/profile");
-    } catch (error) {
-      toast.custom(() => (
-        <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
-      ));
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        toast.custom(() => (
+          <ErrorToast message="Este e-mail já foi utilizado." />
+        ));
+      } else {
+        toast.custom(() => (
+          <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
+        ));
+      }
     } finally {
       setLoading(false);
     }

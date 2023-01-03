@@ -343,7 +343,6 @@ const JobPost = ({ user }: Props) => {
                 name="company_img"
                 onChange={getPreviewImage}
                 helperText=".PNG, .JPG, Quadrado ou Redondo."
-                required
               />
             </div>
 
@@ -371,7 +370,10 @@ const JobPost = ({ user }: Props) => {
               <div className="mb-2">
                 <div className="text-lg text-gray-200">Benefícios</div>
               </div>
-              <div className="flex items-center gap-2 flex-wrap">
+              <div
+                className="flex items-center gap-2 flex-wrap"
+                id="benefits-container"
+              >
                 {beneficios.benefits.map((item, index) => (
                   <div
                     className={`border select-none rounded-lg p-2 cursor-pointer ${

@@ -84,6 +84,10 @@ export const handlers = [
     return res(ctx.status(500));
   }),
 
+  rest.post("http://localhost:3000/api/job", async (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+
   // rest.post("/jobapply", async (req, res, ctx) => {
   //   const body: PostBodyProps = await req.json();
 

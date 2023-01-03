@@ -16,6 +16,10 @@ const JobCard = ({ job, onClick }: Props) => {
   const jobDateCreated = new Date(job?.createdAt as Date);
   const isNew = differenceDateAndToday(jobDateCreated) <= 3;
 
+  const initialsCompanyName = `${job?.company_name.charAt(
+    0
+  )}${job?.company_name.charAt(1)}`;
+
   if (!job) return null;
   return (
     <Link
@@ -26,16 +30,25 @@ const JobCard = ({ job, onClick }: Props) => {
       onClick={onClick}
     >
       <div className="flex items-center gap-4">
-        <Avatar
-          img={job.company_avatar}
-          size="lg"
-          rounded
-          alt={job.company_name}
-          className="hidden md:block"
-        />
+        {job.company_avatar ? (
+          <Avatar
+            img={job.company_avatar}
+            size="lg"
+            rounded
+            alt={job.company_name}
+            className="hidden md:block"
+          />
+        ) : (
+          <div className="w-[80px] h-[80px] space-x-4 flex items-center justify-center bg-gray-600 rounded-full text-slate-300 text-4xl">
+            {initialsCompanyName.toUpperCase()}
+          </div>
+        )}
+
         <div className="w-[228px]">
           <div className="flex items-center gap-4">
-            <h2 className="text-slate-200 font-semibold sm:whitespace-nowrap">{job.title_job}</h2>
+            <h2 className="text-slate-200 font-semibold sm:whitespace-nowrap">
+              {job.title_job}
+            </h2>
             {isNew ? (
               <div className="text-xs text-amber-300 shadow animate-bounce">
                 NEW
