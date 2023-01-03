@@ -1,9 +1,17 @@
 import JobsContainer from "@components/JobsContainer";
 import { setup } from "@components/MultipleSelect/MultipleSelect.test";
 import { screen, waitFor } from "@testing-library/react";
+import { server } from "../../mocks/server";
+import { rest } from "msw";
 
 describe("Home", () => {
-  it("test all filters job and remove filters button", async () => {
+  test("loading skeleton appears when data has fetching", async () => {
+    setup(<JobsContainer user={null} />);
+
+    expect(screen.getByTestId("skeleton")).toBeInTheDocument();
+  });
+
+  test("all filters job and remove filters button", async () => {
     const { user } = setup(<JobsContainer user={null} />);
 
     // Filter for Search Title
@@ -84,5 +92,21 @@ describe("Home", () => {
     await waitFor(() =>
       expect(screen.getAllByTestId("job-card")).toHaveLength(5)
     );
+  });
+
+  test("server error message", async () => {
+    server.resetHandlers(
+      rest.get("http://localhost:3000/api/job", (req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
+
+    setup(<JobsContainer user={null} />);
+
+    expect(
+      await screen.findByText(
+        "Algum erro aconteceu, por favor, tente novamente!"
+      )
+    ).toBeInTheDocument();
   });
 });

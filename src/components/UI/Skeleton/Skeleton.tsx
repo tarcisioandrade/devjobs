@@ -4,7 +4,7 @@ const Skeleton = () => {
   const sixSkeletons = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="flex flex-col gap-4 mt-10">
+    <div className="flex flex-col gap-4 mt-10" data-testid="skeleton">
       {sixSkeletons.map((item) => (
         <div
           key={item}

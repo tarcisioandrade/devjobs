@@ -12,7 +12,7 @@ export const setup = (tsx: JSX.Element) => ({
 });
 
 describe("MultipleSelect", () => {
-  it("test render", () => {
+  test("test render", () => {
     render(
       <MultipleSelect
         setErrorMessage={jest.fn()}
@@ -23,7 +23,7 @@ describe("MultipleSelect", () => {
     );
   });
 
-  it("check MultipleSelect appear after click in searchInput and disapear after click again", async () => {
+  test("check MultipleSelect appear after click in searchInput and disapear after click again", async () => {
     const { user } = setup(
       <MultipleSelect
         setErrorMessage={jest.fn()}
@@ -43,7 +43,7 @@ describe("MultipleSelect", () => {
     expect(await screen.findByTestId("filtersBox")).toHaveClass("hidden");
   });
 
-  it("check filter have selected after of click and remove filter after click in button close.", async () => {
+  test("check filter have selected after of click and remove filter after click in button close.", async () => {
     const { user } = setup(
       <MultipleSelect
         setErrorMessage={jest.fn()}
