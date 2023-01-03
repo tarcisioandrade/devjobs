@@ -27,7 +27,7 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       take,
       skip,
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
       where: {
         type: type as string,
@@ -57,7 +57,7 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       take,
       skip,
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
       where: {
         NOT: [
@@ -83,8 +83,10 @@ const handleGetAllJob: NextApiHandler = async (req, res) => {
       return res.status(204).end();
     }
 
-    const jobsNoApplied = allJobsDisponible.filter((job) => !job.candidates.includes(id as string))
-    
+    const jobsNoApplied = allJobsDisponible.filter(
+      (job) => !job.candidates.includes(id as string)
+    );
+
     return res.status(200).json(jobsNoApplied);
   }
 
