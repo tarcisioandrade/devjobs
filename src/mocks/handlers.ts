@@ -1,11 +1,6 @@
 import { rest } from "msw";
 import data from "./dataForTests.json";
 
-type PostBodyProps = {
-  id_job: number;
-  id_user: number;
-};
-
 export const handlers = [
   rest.get("http://localhost:3000/api/job", (req, res, ctx) => {
     const { searchParams } = req.url;
@@ -77,9 +72,17 @@ export const handlers = [
     return res(ctx.json(copyArray));
   }),
 
-  // rest.get("/login", (_req, res, ctx) => {
-  //   return res(ctx.json(data.users[0]));
-  // }),
+  rest.post("http://localhost:3000/api/user/auth", async (req, res, ctx) => {
+    const body = await req.json();
+
+    const auth =
+      body.email === "email@gmail.com" && body.password === "123456789";
+
+    if (auth) {
+      return res(ctx.status(200));
+    }
+    return res(ctx.status(500));
+  }),
 
   // rest.post("/jobapply", async (req, res, ctx) => {
   //   const body: PostBodyProps = await req.json();

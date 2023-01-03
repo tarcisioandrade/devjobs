@@ -37,7 +37,7 @@ const Login = () => {
       setCookie("token", res.data);
       Router.push("/");
     } catch (error) {
-      toast.custom(() => <ErrorToast message="E-mail ou senha incorreto." />);
+      toast.custom(() => <ErrorToast message="E-mail ou senha inválido." />);
     } finally {
       setLoading(false);
     }
