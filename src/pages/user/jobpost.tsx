@@ -120,7 +120,7 @@ const JobPost = ({ user }: Props) => {
         handleMultipleSelectErrorMessage();
         return;
       }
-      let companyAvatar;
+      let companyAvatar = ""
       if (selectedFile) {
         const { data: axiosData } = await fetchImageUpload(
           selectedFile,

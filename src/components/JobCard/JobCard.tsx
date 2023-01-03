@@ -39,7 +39,7 @@ const JobCard = ({ job, onClick }: Props) => {
             className="hidden md:block"
           />
         ) : (
-          <div className="w-[80px] h-[80px] space-x-4 flex items-center justify-center bg-gray-600 rounded-full text-slate-300 text-4xl">
+          <div className="w-[80px] h-[80px] space-x-4  md:items-center md:justify-center bg-gray-600 rounded-full text-slate-300 text-4xl hidden md:flex">
             {initialsCompanyName.toUpperCase()}
           </div>
         )}

@@ -22,7 +22,7 @@ html.dark {
 }
 
 .JobContainer ul {
-  @apply list-disc list-outside dark:text-gray-300 ml-8;
+  @apply list-disc list-outside dark:text-gray-300 ml-8 mb-4;
 }
 
 .devTable tr td {
