@@ -80,6 +80,10 @@ const JobPage = ({ job, user }: Props) => {
     job.model.charAt(0).toUpperCase() + job.model.slice(1)
   } ${job.title_job}`;
 
+  const initialsCompanyName = `${job?.company_name.charAt(
+    0
+  )}${job?.company_name.charAt(1)}`.toUpperCase();
+
   return (
     <Layout user={user}>
       <main className="mainContainer ">
@@ -147,7 +151,13 @@ const JobPage = ({ job, user }: Props) => {
             </div>
           </div>
           <div className="w-full flex flex-col items-center border rounded border-gray-800 self-start p-4 lg:w-[500px] mt-4 flex-[.4]">
-            <Avatar img={job.company_avatar} size="xl" />
+            {job.company_avatar ? (
+              <Avatar img={job.company_avatar} size="xl" />
+            ) : (
+              <div className="w-[144px] h-[144px] flex items-center justify-center bg-gray-600 rounded text-slate-300 text-6xl">
+                {initialsCompanyName}
+              </div>
+            )}
             <div className="dark:text-gray-300 font-medium mt-2">
               {job.company_name}
             </div>
