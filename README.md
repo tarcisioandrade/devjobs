@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DevJobs
+Portal para postagens e candidaturas em vagas na área tecnológica.
 
-## Getting Started
+O projeto foi criado apenas para estudo. Todas as vagas contidas não são reais.
 
-First, run the development server:
+## 📑 Páginas
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Home
+![portaldevjobs netlify app_ (1)](https://user-images.githubusercontent.com/61153830/210566808-003685c5-ae63-4d9d-86d6-ca7ecc6cb101.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Perfil Público
+Acessado atráves do ID do usuário (EX: https://portaldevjobs.netlify.app/@tarcisioandrade)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210571310-83d0ba20-2491-4dba-9995-f0473268c6ab.png" />
+</details>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Página da Vaga
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210572266-8352298b-f1f7-490e-8914-dc4c59d500e7.png" />
+</details>
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### Login
+Para acessar as demais páginas é necessário que o usuário esteja logado.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210567412-a0b02b68-7a23-44d5-8fe8-0ec3426c5bce.png" />
+</details>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### Postagem de Vaga
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210569731-ffa6a1a8-94fb-46a6-baad-e5b66ba44dec.png" />
+</details>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
 
-# devjobs
+### Vagas Postadas
+
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210570367-bdd51d65-bca3-459f-b35a-a7ee2d4e9e10.png" />
+</details>
+
+---
+
+### Vagas Aplicadas
+
+<details>
+  <summary>Ver</summary>
+  </p>
+  <image src="https://user-images.githubusercontent.com/61153830/210572826-8f45faa4-7597-4d9d-a41e-e968fb621be0.png" />
+</details>
+
+---
+
+## 🛠️ Tecnologia Usadas
+
+* [Typescript](https://www.typescriptlang.org/) - Linguagem utilizada.
+* [NextJS](https://nextjs.org/) - O framework web usado.
+* [Prisma](http://prisma.io/) - ORM para auxilio na construção do banco de dados.
+* [Taillwind](https://tailwindcss.com/) - O framework css usado.
+* [Supabase](http://supabase.com/) - Database Postgresql
+* [MSW](https://mswjs.io/) - Usado para interceptar os request durante o desenvolvimento e testes. 
