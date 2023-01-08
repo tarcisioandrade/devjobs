@@ -80,7 +80,8 @@ const FiltersContainer = ({
     filterValues.type == "" &&
     selectedStacks.length === 0 &&
     stackToShow.length === 0 &&
-    filterValues.searchValue == "";
+    filterValues.searchValue == "" &&
+    filterValues.contract == "";
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);

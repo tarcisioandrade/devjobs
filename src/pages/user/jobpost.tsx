@@ -43,7 +43,7 @@ const JobPost = ({ user }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
   } = useForm<FormValues>();
 
@@ -51,7 +51,6 @@ const JobPost = ({ user }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [text, setText] = useState("");
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(false);
   const [jobCardPreview, setJobCardPreview] = useState<any | null>(null);
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
 
@@ -115,12 +114,11 @@ const JobPost = ({ user }: Props) => {
       salary_range,
     } = data;
     try {
-      setLoading(true);
       if (selectedStacks.length <= 0) {
         handleMultipleSelectErrorMessage();
         return;
       }
-      let companyAvatar = ""
+      let companyAvatar = "";
       if (selectedFile) {
         const { data: axiosData } = await fetchImageUpload(
           selectedFile,
@@ -152,8 +150,6 @@ const JobPost = ({ user }: Props) => {
       toast.custom((t) => (
         <ErrorToast message="Falha na solicitação, por favor, tente novamente." />
       ));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -181,6 +177,7 @@ const JobPost = ({ user }: Props) => {
     locationWatch,
   ]);
 
+  console.log(isSubmitting);
   return (
     <Layout user={user}>
       <main className="mainContainer">
@@ -418,7 +415,7 @@ const JobPost = ({ user }: Props) => {
             </div>
 
             <div className="my-2">
-              <DevButton size="xl" type="submit" loading={+loading}>
+              <DevButton size="xl" type="submit" loading={+isSubmitting}>
                 Postar Vaga
               </DevButton>
             </div>

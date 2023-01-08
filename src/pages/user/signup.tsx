@@ -27,10 +27,9 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
   } = useForm<FormValuesSignup>();
-  const [loading, setLoading] = useState(false);
 
   const passwordMatchValue = useRef({});
   passwordMatchValue.current = watch("password", "");
@@ -43,7 +42,6 @@ const Signup = () => {
     password,
   }) => {
     try {
-      setLoading(true);
       await api.post("api/user", {
         email,
         name,
@@ -63,8 +61,6 @@ const Signup = () => {
           <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
         ));
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -244,7 +240,7 @@ const Signup = () => {
           type="submit"
           className="mt-4"
           disabled={!termsAccepted}
-          loading={+loading}
+          loading={+isSubmitting}
         >
           Cadastrar
         </DevButton>

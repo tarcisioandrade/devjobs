@@ -18,12 +18,10 @@ type FormValues = {
 };
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
   const onSubmitLogin: SubmitHandler<FormValues> = async ({
@@ -31,15 +29,12 @@ const Login = () => {
     password,
   }) => {
     try {
-      setLoading(true);
       const res = await fetchUserLogin(email, password);
       if (res.status != 200) throw new Error();
       setCookie("token", res.data);
       Router.push("/");
     } catch (error) {
       toast.custom(() => <ErrorToast message="E-mail ou senha inválido." />);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -111,7 +106,7 @@ const Login = () => {
             required
           />
         </div>
-        <DevButton type="submit" loading={+loading}>
+        <DevButton type="submit" loading={+isSubmitting}>
           Entrar
         </DevButton>
         <p className="dark:text-gray-200 mt-4">

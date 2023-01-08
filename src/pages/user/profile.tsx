@@ -68,19 +68,17 @@ type Props = {
 
 const Profile = ({ user }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const { getPreviewImage, preview, selectedFile } = useImgPreview();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
   const onSubmitProfile: SubmitHandler<FormValues> = async (data) => {
     try {
-      setLoading(true);
       let avatarImage;
       if (selectedFile) {
         const { data: axiosData } = await fetchImageUpload(
@@ -118,8 +116,6 @@ const Profile = ({ user }: Props) => {
       toast.custom(() => (
         <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
       ));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -152,7 +148,7 @@ const Profile = ({ user }: Props) => {
         </Head>
         <form onSubmit={handleSubmit(onSubmitProfile)}>
           <div className="p-4 lg:p-0 lg:py-4">
-            <Button type="submit" className="ml-auto" disabled={loading}>
+            <Button type="submit" className="ml-auto" disabled={isSubmitting}>
               Salvar Mudanças
             </Button>
           </div>
@@ -461,7 +457,7 @@ const Profile = ({ user }: Props) => {
             </table>
           </div>
           <div className="py-4">
-            <Button type="submit" className="ml-auto" disabled={loading}>
+            <Button type="submit" className="ml-auto" disabled={isSubmitting}>
               Salvar Mudanças
             </Button>
           </div>
