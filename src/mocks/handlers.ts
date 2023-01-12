@@ -1,5 +1,6 @@
 import { rest } from "msw";
 import data from "./dataForTests.json";
+import jwt from "jsonwebtoken";
 
 export const handlers = [
   rest.get("http://localhost:3000/api/job", (req, res, ctx) => {
@@ -74,14 +75,55 @@ export const handlers = [
 
   rest.post("http://localhost:3000/api/user/auth", async (req, res, ctx) => {
     const body = await req.json();
+    const authEmail = body.email === "example@gmail.com" || "admin@gmail.com";
+    const authPassword = body.password === "123456789";
 
-    const auth =
-      body.email === "email@gmail.com" && body.password === "123456789";
+    if (!authEmail || !authPassword) {
+      return res(ctx.status(401));
+    }
 
-    if (auth) {
-      return res(ctx.status(200));
+    if (authEmail && authPassword) {
+      // const token = jwt.sign(
+      //   { email: body.email },
+      //   process.env.NEXT_PUBLIC_JWT_SECRET as string,
+      //   { expiresIn: "24h" }
+      // );
+      return res(
+        ctx.json(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxlbGRvbWVsZG9AZ21haWwuY29tIiwiaWF0IjoxNjczNTMxODUxLCJleHAiOjE2NzM2MTgyNTF9.6DG9lGdkjd0DO3eAN2WtxGccsWBNydmXFiisav8fgFw"
+        )
+      );
     }
     return res(ctx.status(500));
+  }),
+  rest.get("http://localhost:3000/api/user/auth", async (req, res, ctx) => {
+    const token = req.headers.get("Authorization")?.split(" ")[1];
+    if (!token) return res(ctx.status(401));
+
+    try {
+      jwt.verify(
+        token as string,
+        process.env.NEXT_PUBLIC_JWT_SECRET as string,
+        async (err, decoded) => {
+          // Token Expired error
+          if (err?.name === "TokenExpiredError") return res(ctx.status(498));
+
+          // Others Errors
+          if (err) return res(ctx.status(401));
+
+          return res(ctx.json(data.user));
+        }
+      );
+    } catch (error) {}
+  }),
+
+  rest.post("http://localhost:3000/api/user", async (req, res, ctx) => {
+    const { email } = await req.json();
+
+    if (email === "example@gmail.com") {
+      return res(ctx.status(409));
+    }
+    return res(ctx.status(201));
   }),
 
   rest.post("http://localhost:3000/api/job", async (req, res, ctx) => {

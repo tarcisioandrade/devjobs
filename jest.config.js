@@ -19,6 +19,7 @@ const customJestConfig = {
     "@hooks/(.*)$": "<rootDir>/src/hooks/$1",
   },
   testEnvironment: "jest-environment-jsdom",
+  modulePathIgnorePatterns: ["cypress"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

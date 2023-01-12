@@ -186,6 +186,7 @@ const FiltersContainer = ({
               size="md"
               onClick={resetFilters}
               disabled={filterButtonHasDisabled}
+              id="clear-filters"
             >
               Limpar Filtros
             </Button>

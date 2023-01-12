@@ -1,4 +1,26 @@
 {
+  "user": {
+    "id": "clc4wjng60000i4doirgoabxi",
+    "user_type": "worker",
+    "id_devjobs": "@tarcisioandrade",
+    "email": "example@gmail.com",
+    "name": "Tarcisio",
+    "surname": "Andrade",
+    "avatar": "https://res.cloudinary.com/drdzrfm15/image/upload/c_crop,g_face,w_550/v1669900046/user_profile/r0ks8ekk5chwcgv0bp1d.jpg",
+    "biography": "Eu sou um estudante de Desenvolvimento Web, ávido a um dia me tornar Fullstack. Ademais, busco aprimorar meus conhecimentos através de novos desafios, desejando uma oportunidade de colocar em prática o que estou estudando em um ambiente profissional.",
+    "gender": "man",
+    "jobs": [],
+    "location": "BA",
+    "stacks": ["HTML", "CSS", "Javascript", "React", "Jest", "Node", "Next"],
+    "employee": false,
+    "github_url": "github.com/tarcisioandrade",
+    "linkedin_url": "linkedin.com/in/tarcisioandrade",
+    "website_url": "tfandrade.netlify.app",
+    "updatedAt": "2022-12-28T15:06:03.615Z",
+    "fluents": ["Inglês"],
+    "createdAt": "2022-12-26T14:36:03.319Z"
+  },
+
   "jobs": [
     {
       "id": "clc962ujo0003i4i8dh1ukaub",
