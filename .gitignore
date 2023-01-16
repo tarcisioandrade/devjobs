@@ -42,3 +42,6 @@ next-env.d.ts
 
 # prisma
 /prisma/migrations
+
+# cypress
+cypress.env.json

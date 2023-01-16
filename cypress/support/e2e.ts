@@ -14,7 +14,14 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
+
+// Establish API mocking before all tests.
+
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+
+// Clean up after the tests are finished.
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

@@ -1,5 +1,5 @@
 describe("Login Page", () => {
-  it.skip("Failed auth with incorrect info", () => {
+  it("Failed auth with incorrect info", () => {
     cy.visit("/user/login");
     cy.get("#email-input").type("example@gmail.com");
     cy.get("#password-input").type("123456456456");

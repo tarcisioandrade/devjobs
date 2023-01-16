@@ -1,5 +1,5 @@
 describe("Signup Page", () => {
-  it.skip("Failed sign with email already cadastred", () => {
+  it("Failed sign with email already cadastred", () => {
     cy.visit("/user/signup");
     cy.get("#name-input").type("Admin");
     cy.get("#surname-input").type("Admin");
@@ -14,7 +14,7 @@ describe("Signup Page", () => {
       .contains("Este e-mail já foi utilizado.");
   });
 
-  it.skip("Failed signup with differents passwords", () => {
+  it("Failed signup with differents passwords", () => {
     cy.visit("/user/signup");
     cy.get("#name-input").type("Admin");
     cy.get("#surname-input").type("Admin");
@@ -36,7 +36,7 @@ describe("Signup Page", () => {
     cy.get("#confirmPassword-input").type("123456789");
     cy.get("#accept").check();
     cy.get("button[type='submit']").click();
-
+  
     cy.url().should("equal", "http://localhost:3000/user/profile");
   });
 });

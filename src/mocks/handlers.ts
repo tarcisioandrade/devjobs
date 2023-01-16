@@ -83,16 +83,7 @@ export const handlers = [
     }
 
     if (authEmail && authPassword) {
-      // const token = jwt.sign(
-      //   { email: body.email },
-      //   process.env.NEXT_PUBLIC_JWT_SECRET as string,
-      //   { expiresIn: "24h" }
-      // );
-      return res(
-        ctx.json(
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxlbGRvbWVsZG9AZ21haWwuY29tIiwiaWF0IjoxNjczNTMxODUxLCJleHAiOjE2NzM2MTgyNTF9.6DG9lGdkjd0DO3eAN2WtxGccsWBNydmXFiisav8fgFw"
-        )
-      );
+      return res(ctx.json(process.env.NEXT_PUBLIC_TOKEN_VALID));
     }
     return res(ctx.status(500));
   }),

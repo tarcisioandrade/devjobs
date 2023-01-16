@@ -1,5 +1,7 @@
 describe("Homepage", () => {
-  beforeEach(() => cy.visit("/"));
+  beforeEach(() => {
+    cy.visit("/");
+  });
 
   it("Alert Modal has showing", () => {
     cy.get('[data-testid="modal"]').should("be.visible");
@@ -11,7 +13,7 @@ describe("Homepage", () => {
     cy.get("[data-testid='job-card']").should("have.length", 5);
   });
 
-  it.only("Testing filters", () => {
+  it("Testing filters", () => {
     cy.get('[data-testid="modal"]').should("be.visible");
     cy.get('[data-testid="modal"]').find("button > span").click();
     cy.get("#search").type("desenvolv");
