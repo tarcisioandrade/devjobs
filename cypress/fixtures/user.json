@@ -1,0 +1,10 @@
+{
+  "login": {
+    "email": "example@gmail.com",
+    "password": "123456789"
+  },
+  "signup": {
+    "email": "admin@gmail.com",
+    "password": "123456789"
+  }
+}

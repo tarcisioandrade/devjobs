@@ -14,7 +14,6 @@ import {
 } from "@services/fetchUser";
 import { GetServerSideProps } from "next";
 import { User } from "src/types/User";
-import { signOut } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import {
@@ -33,7 +32,7 @@ import {
 } from "@utils/REGEX";
 import { toast } from "react-hot-toast";
 import SuccessToast from "@components/SuccessToast/SuccessToast";
-import { getCookie, deleteCookie } from "cookies-next";
+import { getCookie, deleteCookie, removeCookies } from "cookies-next";
 
 const TextHelper = ({ message, mt }: { message: string; mt?: boolean }) => {
   return (
@@ -131,8 +130,8 @@ const Profile = ({ user }: Props) => {
   const deleteAccount = async () => {
     try {
       await fetchUserDelete(user.id);
+      removeCookies("token");
       Router.push("/");
-      signOut();
     } catch (error) {
       toast.custom(() => (
         <ErrorToast message="Algum erro aconteceu, por favor, tente novamente." />
