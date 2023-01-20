@@ -41,6 +41,7 @@
     "@types/react-dom": "18.0.8",
     "autoprefixer": "^10.4.13",
     "cypress": "^12.3.0",
+    "cypress-msw-interceptor": "^2.1.0",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
     "eslint-plugin-jest-dom": "^4.0.2",

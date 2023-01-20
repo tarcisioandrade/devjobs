@@ -15,8 +15,8 @@ describe("JobPost Page", () => {
     cy.get("#inputSearchFilter").click();
     cy.get("#inputSearchFilter").type("Typescript");
     cy.get("div[title='typescript']").click();
-    cy.get("button[type='submit']").click()
+    cy.get("button[type='submit']").click();
 
-    cy.url().should("contain", "/jobsposted")
+    cy.url().should("contain", "/jobsposted");
   });
 });

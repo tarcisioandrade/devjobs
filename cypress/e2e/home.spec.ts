@@ -1,21 +1,19 @@
+import home_PO from "../support/pageObject/home_PO";
+
 describe("Homepage", () => {
-  beforeEach(() => {
-    cy.visit("/");
-  });
+  beforeEach(() => cy.visit("/"));
 
   it("Alert Modal has showing", () => {
     cy.get('[data-testid="modal"]').should("be.visible");
   });
 
   it("Renders all jobs disponible", () => {
-    cy.get('[data-testid="modal"]').should("be.visible");
-    cy.get('[data-testid="modal"]').find("button > span").click();
+    home_PO.clickToAcceptModal();
     cy.get("[data-testid='job-card']").should("have.length", 5);
   });
 
   it("Testing filters", () => {
-    cy.get('[data-testid="modal"]').should("be.visible");
-    cy.get('[data-testid="modal"]').find("button > span").click();
+    home_PO.clickToAcceptModal();
     cy.get("#search").type("desenvolv");
     cy.get("button[type='submit']").click();
     cy.get("[data-testid='job-card']").should("have.length", 4);
@@ -33,5 +31,23 @@ describe("Homepage", () => {
     cy.get("#clear-filters").click();
     cy.get("#model").select("hibrido");
     cy.get("[data-testid='job-card']").should("have.length", 1);
+  });
+
+  it("Should no length message if dont have data with filters value", () => {
+    home_PO.clickToAcceptModal();
+
+    cy.get("#contract").select("Temporário");
+
+    cy.get("[data-testid='no-results-message']").should("be.visible");
+  });
+
+  it("Should error message in status 500 api response", async () => {
+    cy.intercept("GET", "**/api/job?offset=6", {
+      statusCode: 500,
+    });
+
+    home_PO.clickToAcceptModal();
+
+    cy.get("[data-testid='error-request-message']").should("be.visible");
   });
 });

@@ -15,6 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
+import "cypress-msw-interceptor";
 
 // Establish API mocking before all tests.
 

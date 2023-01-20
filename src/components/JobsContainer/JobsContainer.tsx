@@ -89,7 +89,7 @@ const JobsContainer = ({ user }: Props) => {
       {loading ? <Skeleton /> : allJobsBox}
 
       {!loading && jobs?.length === 0 ? (
-        <div className="flex items-center justify-center mt-16">
+        <div className="flex items-center justify-center mt-16" data-testid="no-results-message">
           <div className="text-gray-600 text-3xl text-center">
             Nenhum resultado encontrado.
             <div className="flex items-center justify-center mt-2">
@@ -100,7 +100,7 @@ const JobsContainer = ({ user }: Props) => {
       ) : null}
 
       {error ? (
-        <div className="flex items-center justify-center mt-16">
+        <div className="flex items-center justify-center mt-16" data-testid="error-request-message">
           <div className="text-gray-600 text-3xl text-center">
             Algum erro aconteceu, por favor, tente novamente!
             <div className="flex items-center justify-center mt-2">
