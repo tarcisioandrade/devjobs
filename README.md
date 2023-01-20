@@ -74,6 +74,7 @@ Para acessar as demais páginas é necessário que o usuário esteja logado.
 * [Typescript](https://www.typescriptlang.org/) - Linguagem utilizada.
 * [NextJS](https://nextjs.org/) - O framework web usado.
 * [Prisma](http://prisma.io/) - ORM para auxilio na construção do banco de dados.
-* [Taillwind](https://tailwindcss.com/) - O framework css usado.
+* [Tailwind](https://tailwindcss.com/) - O framework css usado.
 * [Supabase](http://supabase.com/) - Database Postgresql
 * [MSW](https://mswjs.io/) - Usado para interceptar os request durante o desenvolvimento e testes. 
+* [Cypress](https://www.cypress.io/) - Testes e2e. 
