@@ -9,6 +9,7 @@ describe("Homepage", () => {
 
   it("Renders all jobs disponible", () => {
     home_PO.clickToAcceptModal();
+    cy.scrollTo("bottom")
     cy.get("[data-testid='job-card']").should("have.length", 5);
   });
 

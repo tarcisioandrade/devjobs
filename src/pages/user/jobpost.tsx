@@ -177,7 +177,6 @@ const JobPost = ({ user }: Props) => {
     locationWatch,
   ]);
 
-  console.log(isSubmitting);
   return (
     <Layout user={user}>
       <main className="mainContainer">

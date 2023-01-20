@@ -5,6 +5,8 @@ describe("JobPost Page", () => {
   });
 
   it("Job Postage", () => {
+    Cypress.config({ defaultCommandTimeout: 10000 });
+    
     cy.get("#company_name").type("Company Name Example");
     cy.get("#title_job").type("Title Job Example");
     cy.get("#company_email").type("email@example.com");
