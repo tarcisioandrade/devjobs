@@ -96,9 +96,7 @@ const FiltersContainer = ({
   useEffect(() => {
     const hiddenFiltersInMobileScreen = () => {
       const sizeScreen = screen.width;
-      if (sizeScreen < 768) {
-        setOpenFilters(false);
-      } else {
+      if (sizeScreen > 768) {
         setOpenFilters(true);
       }
     };
