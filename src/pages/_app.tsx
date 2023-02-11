@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import "../styles/globals.css";
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled" && process.env.NODE_ENV === "development") {
   require("../mocks");
 }
 

@@ -8,6 +8,7 @@ export default defineConfig({
     specPattern: "cypress/e2e/**/*.{js,jsx,ts,tsx,feature}",
     video: false,
     baseUrl: "http://localhost:3000",
-    screenshotOnRunFailure: false
+    screenshotOnRunFailure: false,
+    defaultCommandTimeout: 10000,
   },
 });

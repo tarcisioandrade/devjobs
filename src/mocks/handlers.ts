@@ -94,7 +94,7 @@ export const handlers = [
     try {
       jwt.verify(
         token as string,
-        process.env.NEXT_PUBLIC_JWT_SECRET as string,
+        process.env.JWT_SECRET as string,
         async (err, decoded) => {
           // Token Expired error
           if (err?.name === "TokenExpiredError") return res(ctx.status(498));

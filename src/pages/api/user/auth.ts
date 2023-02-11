@@ -14,7 +14,7 @@ const authUser: NextApiHandler = async (req, res) => {
 
     jwt.verify(
       token as string,
-      process.env.NEXT_PUBLIC_JWT_SECRET as string,
+      process.env.JWT_SECRET as string,
       async (err, decoded) => {
         // Token Expired error
         if (err?.name === "TokenExpiredError")
@@ -81,13 +81,9 @@ const userLogin: NextApiHandler = async (req, res) => {
     );
 
     if (authUser) {
-      const token = jwt.sign(
-        { email },
-        process.env.NEXT_PUBLIC_JWT_SECRET as string,
-        {
-          expiresIn: "24h",
-        }
-      );
+      const token = jwt.sign({ email }, process.env.JWT_SECRET as string, {
+        expiresIn: "24h",
+      });
       return res.status(200).json(token);
     }
     return res.status(401).json({ message: "Email or password incorrect." });
